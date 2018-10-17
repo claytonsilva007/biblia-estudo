@@ -5,14 +5,100 @@
     </button>
     <ion-title>Home</ion-title>
   </ion-navbar>
+
+
+  <ion-toolbar no-border-top>
+    <ion-segment [(ngModel)]="segmentoSelecionado">
+      <ion-segment-button value="livros">
+        {{abaLivroDescricao}}
+      </ion-segment-button>
+      <ion-segment-button value="capitulos">
+        {{abaCapituloDescricao}}
+      </ion-segment-button>
+      <ion-segment-button value="versiculos">
+        Versículos
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
 </ion-header>
 
-<ion-content padding>
-  <h3>Ionic Menu Starter</h3>
+<ion-content>
 
-  <p>
-    If you get lost, the <a href="http://ionicframework.com/docs/v2">docs</a> will show you the way.
-  </p>
+  <ion-fab right middle edge *ngIf="existemVersiculosSelecionados()">
+    <button ion-fab color="primary">
+      <ion-icon name="text"></ion-icon>
+    </button>
+  </ion-fab>
 
-  <button ion-button secondary menuToggle>Toggle Menu</button>
+
+  <div [ngSwitch]="segmentoSelecionado">
+    <ion-list *ngSwitchCase="'livros'">
+        <ion-item *ngFor="let livro of bibliaProvider.livros" (click)="atualizarSegmentoCapitulos(livro)">
+          <ion-label>{{livro.abreviatura}}</ion-label>
+          <ion-label>{{livro.nome}}</ion-label>
+        </ion-item>
+    </ion-list>
+
+    <ion-grid *ngSwitchCase="'capitulos'">
+      <ion-row *ngFor="let capitulo of livroSelecionado.capitulos; let index = index">
+        <ion-col *ngIf="index % 3 ==0" (click)="atualizarSegmentoVersiculos(capitulo, (index+1))">
+          <ion-label *ngIf="index+1 <= livroSelecionado.capitulos.length"> {{index+1}} </ion-label>
+        </ion-col>
+        <ion-col *ngIf="index % 3 ==0" (click)="atualizarSegmentoVersiculos(capitulo, (index+2))">
+          <ion-label *ngIf="index+2 <= livroSelecionado.capitulos.length"> {{index+2}} </ion-label>
+        </ion-col>
+        <ion-col *ngIf="index % 3 ==0" (click)="atualizarSegmentoVersiculos(capitulo, (index+3))">
+          <ion-label *ngIf="index+3 <= livroSelecionado.capitulos.length"> {{index+3}} </ion-label> 
+        </ion-col>
+        <ion-col *ngIf="index % 3 ==0" (click)="atualizarSegmentoVersiculos(capitulo, (index+4))">
+          <ion-label *ngIf="index+4 <= livroSelecionado.capitulos.length"> {{index+4}} </ion-label> 
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+    <ion-list *ngSwitchCase="'versiculos'">
+      <ion-item [ngStyle]="{'background-color': versiculo.backgroundColor!==null ? versiculo.backgroundColor : 'null' }" *ngFor="let versiculo of capituloSelecionado.versiculos; let index = index" text-wrap (tap)="pressEvent($event, versiculo)">
+        {{ index+1 + ". " + versiculo.texto}}
+      </ion-item>
+    </ion-list>
+    <ion-item></ion-item>
+
+  </div>
 </ion-content>
+
+<ion-footer no-shadow *ngIf="existemVersiculosSelecionados()">
+  <ion-toolbar position="bottom">
+    <ion-row styleClass="centralizado">
+
+      <ion-col>
+        <button ion-button color="primary" (click)="setarCor('#488aff')"> </button>
+      </ion-col>
+
+      <ion-col>
+        <button ion-button color="secondary" (click)="setarCor('#32db64')"> </button>
+      </ion-col>
+
+      <ion-col>
+        <button ion-button color="danger" (click)="setarCor('#f53d3d')"> </button>
+      </ion-col>
+
+      <ion-col>
+        <button ion-button color="yellow" (click)="setarCor('#FFFF00')"> </button>
+      </ion-col>
+
+      <ion-col>
+        <button ion-button color="DarkViolet" (click)="setarCor('#9400D3')"> </button>
+      </ion-col>
+
+      <ion-col>
+        <button ion-button color="Sienna" (click)="setarCor('#A0522D')"> </button>
+      </ion-col>
+
+      <ion-col>
+        <button ion-button color="HotPink" (click)="setarCor('HotPink')"> </button>
+      </ion-col>
+
+    </ion-row>
+  </ion-toolbar>
+</ion-footer>
+
