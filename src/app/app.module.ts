@@ -12,22 +12,32 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import {HttpClientModule} from '@angular/common/http';
 import { ConfiguracaoBibliaProvider } from '../providers/configuracao-biblia/configuracao-biblia';
 
+import "froala-editor/js/froala_editor.pkgd.min.js";
+import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
+import { ComentariosPage } from '../pages/comentarios/comentarios';
+import { ModalTodosComentariosPage } from '../pages/modal-todos-comentarios/modal-todos-comentarios';
+
 @NgModule({
   declarations: [
     MyApp,
     HomePage,
-    ListPage
+    ListPage,
+    ComentariosPage,
+    ModalTodosComentariosPage
   ],
   imports: [
     BrowserModule,
     IonicModule.forRoot(MyApp),
     HttpClientModule,
+    FroalaEditorModule.forRoot(), FroalaViewModule.forRoot(),
   ],
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
     HomePage,
-    ListPage
+    ListPage,
+    ComentariosPage, 
+    ModalTodosComentariosPage
   ],
   providers: [
     StatusBar,

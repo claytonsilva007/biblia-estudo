@@ -24,49 +24,77 @@
 
 <ion-content>
 
-  <ion-fab right middle edge *ngIf="existemVersiculosSelecionados()">
-    <button ion-fab color="primary">
-      <ion-icon name="text"></ion-icon>
-    </button>
-  </ion-fab>
 
+  <ion-fab right middle edge *ngIf="exibirBtnComentar">
+    
+    <button ion-fab>
+      <ion-icon name="more"></ion-icon>
+    </button>
+
+    <ion-fab-list side="left">
+      
+      <button ion-fab color="secondary" (click)="navegarParaComentarios()">
+        <ion-icon name="text"></ion-icon>
+      </button>
+      
+      <button ion-fab color="danger" *ngIf="podeVisualizarComentariosExistentes()" (click)="exibirTodosComentarios()">
+        <ion-icon name="eye"></ion-icon>
+      </button>
+      
+      <button ion-fab color="dark" (click)="ocultarBotao()">
+        <ion-icon name="close"></ion-icon>
+      </button>
+
+    </ion-fab-list>
+  </ion-fab>
 
   <div [ngSwitch]="segmentoSelecionado">
     <ion-list *ngSwitchCase="'livros'">
-        <ion-item *ngFor="let livro of bibliaProvider.livros" (click)="atualizarSegmentoCapitulos(livro)">
+        <ion-item *ngFor="let livro of bibliaProvider.livros; let index = index" (click)="atualizarSegmentoCapitulos(livro, index)">
           <ion-label>{{livro.abreviatura}}</ion-label>
           <ion-label>{{livro.nome}}</ion-label>
         </ion-item>
     </ion-list>
 
-    <ion-grid *ngSwitchCase="'capitulos'">
-      <ion-row *ngFor="let capitulo of livroSelecionado.capitulos; let index = index">
-        <ion-col *ngIf="index % 3 ==0" (click)="atualizarSegmentoVersiculos(capitulo, (index+1))">
-          <ion-label *ngIf="index+1 <= livroSelecionado.capitulos.length"> {{index+1}} </ion-label>
-        </ion-col>
-        <ion-col *ngIf="index % 3 ==0" (click)="atualizarSegmentoVersiculos(capitulo, (index+2))">
-          <ion-label *ngIf="index+2 <= livroSelecionado.capitulos.length"> {{index+2}} </ion-label>
-        </ion-col>
-        <ion-col *ngIf="index % 3 ==0" (click)="atualizarSegmentoVersiculos(capitulo, (index+3))">
-          <ion-label *ngIf="index+3 <= livroSelecionado.capitulos.length"> {{index+3}} </ion-label> 
-        </ion-col>
-        <ion-col *ngIf="index % 3 ==0" (click)="atualizarSegmentoVersiculos(capitulo, (index+4))">
-          <ion-label *ngIf="index+4 <= livroSelecionado.capitulos.length"> {{index+4}} </ion-label> 
-        </ion-col>
-      </ion-row>
-    </ion-grid>
+
+    <ion-list *ngSwitchCase="'capitulos'" >
+      <ion-grid *ngFor="let capitulo of livroSelecionado.capitulos; let index = index">
+        <ion-row *ngIf="index % 4 == 0">
+            <ion-col (click)="atualizarSegmentoVersiculos(index)">
+              <ion-label *ngIf="index+1 <= livroSelecionado.capitulos.length"> 
+                {{index+1}} 
+              </ion-label>
+            </ion-col>
+            <ion-col (click)="atualizarSegmentoVersiculos(index+1)">
+              <ion-label *ngIf="index+2 <= livroSelecionado.capitulos.length"> 
+                {{index+2}} 
+              </ion-label>
+            </ion-col>
+            <ion-col (click)="atualizarSegmentoVersiculos(ndex+2)">
+              <ion-label *ngIf="index+3 <= livroSelecionado.capitulos.length"> 
+                {{index+3}} 
+              </ion-label>
+            </ion-col>
+            <ion-col (click)="atualizarSegmentoVersiculos(index+3)">
+              <ion-label *ngIf="index+4 <= livroSelecionado.capitulos.length"> 
+                {{index+4}} 
+              </ion-label>
+            </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-list>
 
     <ion-list *ngSwitchCase="'versiculos'">
-      <ion-item [ngStyle]="{'background-color': versiculo.backgroundColor!==null ? versiculo.backgroundColor : 'null' }" *ngFor="let versiculo of capituloSelecionado.versiculos; let index = index" text-wrap (tap)="pressEvent($event, versiculo)">
+      <ion-item [ngStyle]="{'background-color': versiculo.backgroundColor!==null ? versiculo.backgroundColor : 'null' }" *ngFor="let versiculo of capituloSelecionado.versiculos; let index = index" text-wrap (tap)="pressEvent($event, versiculo, index)">
         {{ index+1 + ". " + versiculo.texto}}
       </ion-item>
     </ion-list>
     <ion-item></ion-item>
+</div>
 
-  </div>
 </ion-content>
 
-<ion-footer no-shadow *ngIf="existemVersiculosSelecionados()">
+<ion-footer no-shadow *ngIf="exibirPaletaDeCores">
   <ion-toolbar position="bottom">
     <ion-row styleClass="centralizado">
 

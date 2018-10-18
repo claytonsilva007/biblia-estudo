@@ -1,12 +1,17 @@
 <ion-header>
-
   <ion-navbar>
-    <ion-title>comentarios</ion-title>
+    <ion-title>Comentar {{nomeLivro}} {{numCapitulo}}.{{numVersiculo}}</ion-title>
   </ion-navbar>
-
 </ion-header>
 
 
 <ion-content padding>
+  <div [froalaEditor] [(ngModel)]="comentario"> </div>
+  
+  <p></p><p></p>
 
+  <button ion-button full color="primary" (click)="salvar()">Salvar</button>
+  <button ion-button full color="danger" (click)="cancelar()">Cancelar</button>
+  <button ion-button full color="secondary" clear (click)="exibirComentarios()" *ngIf="qtdeComentarios>0">Ver todos os comentários</button>
+ 
 </ion-content>
