@@ -17,8 +17,6 @@ import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
 import { ComentariosPage } from '../pages/comentarios/comentarios';
 import { ModalTodosComentariosPage } from '../pages/modal-todos-comentarios/modal-todos-comentarios';
 
-import { File } from '@ionic-native/file';
-
 @NgModule({
   declarations: [
     MyApp,
@@ -46,8 +44,7 @@ import { File } from '@ionic-native/file';
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},    
     HttpClientModule,
-    ConfiguracaoBibliaProvider,
-    File
+    ConfiguracaoBibliaProvider
   ]
 })
 export class AppModule {}
