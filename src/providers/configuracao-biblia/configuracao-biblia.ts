@@ -1,17 +1,24 @@
 import { Injectable } from '@angular/core';
 import * as jsonFile from "../../../src/assets/data/biblia.json";
 import { Livro, Capitulo, Biblia, Versiculo } from "../../models/Biblia";
+import { HttpClient } from '@angular/common/http';
+import { File } from '@ionic-native/file';
+import { ToastController } from 'ionic-angular';
 
 
 @Injectable()
 export class ConfiguracaoBibliaProvider {
 
   bibliaStr: string = JSON.stringify(jsonFile);
-
+  
   biblia: Biblia = null;
   livros: Livro[];
-
-  constructor() { }
+  
+  constructor(private http: HttpClient, private file: File, public toastCtrl: ToastController) { 
+    //this.remover();
+  }
+  
+  
 
   configurarBiblia(){
     this.livros = new Array();
@@ -51,4 +58,14 @@ export class ConfiguracaoBibliaProvider {
     }
     return this.biblia;
   }
+
+  exibirMensagem(texto: string){
+    const toast = this.toastCtrl.create({
+      message: texto,
+      duration: 3000
+    });
+    toast.present();
+  }
+  
+  
 }
