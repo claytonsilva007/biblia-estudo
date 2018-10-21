@@ -1,9 +1,12 @@
 import { Component } from '@angular/core';
-import { NavController, ModalController } from 'ionic-angular';
-import { Livro, Capitulo, Versiculo } from '../../models/Biblia';
+import { NavController, ModalController, LoadingController } from 'ionic-angular';
+import { Livro, Capitulo, Versiculo, Biblia } from '../../models/Biblia';
 import { ConfiguracaoBibliaProvider } from '../../providers/configuracao-biblia/configuracao-biblia';
 import { ComentariosPage } from '../comentarios/comentarios';
 import { ModalTodosComentariosPage } from '../modal-todos-comentarios/modal-todos-comentarios';
+
+import { AngularFireDatabase } from '@angular/fire/database';
+
 
 @Component({
   selector: 'page-home',
@@ -26,17 +29,16 @@ export class HomePage {
   exibirPaletaDeCores: boolean;
   exibirBtnComentar: boolean;
   versiculoParaComentar: versiculoParaComentar;
+  loading: any;
 
-  constructor(public navCtrl: NavController, public bibliaProvider: ConfiguracaoBibliaProvider, public modalCtrl: ModalController) {
+  biblia: Biblia = null;
+  livros: Livro[];
+
+  constructor(private afDB: AngularFireDatabase, public navCtrl: NavController, public bibliaProvider: ConfiguracaoBibliaProvider, public modalCtrl: ModalController, public loadingCtrl: LoadingController) {
     this.exibirPaletaDeCores = false;
     this.exibirBtnComentar = false;
     this.versiculoParaComentar = new versiculoParaComentar();
   } 
-
-  ionViewDidLoad() {
-    
-  }
-
 
   atualizarSegmentoCapitulos(livroParam: Livro, indexLivro: number){
     this.livroSelecionado = livroParam;
@@ -153,6 +155,61 @@ export class HomePage {
       this.exibirBtnComentar = false;
     }
   }
+
+ //****************************************************************************************88 */
+ 
+ /* Este trecho de código é utilizado para controlar a exibição da tela inicial, a qual contém toda a bíblia e 
+    demais informações a ela associadas. Como as requisções são assíncronas, foi necessário controlar o carregamento da tela.
+
+    Os dados assíncronos são requisitados dentro de um modal. Quando a tela inicial é requisitada (ionViewDidLoad(), onPageWillEnter()), 
+    O método de criação do modal é chamado (showLoading()). Dentro deste método ocorre a chamada do ao método assíncrono.
+    O pulo do gato é só fechar o modal acessar playload e executar o tratamento dos dados JSON do texto bíblico.
+    
+ */ 
+  ionViewDidLoad() {
+    this.showLoading();
+  }
+ 
+ onPageWillEnter() {
+   this.showLoading();    
+  }
+
+  /** Modal que  */
+  private showLoading() {
+    this.loading = this.loadingCtrl.create({
+      content: "Please wait..."
+    });
+       
+    this.loading.present();
+   
+    this.getAsyncData();
+  }
+
+  private getAsyncData() {
+    this.livros = new Array();
+    
+    let x: any;
+
+    this.afDB.list("biblias").snapshotChanges().subscribe(item => 
+      {           
+        item.forEach(livro => {
+          item.map(obj => { 
+            this.bibliaProvider.configurarBiblia(JSON.stringify(obj.payload.val())); 
+          });
+        }); 
+
+        this.hideLoading();
+
+      });
+  }
+
+  private hideLoading() {    
+    this.loading.dismiss();
+  }
+
+  
+
+//****************************************************************************************88 */
 
 }
 

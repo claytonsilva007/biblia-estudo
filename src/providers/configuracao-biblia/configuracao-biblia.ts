@@ -7,7 +7,7 @@ import { AngularFireDatabase } from '@angular/fire/database';
 @Injectable()
 export class ConfiguracaoBibliaProvider {
 
-  bibliaStr: string = JSON.stringify(jsonFile);
+  bibliaStr: string;// = JSON.stringify(jsonFile);
   
   biblia: Biblia = null;
   livros: Livro[];
@@ -26,13 +26,12 @@ export class ConfiguracaoBibliaProvider {
     return possuiBibliaArmazenada;
   }
 
-  configurarBiblia(){
+  configurarBiblia(bibliaParam: string){
 
     this.livros = new Array();
     this.biblia = new Biblia();
 
-
-    JSON.parse(this.bibliaStr).forEach(livro => {
+    JSON.parse(bibliaParam).forEach(livro => {
       this.popularArrayLivros(livro);
     });
 
