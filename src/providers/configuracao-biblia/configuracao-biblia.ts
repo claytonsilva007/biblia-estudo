@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import * as jsonFile from "../../../src/assets/data/biblia.json";
 import { Livro, Capitulo, Biblia, Versiculo } from "../../models/Biblia";
+import { AngularFireDatabase } from '@angular/fire/database';
 
 
 @Injectable()
@@ -11,13 +12,25 @@ export class ConfiguracaoBibliaProvider {
   biblia: Biblia = null;
   livros: Livro[];
   
-  constructor() { 
+  constructor(private afDB: AngularFireDatabase) { 
     
   } 
 
+  possuiBibliaNoStorage(): boolean{
+    
+    let possuiBibliaArmazenada: boolean = true;
+    
+    if(this.bibliaStr === ""){
+        possuiBibliaArmazenada = false;
+    }
+    return possuiBibliaArmazenada;
+  }
+
   configurarBiblia(){
+
     this.livros = new Array();
     this.biblia = new Biblia();
+
 
     JSON.parse(this.bibliaStr).forEach(livro => {
       this.popularArrayLivros(livro);
@@ -48,9 +61,15 @@ export class ConfiguracaoBibliaProvider {
   }
 
   getBiblia(){
-    if (this.biblia == null){
-      this.configurarBiblia();
-    }
     return this.biblia;
+  }
+
+  getBibliaFirebase(): string {
+    let strBiblia: string;
+    this.afDB.list("biblias").valueChanges().subscribe(item => {
+      strBiblia = JSON.stringify(item);
+     
+    });
+    return strBiblia;
   }
 }

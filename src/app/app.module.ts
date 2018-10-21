@@ -16,6 +16,22 @@ import "froala-editor/js/froala_editor.pkgd.min.js";
 import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
 import { ComentariosPage } from '../pages/comentarios/comentarios';
 import { ModalTodosComentariosPage } from '../pages/modal-todos-comentarios/modal-todos-comentarios';
+import { SincronizadorProvider } from '../providers/sincronizador/sincronizador';
+
+import { AngularFireModule } from '@angular/fire';
+import { AngularFireDatabaseModule, AngularFireDatabase } from '@angular/fire/database';
+import { AngularFireAuthModule } from '@angular/fire/auth';
+
+import { AngularFirestoreModule } from 'angularfire2/firestore';
+
+export const firebaseConfig = {
+  apiKey: "AIzaSyBoOBgbbcVK1v7-k_4wj-wCJESmKr2TFeI",
+  authDomain: "biblia-estudo.firebaseapp.com",
+  databaseURL: "https://biblia-estudo.firebaseio.com",
+  projectId: "biblia-estudo",
+  storageBucket: "biblia-estudo.appspot.com",
+  messagingSenderId: "513997295997"
+};
 
 @NgModule({
   declarations: [
@@ -29,7 +45,11 @@ import { ModalTodosComentariosPage } from '../pages/modal-todos-comentarios/moda
     BrowserModule,
     IonicModule.forRoot(MyApp),
     HttpClientModule,
+    AngularFireDatabaseModule,
+    AngularFireAuthModule,
     FroalaEditorModule.forRoot(), FroalaViewModule.forRoot(),
+    AngularFireModule.initializeApp(firebaseConfig),
+    AngularFirestoreModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -44,7 +64,9 @@ import { ModalTodosComentariosPage } from '../pages/modal-todos-comentarios/moda
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},    
     HttpClientModule,
-    ConfiguracaoBibliaProvider
+    ConfiguracaoBibliaProvider,
+    SincronizadorProvider,
+    AngularFireDatabase
   ]
 })
 export class AppModule {}

@@ -25,9 +25,13 @@
     "@ionic-native/status-bar": "~4.15.0",
     "@ionic/storage": "2.2.0",
     "angular-froala-wysiwyg": "^2.8.5",
+    "angularfire2": "^5.0.2",
+    "firebase": "^5.5.5",
     "ionic-angular": "3.9.2",
     "ionicons": "3.0.0",
-    "rxjs": "^5.5.11",
+    "promise-polyfill": "^8.1.0",
+    "rxjs": "^6.3.3",
+    "rxjs-compat": "^6.3.3",
     "sw-toolbox": "3.6.0",
     "zone.js": "0.8.26"
   },
@@ -35,10 +39,8 @@
     "@ionic/app-scripts": "3.2.0",
     "typescript": "~2.6.2"
   },
-
   "config": {
     "ionic_copy": "./config/copy.config.js"
   },
-
   "description": "An Ionic project"
 }
