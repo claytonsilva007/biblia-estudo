@@ -1,9 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Livro, Capitulo, Biblia, Versiculo } from "../../models/Biblia";
 import { AngularFireDatabase } from '@angular/fire/database';
-import { NavController } from 'ionic-angular';
-import { HomePage } from '../../pages/home/home';
-
 
 @Injectable()
 export class ConfiguracaoBibliaProvider {

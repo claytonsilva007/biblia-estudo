@@ -8,8 +8,6 @@ import { ModalTodosComentariosPage } from '../modal-todos-comentarios/modal-todo
 import { AngularFireDatabase } from '@angular/fire/database';
 import { SincronizadorProvider } from '../../providers/sincronizador/sincronizador';
 import { ConstantesProvider } from '../../providers/constantes/constantes';
-import { Storage } from '@ionic/storage';
-
 
 @Component({
   selector: 'page-home',
@@ -39,7 +37,7 @@ export class HomePage {
 
   constructor(private afDB: AngularFireDatabase, public navCtrl: NavController, public bibliaProvider: ConfiguracaoBibliaProvider, 
                 public modalCtrl: ModalController, public loadingCtrl: LoadingController, 
-                private sincProvider: SincronizadorProvider, private storage: Storage, public constantes: ConstantesProvider ) {
+                private sincProvider: SincronizadorProvider, public constantes: ConstantesProvider ) {
     this.exibirPaletaDeCores = false;
     this.exibirBtnComentar = false;
     this.versiculoParaComentar = new versiculoParaComentar();
@@ -160,63 +158,6 @@ export class HomePage {
       this.exibirBtnComentar = false;
     }
   }
-
-  
- //****************************************************************************************88 */
- 
- /* Este trecho de código é utilizado para controlar a exibição da tela inicial, a qual contém toda a bíblia e 
-    demais informações a ela associadas. Como as requisções são assíncronas, foi necessário controlar o carregamento da tela.
-
-    Os dados assíncronos são requisitados dentro de um modal. Quando a tela inicial é requisitada (ionViewDidLoad(), onPageWillEnter()), 
-    O método de criação do modal é chamado (showLoading()). Dentro deste método ocorre a chamada do ao método assíncrono.
-    O pulo do gato é só fechar o modal acessar playload e executar o tratamento dos dados JSON do texto bíblico.
-    
- */
-
-  ionViewDidLoad() {
-    //this.showLoading();
-  }
- 
-  onPageWillEnter() {
-      //this.showLoading();
-  }
-
-  /** Modal que  */
-  private showLoading() {
-    this.loading = this.loadingCtrl.create({
-      content: "Please wait..."
-    });
-       
-    this.loading.present();   
-    this.getAsyncData();
-  }
-
-  private getAsyncData() {  
-    this.storage.get(this.constantes.BIBLIA_CHAVE).then(val => console.log(val));
-    this.hideLoading();
-      
-    
-  /*  this.afDB.list("biblias").snapshotChanges().subscribe(item => 
-    {           
-      item.forEach(livro => 
-      {
-        item.map(obj => { 
-          this.bibliaProvider.configurarBiblia(JSON.stringify(obj.payload.val())); 
-          this.storage.set(this.constantes.BIBLIA_CHAVE, JSON.stringify(obj.payload.val()));
-          this.storage.set(this.constantes.CKECK_BIBLIA_STORAGE, "true");
-        });
-      }); 
-
-      this.hideLoading();
-
-    }); */
-  }
-
-  private hideLoading() {    
-    this.loading.dismiss();
-  } 
-
-//****************************************************************************************88 */
 
 }
 

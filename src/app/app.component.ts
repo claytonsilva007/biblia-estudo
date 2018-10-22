@@ -12,7 +12,7 @@ import { ConstantesProvider } from '../providers/constantes/constantes';
 import { Storage } from '@ionic/storage';
 
 import { AngularFireDatabase } from '@angular/fire/database';
-import { Biblia } from '../models/Biblia';
+
 
 @Component({
   templateUrl: 'app.html'
