@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
-import * as jsonFile from "../../../src/assets/data/biblia.json";
 import { Livro, Capitulo, Biblia, Versiculo } from "../../models/Biblia";
 import { AngularFireDatabase } from '@angular/fire/database';
+import { NavController } from 'ionic-angular';
+import { HomePage } from '../../pages/home/home';
 
 
 @Injectable()
 export class ConfiguracaoBibliaProvider {
-
-  bibliaStr: string;// = JSON.stringify(jsonFile);
+  
+  bibliaStr: string;
   
   biblia: Biblia = null;
   livros: Livro[];
@@ -18,26 +19,16 @@ export class ConfiguracaoBibliaProvider {
     
   } 
 
-  possuiBibliaNoStorage(): boolean{
-    
-    let possuiBibliaArmazenada: boolean = true;
-    
-    if(this.bibliaStr === ""){
-        possuiBibliaArmazenada = false;
-    }
-    return possuiBibliaArmazenada;
-  }
-
   configurarBiblia(bibliaParam: string){
-
     this.livros = new Array();
     this.biblia = new Biblia();
-
+   
     JSON.parse(bibliaParam).forEach(livro => {
       this.popularArrayLivros(livro);
     });
 
     this.biblia.livros = this.livros;
+    
   }
 
   popularArrayLivros(livroParam) {

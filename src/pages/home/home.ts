@@ -7,6 +7,8 @@ import { ModalTodosComentariosPage } from '../modal-todos-comentarios/modal-todo
 
 import { AngularFireDatabase } from '@angular/fire/database';
 import { SincronizadorProvider } from '../../providers/sincronizador/sincronizador';
+import { ConstantesProvider } from '../../providers/constantes/constantes';
+import { Storage } from '@ionic/storage';
 
 
 @Component({
@@ -37,7 +39,7 @@ export class HomePage {
 
   constructor(private afDB: AngularFireDatabase, public navCtrl: NavController, public bibliaProvider: ConfiguracaoBibliaProvider, 
                 public modalCtrl: ModalController, public loadingCtrl: LoadingController, 
-                private sincProvider: SincronizadorProvider) {
+                private sincProvider: SincronizadorProvider, private storage: Storage, public constantes: ConstantesProvider ) {
     this.exibirPaletaDeCores = false;
     this.exibirBtnComentar = false;
     this.versiculoParaComentar = new versiculoParaComentar();
@@ -172,15 +174,11 @@ export class HomePage {
  */
 
   ionViewDidLoad() {
-    if(!this.sincProvider.possuiBibliaNoStorage()){
-      this.showLoading();
-    }
+    //this.showLoading();
   }
  
   onPageWillEnter() {
-   if(!this.sincProvider.possuiBibliaNoStorage()){
-      this.showLoading();
-    }
+      //this.showLoading();
   }
 
   /** Modal que  */
@@ -193,23 +191,25 @@ export class HomePage {
     this.getAsyncData();
   }
 
-  private getAsyncData() {    
-
-    this.afDB.list("biblias").snapshotChanges().subscribe(item => 
+  private getAsyncData() {  
+    this.storage.get(this.constantes.BIBLIA_CHAVE).then(val => console.log(val));
+    this.hideLoading();
+      
+    
+  /*  this.afDB.list("biblias").snapshotChanges().subscribe(item => 
     {           
       item.forEach(livro => 
       {
         item.map(obj => { 
           this.bibliaProvider.configurarBiblia(JSON.stringify(obj.payload.val())); 
+          this.storage.set(this.constantes.BIBLIA_CHAVE, JSON.stringify(obj.payload.val()));
+          this.storage.set(this.constantes.CKECK_BIBLIA_STORAGE, "true");
         });
       }); 
 
       this.hideLoading();
-      
 
-//      this.sincProvider.gravarNoStorage("biblia", this.bibliaProvider.biblia);
-
-    });
+    }); */
   }
 
   private hideLoading() {    
