@@ -32,9 +32,6 @@ export class HomePage {
   versiculoParaComentar: versiculoParaComentar;
   loading: any;
 
-  biblia: Biblia = null;
-  livros: Livro[];
-
   constructor(private afDB: AngularFireDatabase, public navCtrl: NavController, public bibliaProvider: ConfiguracaoBibliaProvider, 
                 public modalCtrl: ModalController, public loadingCtrl: LoadingController, public constantes: ConstantesProvider ) {
     this.exibirPaletaDeCores = false;
@@ -122,7 +119,8 @@ export class HomePage {
                           "numVersiculo": this.versiculoParaComentar.indexVersiculo +1});
 
     modalComentarios.present();
-    modalComentarios.onDidDismiss(data => { this.capituloSelecionado.versiculos[this.versiculoParaComentar.indexVersiculo].adicionarComentario(data.comentario)});   
+    modalComentarios.onDidDismiss(data => { this.capituloSelecionado.versiculos[this.versiculoParaComentar.indexVersiculo].adicionarComentario(data.comentario)}); 
+    
   }
 
   ocultarBotao(){

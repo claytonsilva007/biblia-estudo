@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { Nav, Platform } from 'ionic-angular';
+import { Nav, Platform, NavController } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
@@ -7,7 +7,6 @@ import { HomePage } from '../pages/home/home';
 import { ListPage } from '../pages/list/list';
 
 import { ConfiguracaoBibliaProvider } from '../providers/configuracao-biblia/configuracao-biblia';
-import { SincronizadorProvider } from '../providers/sincronizador/sincronizador';
 import { ConstantesProvider } from '../providers/constantes/constantes';
 import { Storage } from '@ionic/storage';
 
@@ -25,7 +24,7 @@ export class MyApp {
   pages: Array<{title: string, component: any}>;
 
   constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen, 
-              private sincProvider: SincronizadorProvider, private configBiblia: ConfiguracaoBibliaProvider, 
+              private configBiblia: ConfiguracaoBibliaProvider,
               private storage: Storage, public constantes: ConstantesProvider, private afDB: AngularFireDatabase) {
     
       this.initializeApp();      
@@ -46,7 +45,7 @@ export class MyApp {
         if(val !== null){
           
           this.storage.get(this.constantes.BIBLIA_CHAVE).then(biblia => {
-          this.configBiblia.configurarBiblia(biblia);
+          this.configBiblia.configurarBiblia(JSON.stringify(biblia));
           });
         } else {
           this.afDB.list("biblias").snapshotChanges().subscribe(item => 
@@ -65,6 +64,22 @@ export class MyApp {
 
       this.statusBar.styleDefault();
       this.splashScreen.hide();
+    });
+
+
+    this.platform.registerBackButtonAction(() => {
+      
+      let nav = this.nav.getAllChildNavs[0];
+   
+      let activeView = nav.getActive();         
+   
+      if(activeView.name === 'HomePage') {
+        if (nav.canGoBack()){
+          nav.pop();
+        } else {
+          this.configBiblia.salvar();
+        }
+      }
     });
   }
 

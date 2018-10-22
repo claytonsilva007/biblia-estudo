@@ -1,18 +1,17 @@
 import { Injectable } from '@angular/core';
 import { Livro, Capitulo, Biblia, Versiculo } from "../../models/Biblia";
-import { AngularFireDatabase } from '@angular/fire/database';
+import { ConstantesProvider } from '../constantes/constantes';
+import { Storage } from '@ionic/storage';
+
+
 
 @Injectable()
 export class ConfiguracaoBibliaProvider {
-  
-  bibliaStr: string;
-  
+
   biblia: Biblia = null;
   livros: Livro[];
   
-  exibirTelaLoading: boolean;
-
-  constructor(private afDB: AngularFireDatabase) { 
+  constructor(private storage: Storage, private constantes: ConstantesProvider) { 
     
   } 
 
@@ -20,7 +19,9 @@ export class ConfiguracaoBibliaProvider {
     this.livros = new Array();
     this.biblia = new Biblia();
    
-    JSON.parse(bibliaParam).forEach(livro => {
+    let x = JSON.parse(bibliaParam);
+
+    JSON.parse(x).forEach(livro => {
       this.popularArrayLivros(livro);
     });
 
@@ -52,23 +53,9 @@ export class ConfiguracaoBibliaProvider {
   getBiblia(){
     return this.biblia;
   }
-
-  getBibliaFirebase(): string {
-    let strBiblia: string;
-    this.afDB.list("biblias").valueChanges().subscribe(item => {
-      strBiblia = JSON.stringify(item);
-     
-    });
-    return strBiblia;
-  }
-
-
-  getExibirTelaLoading() {
-    return this.exibirTelaLoading;
-  }
-
-  setExibirTelaLoading(param: boolean) {
-    this.exibirTelaLoading = param;
+ 
+  salvar(){
+    this.storage.set(this.constantes.BIBLIA_CHAVE, this.biblia);
   }
 
 }

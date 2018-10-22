@@ -20,25 +20,6 @@ export class SincronizadorProvider {
       this.livros = JSON.stringify(item);      
     });
   }
-
-  
-  possuiBibliaNoStorage(): boolean{
-    let possuiBiblia: boolean = false;
-
-    this.storage.get("biblia").then(result => {
-      possuiBiblia = true;
-      console.log("SIM, EU POSSUI A BÍBLIA NO STORAGE: " + this.storage.get("biblia"));
-    }).catch(err => {
-      possuiBiblia = false;
-    });
-
-    return possuiBiblia;
-  }
-
-  gravarNoStorage(chave: string, valor: any){
-    this.storage.set(chave, valor);
-    console.log("gravou: " + chave);
-  }
-  
+ 
 }
 

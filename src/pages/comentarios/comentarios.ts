@@ -18,7 +18,7 @@ export class ComentariosPage {
   numCapitulo: number;
   numVersiculo: number;
   qtdeComentarios: number;
-  comentarios: string[];
+  comentariosUsuarios: string[];
   exibirTodosOsComentarios: boolean;
   tituloParam: string;
 
@@ -52,21 +52,24 @@ export class ComentariosPage {
       });
       toast.present();
     }
+
+    this.bibliaProvider.salvar();
+
   }
 
   carregarComentarios(){
-    this.comentarios = new Array();
+    this.comentariosUsuarios = new Array();
     if(this.qtdeComentarios > 0){
       let livro: Livro = this.bibliaProvider.getBiblia().livros[this.indexLivro];
       let capitulo: Capitulo = livro.capitulos[this.numCapitulo - 1];
       let versiculo: Versiculo = capitulo.versiculos[this.numVersiculo - 1];      
-      this.comentarios = versiculo.comentarios;
+      this.comentariosUsuarios = versiculo.comentariosUsuario;
     }
   }
 
   exibirComentarios(){
     this.tituloParam = "Comentários: " + this.nomeLivro + " " + this.numCapitulo + "." + this.numVersiculo; 
-    let modalTodosComentarios = this.modalCtrl.create(ModalTodosComentariosPage, {"comentariosParam": this.comentarios, "titulo": this.tituloParam});
+    let modalTodosComentarios = this.modalCtrl.create(ModalTodosComentariosPage, {"comentariosParam": this.comentariosUsuarios, "titulo": this.tituloParam});
     modalTodosComentarios.present();
   }
 
