@@ -36,8 +36,7 @@ export class HomePage {
   livros: Livro[];
 
   constructor(private afDB: AngularFireDatabase, public navCtrl: NavController, public bibliaProvider: ConfiguracaoBibliaProvider, 
-                public modalCtrl: ModalController, public loadingCtrl: LoadingController, 
-                private sincProvider: SincronizadorProvider, public constantes: ConstantesProvider ) {
+                public modalCtrl: ModalController, public loadingCtrl: LoadingController, public constantes: ConstantesProvider ) {
     this.exibirPaletaDeCores = false;
     this.exibirBtnComentar = false;
     this.versiculoParaComentar = new versiculoParaComentar();
