@@ -1,5 +1,7 @@
 {
   "name": "biblia-estudo",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "ionic-angular"
 }

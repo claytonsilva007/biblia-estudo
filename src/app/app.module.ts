@@ -17,12 +17,12 @@ import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
 import { ComentariosPage } from '../pages/comentarios/comentarios';
 import { ModalTodosComentariosPage } from '../pages/modal-todos-comentarios/modal-todos-comentarios';
 import { SincronizadorProvider } from '../providers/sincronizador/sincronizador';
-
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireDatabaseModule, AngularFireDatabase } from '@angular/fire/database';
 import { AngularFireAuthModule } from '@angular/fire/auth';
-
 import { AngularFirestoreModule } from 'angularfire2/firestore';
+import { IonicStorageModule } from '@ionic/storage';
+import { ConstantesProvider } from '../providers/constantes/constantes';
 
 export const firebaseConfig = {
   apiKey: "AIzaSyBoOBgbbcVK1v7-k_4wj-wCJESmKr2TFeI",
@@ -49,7 +49,8 @@ export const firebaseConfig = {
     AngularFireAuthModule,
     FroalaEditorModule.forRoot(), FroalaViewModule.forRoot(),
     AngularFireModule.initializeApp(firebaseConfig),
-    AngularFirestoreModule
+    AngularFirestoreModule,
+    IonicStorageModule.forRoot()
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -66,7 +67,8 @@ export const firebaseConfig = {
     HttpClientModule,
     ConfiguracaoBibliaProvider,
     SincronizadorProvider,
-    AngularFireDatabase
+    AngularFireDatabase,
+    ConstantesProvider
   ]
 })
 export class AppModule {}

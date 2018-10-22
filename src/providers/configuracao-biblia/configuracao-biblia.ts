@@ -12,6 +12,8 @@ export class ConfiguracaoBibliaProvider {
   biblia: Biblia = null;
   livros: Livro[];
   
+  exibirTelaLoading: boolean;
+
   constructor(private afDB: AngularFireDatabase) { 
     
   } 
@@ -71,4 +73,14 @@ export class ConfiguracaoBibliaProvider {
     });
     return strBiblia;
   }
+
+
+  getExibirTelaLoading() {
+    return this.exibirTelaLoading;
+  }
+
+  setExibirTelaLoading(param: boolean) {
+    this.exibirTelaLoading = param;
+  }
+
 }

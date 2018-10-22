@@ -6,6 +6,7 @@ import { ComentariosPage } from '../comentarios/comentarios';
 import { ModalTodosComentariosPage } from '../modal-todos-comentarios/modal-todos-comentarios';
 
 import { AngularFireDatabase } from '@angular/fire/database';
+import { SincronizadorProvider } from '../../providers/sincronizador/sincronizador';
 
 
 @Component({
@@ -34,7 +35,9 @@ export class HomePage {
   biblia: Biblia = null;
   livros: Livro[];
 
-  constructor(private afDB: AngularFireDatabase, public navCtrl: NavController, public bibliaProvider: ConfiguracaoBibliaProvider, public modalCtrl: ModalController, public loadingCtrl: LoadingController) {
+  constructor(private afDB: AngularFireDatabase, public navCtrl: NavController, public bibliaProvider: ConfiguracaoBibliaProvider, 
+                public modalCtrl: ModalController, public loadingCtrl: LoadingController, 
+                private sincProvider: SincronizadorProvider) {
     this.exibirPaletaDeCores = false;
     this.exibirBtnComentar = false;
     this.versiculoParaComentar = new versiculoParaComentar();
@@ -156,6 +159,7 @@ export class HomePage {
     }
   }
 
+  
  //****************************************************************************************88 */
  
  /* Este trecho de código é utilizado para controlar a exibição da tela inicial, a qual contém toda a bíblia e 
@@ -165,13 +169,18 @@ export class HomePage {
     O método de criação do modal é chamado (showLoading()). Dentro deste método ocorre a chamada do ao método assíncrono.
     O pulo do gato é só fechar o modal acessar playload e executar o tratamento dos dados JSON do texto bíblico.
     
- */ 
+ */
+
   ionViewDidLoad() {
-    this.showLoading();
+    if(!this.sincProvider.possuiBibliaNoStorage()){
+      this.showLoading();
+    }
   }
  
- onPageWillEnter() {
-   this.showLoading();    
+  onPageWillEnter() {
+   if(!this.sincProvider.possuiBibliaNoStorage()){
+      this.showLoading();
+    }
   }
 
   /** Modal que  */
@@ -180,34 +189,32 @@ export class HomePage {
       content: "Please wait..."
     });
        
-    this.loading.present();
-   
+    this.loading.present();   
     this.getAsyncData();
   }
 
-  private getAsyncData() {
-    this.livros = new Array();
-    
-    let x: any;
+  private getAsyncData() {    
 
     this.afDB.list("biblias").snapshotChanges().subscribe(item => 
-      {           
-        item.forEach(livro => {
-          item.map(obj => { 
-            this.bibliaProvider.configurarBiblia(JSON.stringify(obj.payload.val())); 
-          });
-        }); 
+    {           
+      item.forEach(livro => 
+      {
+        item.map(obj => { 
+          this.bibliaProvider.configurarBiblia(JSON.stringify(obj.payload.val())); 
+        });
+      }); 
 
-        this.hideLoading();
+      this.hideLoading();
+      
 
-      });
+//      this.sincProvider.gravarNoStorage("biblia", this.bibliaProvider.biblia);
+
+    });
   }
 
   private hideLoading() {    
     this.loading.dismiss();
-  }
-
-  
+  } 
 
 //****************************************************************************************88 */
 
