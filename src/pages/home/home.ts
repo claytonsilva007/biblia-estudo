@@ -116,7 +116,7 @@ export class HomePage {
     this.exibirPaletaDeCores = false;
 
     let modalComentarios = this.modalCtrl.create(ComentariosPage, { 
-                          "qtdeComentarios": this.capituloSelecionado.versiculos[this.versiculoParaComentar.indexVersiculo].comentarios.length,  
+                          "qtdeComentarios": this.capituloSelecionado.versiculos[this.versiculoParaComentar.indexVersiculo].comentariosUsuario.length,  
                           "indexLivro": this.versiculoParaComentar.indexLivro,
                           "nomeLivro": this.versiculoParaComentar.nomeLivro, 
                           "numCapitulo": this.versiculoParaComentar.indexCapitulo+1, 
@@ -132,7 +132,7 @@ export class HomePage {
 
   podeVisualizarComentariosExistentes(){
     if(this.capituloSelecionado.versiculos[this.versiculoParaComentar.indexVersiculo].backgroundColor === this.corLinhaComentada){
-      if (this.capituloSelecionado.versiculos[this.versiculoParaComentar.indexVersiculo].comentarios.length > 0 ){
+      if (this.capituloSelecionado.versiculos[this.versiculoParaComentar.indexVersiculo].comentariosUsuario.length > 0 ){
         return true; 
       }      
     }
@@ -145,7 +145,7 @@ export class HomePage {
     let versiculo: Versiculo = capitulo.versiculos[this.versiculoParaComentar.indexVersiculo];
     
     let tituloParam = "Comentários: " + this.livroSelecionado.nome + " " + (this.versiculoParaComentar.indexCapitulo+1) + "." + (this.versiculoParaComentar.indexVersiculo+1);
-    let modalTodosComentarios = this.modalCtrl.create(ModalTodosComentariosPage, { "comentariosParam": versiculo.comentarios, "titulo": tituloParam });
+    let modalTodosComentarios = this.modalCtrl.create(ModalTodosComentariosPage, { "comentariosParam": versiculo.comentariosUsuario, "titulo": tituloParam });
     modalTodosComentarios.present();
 
     modalTodosComentarios.onDidDismiss(data => {this.verificaSeExistemComentarios(data.qtdeComentarios, versiculo )});

@@ -11,6 +11,7 @@ export class Livro {
     abreviatura: string;
     capitulos: Capitulo[];
     nome: string;
+    resumo: string;
 
     constructor() {
         this.capitulos = new Array();
@@ -28,12 +29,12 @@ export class Capitulo {
 export class Versiculo {
     texto: string;
     backgroundColor: string;
-    comentarios: string[];
-
+    comentariosUsuario: string[];
+    
     constructor(texto: string) {
         this.texto = texto;
         this.backgroundColor = "#FFFFFF";
-        this.comentarios = new Array();
+        this.comentariosUsuario = new Array();
     }
 
     public setCor(corParam: string){
@@ -42,9 +43,9 @@ export class Versiculo {
 
     public adicionarComentario(comentarioParam: string){
         if(comentarioParam !== ""){
-            this.comentarios.push(comentarioParam);
+            this.comentariosUsuario.push(comentarioParam);
             this.backgroundColor = "#EBEFF2";
-        } else if(this.comentarios.length == 0){
+        } else if(this.comentariosUsuario.length == 0){
             this.backgroundColor = "#FFFFFF";
         }
     }
