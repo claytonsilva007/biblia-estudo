@@ -32,8 +32,7 @@ export class Versiculo {
     comentariosUsuario: string[];
     comentariosWeb: string[];
     
-    constructor(texto: string) {
-        this.texto = texto;
+    constructor() {
         this.backgroundColor = "#FFFFFF";
         this.comentariosUsuario = new Array();
         this.comentariosWeb = new Array();

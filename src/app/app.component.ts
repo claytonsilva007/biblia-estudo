@@ -41,26 +41,31 @@ export class MyApp {
     this.platform.ready().then(() => {
 
       this.storage.get(this.constantes.CKECK_BIBLIA_STORAGE).then(val => {
-          
         if(val !== null){
-          
+          console.log("VAI PEGAR DO BANCO");            
           this.storage.get(this.constantes.BIBLIA_CHAVE).then(biblia => {
           this.configBiblia.configurarBiblia(JSON.stringify(biblia));
+          this.configBiblia.setTipoConfig(1);
+          console.log("PEGOU DO BANCO");
           });
         } else {
-          this.afDB.list("biblias").snapshotChanges().subscribe(item => 
+          this.afDB.list("biblias/biblia").snapshotChanges().subscribe(item => 
             {           
-              item.forEach(livro => 
-              {
+             // item.forEach(livro => 
+              //{
                 item.map(obj => {
+                  console.log("VAI PEGAR DA WEB");
+                  console.log(obj.payload.val());
                   this.configBiblia.configurarBiblia(JSON.stringify(obj.payload.val())); 
-                  this.storage.set(this.constantes.BIBLIA_CHAVE, JSON.stringify(obj.payload.val()));
+                  this.storage.set(this.constantes.BIBLIA_CHAVE, obj.payload.val());
                   this.storage.set(this.constantes.CKECK_BIBLIA_STORAGE, "true");
+                  this.configBiblia.setTipoConfig(2);
+                  console.log("PEGOU DA WEB");
                 });
-              }); 
+             // }); 
             });
           }
-        }).catch(err => {});  
+        }).catch(err => {console.log("ERRO: " + err)});  
 
       this.statusBar.styleDefault();
       this.splashScreen.hide();

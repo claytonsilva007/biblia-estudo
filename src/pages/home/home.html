@@ -48,7 +48,7 @@
 
   <div [ngSwitch]="segmentoSelecionado">
     <ion-list *ngSwitchCase="'livros'">
-        <ion-item *ngFor="let livro of bibliaProvider.livros; let index = index" (click)="atualizarSegmentoCapitulos(livro, index)">
+        <ion-item *ngFor="let livro of biblia.livros; let index = index" (click)="atualizarSegmentoCapitulos(livro, index)">
           <ion-label>{{livro.abreviatura}}</ion-label>
           <ion-label>{{livro.nome}}</ion-label>
         </ion-item>
@@ -56,24 +56,24 @@
 
 
     <ion-list *ngSwitchCase="'capitulos'" >
-      <ion-grid *ngFor="let capitulo of livroSelecionado.capitulos; let index = index" no-padding>
+      <ion-grid *ngFor="let capitulo of biblia.livros[versiculoParaComentar.indexLivro].capitulos; let index = index" no-padding>
         <ion-row *ngIf="index % 4 == 0" no-padding justify-content-start align-items-start>
-            <ion-col ion-item no-lines no-padding text-center (click)="atualizarSegmentoVersiculos(index)">
+            <ion-col ion-item no-lines no-padding text-center (click)="atualizarSegmentoVersiculos(index, capitulo)">
               <button round outline ion-button color="dark" *ngIf="index+1 <= livroSelecionado.capitulos.length"> 
                 {{index+1}} 
               </button>
             </ion-col>
-            <ion-col ion-col ion-item no-lines no-padding text-center (click)="atualizarSegmentoVersiculos(index+1)">
+            <ion-col ion-col ion-item no-lines no-padding text-center (click)="atualizarSegmentoVersiculos(index+1, capitulo)">
               <button round outline ion-button color="dark" *ngIf="index+2 <= livroSelecionado.capitulos.length"> 
                 {{index+2}} 
               </button>
             </ion-col>
-            <ion-col ion-item no-lines no-padding text-center (click)="atualizarSegmentoVersiculos(ndex+2)">
+            <ion-col ion-item no-lines no-padding text-center (click)="atualizarSegmentoVersiculos(ndex+2, capitulo)">
               <button round outline ion-button color="dark" *ngIf="index+3 <= livroSelecionado.capitulos.length"> 
                 {{index+3}} 
               </button>
             </ion-col>
-            <ion-col ion-item no-lines no-padding text-center (click)="atualizarSegmentoVersiculos(index+3)">
+            <ion-col ion-item no-lines no-padding text-center (click)="atualizarSegmentoVersiculos(index+3, capitulo)">
               <button round outline ion-button color="dark" *ngIf="index+4 <= livroSelecionado.capitulos.length"> 
                 {{index+4}} 
               </button>
@@ -83,7 +83,8 @@
     </ion-list>
 
     <ion-list *ngSwitchCase="'versiculos'">
-      <ion-item [ngStyle]="{'background-color': versiculo.backgroundColor!==null ? versiculo.backgroundColor : 'null' }" *ngFor="let versiculo of capituloSelecionado.versiculos; let index = index" text-wrap (tap)="pressEvent($event, versiculo, index)">
+      <ion-item [ngStyle]="{'background-color': versiculo.backgroundColor!==null ? versiculo.backgroundColor : 'null' }" 
+                  *ngFor="let versiculo of biblia.livros[versiculoParaComentar.indexLivro].capitulos[versiculoParaComentar.indexCapitulo].versiculos; let index = index" text-wrap (tap)="pressEvent($event, versiculo, index)">
         {{ index+1 + ". " + versiculo.texto}}
       </ion-item>
     </ion-list>

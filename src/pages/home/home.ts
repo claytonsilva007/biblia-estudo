@@ -32,11 +32,19 @@ export class HomePage {
   versiculoParaComentar: versiculoParaComentar;
   loading: any;
 
+  biblia: Biblia;
+
   constructor(private afDB: AngularFireDatabase, public navCtrl: NavController, public bibliaProvider: ConfiguracaoBibliaProvider, 
-                public modalCtrl: ModalController, public loadingCtrl: LoadingController, public constantes: ConstantesProvider ) {
+                public modalCtrl: ModalController, public loadingCtrl: LoadingController, public constantes: ConstantesProvider, 
+                private sincProv: SincronizadorProvider) {
+
+    this.biblia = bibliaProvider.getBiblia();
+
+    this.livroSelecionado = new Livro();
+    this.capituloSelecionado = new Capitulo();
+    this.versiculoParaComentar = new versiculoParaComentar();
     this.exibirPaletaDeCores = false;
     this.exibirBtnComentar = false;
-    this.versiculoParaComentar = new versiculoParaComentar();
   } 
 
   atualizarSegmentoCapitulos(livroParam: Livro, indexLivro: number){
@@ -48,11 +56,15 @@ export class HomePage {
     this.versiculoParaComentar.nomeLivro = this.livroSelecionado.nome;
   }
 
-  atualizarSegmentoVersiculos(indexCapitulo: number){
-    this.capituloSelecionado = this.livroSelecionado.capitulos[indexCapitulo];
+  atualizarSegmentoVersiculos(indexCapitulo: number, capitulo: Capitulo){
+    this.capituloSelecionado = capitulo;
     this.segmentoSelecionado = "versiculos";
     this.abaCapituloDescricao = "Capítulo: " + (indexCapitulo+1);
     this.versiculoParaComentar.indexCapitulo = indexCapitulo;
+
+    console.log(this.biblia.livros[this.versiculoParaComentar.indexLivro]);//.capitulos[this.versiculoParaComentar.indexCapitulo]);
+    console.log(this.biblia.livros[this.versiculoParaComentar.indexLivro].capitulos[0]);
+
   }
 
   /**

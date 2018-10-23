@@ -9,53 +9,82 @@ import { Storage } from '@ionic/storage';
 export class ConfiguracaoBibliaProvider {
 
   biblia: Biblia = null;
-  livros: Livro[];
+  livros: Livro[] = [];
+  tipoConfig: number;
+  
+  versiculos: Versiculo[] = [];
   
   constructor(private storage: Storage, private constantes: ConstantesProvider) { 
-    
+    this.biblia = new Biblia();
   } 
 
-  configurarBiblia(bibliaParam: string){
-    this.livros = new Array();
-    this.biblia = new Biblia();
-   
-    let x = JSON.parse(bibliaParam);
-
-    JSON.parse(x).forEach(livro => {
-      this.popularArrayLivros(livro);
-    });
-
-    this.biblia.livros = this.livros;
-    
+  configurarBiblia(bibliaParam: string){        
+    let bibliaAux = JSON.parse(bibliaParam);
+       
+    bibliaAux.livros.forEach(x => this.popularArrayLivros(x));
+    //this.biblia.livros = this.livros;
   }
 
   popularArrayLivros(livroParam) {
     let livro = new Livro();
-    livro.abreviatura = livroParam.abbrev;
-    livro.nome = livroParam.name;
+    let capitulo = new Capitulo();
 
-    livroParam.chapters.forEach(capitulo => {
+    livro.abreviatura = livroParam.abreviatura;
+    livro.nome = livroParam.nome;
+  
+    livroParam.capitulos.forEach(capitulo => { 
       livro.capitulos.push(this.cadCapitulo(capitulo));
     });
 
-    this.livros.push(livro);
+    this.biblia.livros.push(livro);
   }
 
-  cadCapitulo(arrayVersiculos) {
-    let capitulo = new Capitulo();
-    arrayVersiculos.forEach(versiculoStr => {
-      capitulo.versiculos.push(new Versiculo(versiculoStr)); 
+  cadCapitulo(capituloParam) {
+    let capituloTemp: Capitulo;
+    let versiculotemp: Versiculo;
+
+    if(this.tipoConfig === 1){ // local
+      capituloParam.versiculos.forEach(versiculo => {
+        capituloParam.versiculos.push(versiculo); 
+      });
+    } else if(this.tipoConfig === 2){ //web
+      capituloTemp = new Capitulo();
+      capituloParam.forEach(textoVersiculo => {
+        versiculotemp.texto = textoVersiculo;
+        capituloTemp.versiculos.push(versiculotemp);
+      });
+    }
+         
+    return capituloTemp;
+  }  
+
+  cadastrarCapitulo(capitulo): Capitulo{
+    let capituloTemp = new Capitulo();
+
+    capitulo.versiculos.forEach(textoVersiculo => {
+      this.instanciarVersiculos(textoVersiculo);
     });
-     
-    return capitulo;
+
+    return capituloTemp;
+  }
+
+  instanciarVersiculos(texto: string): Versiculo{
+    let versiculo = new Versiculo();
+    versiculo.texto = texto;  
+    return versiculo;
   }
 
   getBiblia(){
     return this.biblia;
   }
  
+  setTipoConfig(tipoConfigParam: number){
+    this.tipoConfig = tipoConfigParam;
+  }
+
   salvar(){
     this.storage.set(this.constantes.BIBLIA_CHAVE, this.biblia);
+    //this.storage.set(this.constantes.BIBLIA_CHAVE, JSON.stringify(this.biblia));
   }
 
 }

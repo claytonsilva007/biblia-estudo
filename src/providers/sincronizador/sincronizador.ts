@@ -16,7 +16,7 @@ export class SincronizadorProvider {
   }
 
   async sincronizar(){
-    this.afDB.list("biblias").valueChanges().subscribe(item => {      
+    this.afDB.list("/").valueChanges().subscribe(item => {      
       this.livros = JSON.stringify(item);      
     });
   }
