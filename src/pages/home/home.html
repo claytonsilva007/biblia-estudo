@@ -91,12 +91,24 @@
     <ion-item></ion-item>
 </div>
 
+
+<ion-fab bottom left>
+  <button ion-fab mini>
+    <ion-icon name="arrow-dropleft"></ion-icon>
+  </button>
+</ion-fab>
+  
+  <ion-fab bottom right> 
+    <button ion-fab mini>
+        <ion-icon name="arrow-dropright"></ion-icon>
+    </button>
+  </ion-fab>
+
 </ion-content>
 
 <ion-footer no-shadow *ngIf="exibirPaletaDeCores">
-  <ion-toolbar position="bottom">
-    <ion-row styleClass="centralizado">
-
+  <ion-toolbar position="bottom">  
+    <ion-row styleClass="centralizado" >
       <ion-col>
         <button ion-button color="primary" (click)="setarCor('#488aff')"> </button>
       </ion-col>
@@ -124,7 +136,6 @@
       <ion-col>
         <button ion-button color="HotPink" (click)="setarCor('HotPink')"> </button>
       </ion-col>
-
     </ion-row>
   </ion-toolbar>
 </ion-footer>
