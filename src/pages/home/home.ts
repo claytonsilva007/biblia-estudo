@@ -101,7 +101,9 @@ export class HomePage {
   setarCor(cor:string){
     this.biblia.livros[this.versiculoParaComentar.indexLivro].capitulos[this.versiculoParaComentar.indexCapitulo].versiculos
       .filter(versiculoLoop => versiculoLoop.backgroundColor === this.corLinhaSelecionada)
-            .forEach(versiculoLoop => versiculoLoop.setCor(cor));
+            .forEach(versiculoLoop => {
+              versiculoLoop.backgroundColor = cor; 
+            });
 
     this.exibirPaletaDeCores = false;
     this.exibirBtnComentar = false;
