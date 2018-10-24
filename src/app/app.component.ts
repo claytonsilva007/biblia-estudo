@@ -60,7 +60,9 @@ export class MyApp {
             });
           });
         }
-      }).catch(err => {console.log("ERRO: " + err)});  
+      }).catch( err => {
+        console.log("ERRO: " + err)
+      });  
 
 
 
