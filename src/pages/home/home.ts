@@ -62,8 +62,7 @@ export class HomePage {
     this.abaCapituloDescricao = "Capítulo: " + (indexCapitulo+1);
     this.versiculoParaComentar.indexCapitulo = indexCapitulo;
 
-    console.log(this.biblia.livros[this.versiculoParaComentar.indexLivro]);//.capitulos[this.versiculoParaComentar.indexCapitulo]);
-    console.log(this.biblia.livros[this.versiculoParaComentar.indexLivro].capitulos[0]);
+    console.log(this.biblia.livros[this.versiculoParaComentar.indexLivro].capitulos[this.versiculoParaComentar.indexCapitulo].versiculos[0].texto);
 
   }
 
@@ -123,7 +122,7 @@ export class HomePage {
     this.exibirBtnComentar = false;
     this.exibirPaletaDeCores = false;
 
-    let modalComentarios = this.modalCtrl.create(ComentariosPage, { 
+   /* let modalComentarios = this.modalCtrl.create(ComentariosPage, { 
                           "qtdeComentarios": this.capituloSelecionado.versiculos[this.versiculoParaComentar.indexVersiculo].comentariosUsuario.length,  
                           "indexLivro": this.versiculoParaComentar.indexLivro,
                           "nomeLivro": this.versiculoParaComentar.nomeLivro, 
@@ -132,7 +131,7 @@ export class HomePage {
 
     modalComentarios.present();
     modalComentarios.onDidDismiss(data => { this.capituloSelecionado.versiculos[this.versiculoParaComentar.indexVersiculo].adicionarComentario(data.comentario)}); 
-    
+    */
   }
 
   ocultarBotao(){
@@ -140,16 +139,16 @@ export class HomePage {
   }
 
   podeVisualizarComentariosExistentes(){
-    if(this.capituloSelecionado.versiculos[this.versiculoParaComentar.indexVersiculo].backgroundColor === this.corLinhaComentada){
+    /*if(this.capituloSelecionado.versiculos[this.versiculoParaComentar.indexVersiculo].backgroundColor === this.corLinhaComentada){
       if (this.capituloSelecionado.versiculos[this.versiculoParaComentar.indexVersiculo].comentariosUsuario.length > 0 ){
         return true; 
       }      
-    }
+    }*/
     return false;
   }
 
   exibirTodosComentarios(){
-    let livro: Livro = this.bibliaProvider.getBiblia().livros[this.versiculoParaComentar.indexLivro];
+    /*let livro: Livro = this.bibliaProvider.getBiblia().livros[this.versiculoParaComentar.indexLivro];
     let capitulo: Capitulo = livro.capitulos[this.versiculoParaComentar.indexCapitulo];
     let versiculo: Versiculo = capitulo.versiculos[this.versiculoParaComentar.indexVersiculo];
     
@@ -157,7 +156,7 @@ export class HomePage {
     let modalTodosComentarios = this.modalCtrl.create(ModalTodosComentariosPage, { "comentariosParam": versiculo.comentariosUsuario, "titulo": tituloParam });
     modalTodosComentarios.present();
 
-    modalTodosComentarios.onDidDismiss(data => {this.verificaSeExistemComentarios(data.qtdeComentarios, versiculo )});
+    modalTodosComentarios.onDidDismiss(data => {this.verificaSeExistemComentarios(data.qtdeComentarios, versiculo )});*/
 
   }
 

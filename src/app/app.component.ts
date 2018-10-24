@@ -44,25 +44,21 @@ export class MyApp {
         if(val !== null){
           console.log("VAI PEGAR DO BANCO");            
           this.storage.get(this.constantes.BIBLIA_CHAVE).then(biblia => {
-          this.configBiblia.configurarBiblia(JSON.stringify(biblia));
-          this.configBiblia.setTipoConfig(1);
+          this.configBiblia.configurarBiblia(JSON.stringify(biblia), 1);
           console.log("PEGOU DO BANCO");
           });
         } else {
           this.afDB.list("biblias/biblia").snapshotChanges().subscribe(item => 
-            {           
-             // item.forEach(livro => 
-              //{
+            {
                 item.map(obj => {
-                  console.log("VAI PEGAR DA WEB");
-                  console.log(obj.payload.val());
-                  this.configBiblia.configurarBiblia(JSON.stringify(obj.payload.val())); 
-                  this.storage.set(this.constantes.BIBLIA_CHAVE, obj.payload.val());
-                  this.storage.set(this.constantes.CKECK_BIBLIA_STORAGE, "true");
-                  this.configBiblia.setTipoConfig(2);
-                  console.log("PEGOU DA WEB");
-                });
-             // }); 
+                console.log("VAI PEGAR DA WEB");
+                console.log(obj.payload.val());
+                this.configBiblia.configurarBiblia(JSON.stringify(obj.payload.val()), 2); 
+                this.storage.set(this.constantes.BIBLIA_CHAVE, obj.payload.val());
+                this.storage.set(this.constantes.CKECK_BIBLIA_STORAGE, "true");
+                console.log("PEGOU DA WEB");
+                this.nav.push(HomePage);
+              });
             });
           }
         }).catch(err => {console.log("ERRO: " + err)});  

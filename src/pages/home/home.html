@@ -84,7 +84,7 @@
 
     <ion-list *ngSwitchCase="'versiculos'">
       <ion-item [ngStyle]="{'background-color': versiculo.backgroundColor!==null ? versiculo.backgroundColor : 'null' }" 
-                  *ngFor="let versiculo of biblia.livros[versiculoParaComentar.indexLivro].capitulos[versiculoParaComentar.indexCapitulo].versiculos; let index = index" text-wrap (tap)="pressEvent($event, versiculo, index)">
+                  *ngFor="let versiculo of biblia.livros[this.versiculoParaComentar.indexLivro].capitulos[this.versiculoParaComentar.indexCapitulo].versiculos; let index = index" text-wrap (tap)="pressEvent($event, versiculo, index)">
         {{ index+1 + ". " + versiculo.texto}}
       </ion-item>
     </ion-list>

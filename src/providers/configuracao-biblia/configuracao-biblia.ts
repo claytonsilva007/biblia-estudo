@@ -1,13 +1,15 @@
-import { Injectable } from '@angular/core';
+import { Injectable, ViewChild } from '@angular/core';
 import { Livro, Capitulo, Biblia, Versiculo } from "../../models/Biblia";
 import { ConstantesProvider } from '../constantes/constantes';
 import { Storage } from '@ionic/storage';
+import { NavController } from 'ionic-angular';
+import { HomePage } from '../../pages/home/home';
 
 
 
 @Injectable()
 export class ConfiguracaoBibliaProvider {
-
+  @ViewChild('nav') navCtrl: NavController;
   biblia: Biblia = null;
   livros: Livro[] = [];
   tipoConfig: number;
@@ -18,7 +20,8 @@ export class ConfiguracaoBibliaProvider {
     this.biblia = new Biblia();
   } 
 
-  configurarBiblia(bibliaParam: string){        
+  configurarBiblia(bibliaParam: string, tipoConfigParam: number){
+    this.tipoConfig = tipoConfigParam;        
     let bibliaAux = JSON.parse(bibliaParam);
        
     bibliaAux.livros.forEach(x => this.popularArrayLivros(x));
@@ -43,13 +46,14 @@ export class ConfiguracaoBibliaProvider {
     let capituloTemp: Capitulo;
     let versiculotemp: Versiculo;
 
-    if(this.tipoConfig === 1){ // local
+    if(this.tipoConfig == 1){ // local
       capituloParam.versiculos.forEach(versiculo => {
         capituloParam.versiculos.push(versiculo); 
       });
-    } else if(this.tipoConfig === 2){ //web
+    } else if(this.tipoConfig == 2){ //web
       capituloTemp = new Capitulo();
       capituloParam.forEach(textoVersiculo => {
+        versiculotemp = new Versiculo();
         versiculotemp.texto = textoVersiculo;
         capituloTemp.versiculos.push(versiculotemp);
       });
@@ -69,17 +73,13 @@ export class ConfiguracaoBibliaProvider {
   }
 
   instanciarVersiculos(texto: string): Versiculo{
-    let versiculo = new Versiculo();
+    let versiculo = new Versiculo("temp");
     versiculo.texto = texto;  
     return versiculo;
   }
 
   getBiblia(){
     return this.biblia;
-  }
- 
-  setTipoConfig(tipoConfigParam: number){
-    this.tipoConfig = tipoConfigParam;
   }
 
   salvar(){
