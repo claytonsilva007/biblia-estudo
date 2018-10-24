@@ -50,7 +50,7 @@ export class HomePage {
     this.abaCapituloDescricao = "Capítulos";
   }
 
-  atualizarSegmentoVersiculos(indexCapitulo: number, capitulo: Capitulo){
+  atualizarSegmentoVersiculos(indexCapitulo: number){
     this.segmentoSelecionado = "versiculos";
     this.abaCapituloDescricao = "Capítulo: " + (indexCapitulo+1);
     this.versiculoParaComentar.indexCapitulo = indexCapitulo;
