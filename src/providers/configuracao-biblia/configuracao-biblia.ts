@@ -109,6 +109,10 @@ export class ConfiguracaoBibliaProvider {
     this.biblia = bibliaConfigurada;
   }
 
+  salvarBiblia(biblia: Biblia){
+    this.storage.set(this.constantes.BIBLIA_CHAVE, biblia);
+  }
+
   salvar(){
     this.storage.set(this.constantes.BIBLIA_CHAVE, this.biblia);
     //this.storage.set(this.constantes.BIBLIA_CHAVE, JSON.stringify(this.biblia));

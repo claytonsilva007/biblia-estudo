@@ -122,7 +122,13 @@ export class HomePage {
                           "numVersiculo": this.versiculoParaComentar.indexVersiculo +1});
 
     modalComentarios.present();
-    modalComentarios.onDidDismiss(data => { this.biblia.livros[this.versiculoParaComentar.indexLivro].capitulos[this.versiculoParaComentar.indexCapitulo].versiculos[this.versiculoParaComentar.indexVersiculo].comentariosUsuario = data.comentario}); 
+    modalComentarios.onDidDismiss(data => 
+      { 
+        this.biblia.livros[this.versiculoParaComentar.indexLivro]
+                .capitulos[this.versiculoParaComentar.indexCapitulo]
+                .versiculos[this.versiculoParaComentar.indexVersiculo].comentariosUsuario = data.comentario; 
+                this.bibliaProvider.salvarBiblia(this.biblia);
+      }); 
     
   }
 
