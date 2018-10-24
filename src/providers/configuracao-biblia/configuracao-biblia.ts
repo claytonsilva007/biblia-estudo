@@ -9,30 +9,43 @@ import { HomePage } from '../../pages/home/home';
 
 @Injectable()
 export class ConfiguracaoBibliaProvider {
-  @ViewChild('nav') navCtrl: NavController;
 
   biblia: Biblia = null;
-  tipoConfig: number;
-  
   versiculos: Versiculo[] = [];
   
   constructor(private storage: Storage, private constantes: ConstantesProvider) { 
     this.biblia = new Biblia();
   } 
 
-  configurarBiblia(bibliaParam: string, tipoConfigParam: number){
-    this.tipoConfig = tipoConfigParam;        
+  getBibliaFormatada(bibliaFormatoWeb: string): Biblia{
+    let bibliaAux = JSON.parse(bibliaFormatoWeb); 
+    let BibliaNovoFormato: Biblia = new Biblia();
+
+    bibliaAux.livros.forEach(livro => {
+      BibliaNovoFormato.livros.push(this.getLivroNovoFormato(livro));// = this.getArrayLivros(livro);
+    });
+    
+    return BibliaNovoFormato;
+  }
+
+
+  private getLivroNovoFormato(livroParam): Livro {
+    let livro = new Livro();
+
+    livro.abreviatura = livroParam.abreviatura;
+    livro.nome = livroParam.nome;
+  
+    livroParam.capitulos.forEach(capitulo => { 
+      livro.capitulos.push(this.cadCapitulo(capitulo));
+    });
+    
+    return livro;
+   
+  }
+
+  configurarBiblia(bibliaParam: string){
     let bibliaAux = JSON.parse(bibliaParam);       
     bibliaAux.livros.forEach(x => this.popularArrayLivros(x)); 
-    
-    if (this.tipoConfig == 2) {
-      let bibliaTemp = JSON.stringify(this.biblia);
-      this.storage.clear().then(sucess => console.log("removeu tudo"));
-      this.storage.set(this.constantes.BIBLIA_CHAVE, bibliaAux);
-      this.tipoConfig = 1;
-      //this.configurarBiblia();
-    }
-    
   }
 
   popularArrayLivros(livroParam) {
@@ -53,13 +66,11 @@ export class ConfiguracaoBibliaProvider {
   cadCapitulo(capituloParam) {
     let capituloTemp: Capitulo;
     let versiculotemp: Versiculo;
+    capituloTemp = new Capitulo();
 
-    if(this.tipoConfig == 1){ // local
-      capituloParam.versiculos.forEach(versiculo => {
-        capituloParam.versiculos.push(versiculo); 
-      });
-    } else if(this.tipoConfig == 2){ //web
-      capituloTemp = new Capitulo();
+    if(capituloParam.versiculos !== undefined){
+      capituloTemp = capituloParam;
+    } else {
       capituloParam.forEach(textoVersiculo => {
         versiculotemp = new Versiculo();
         versiculotemp.texto = textoVersiculo;
@@ -88,6 +99,10 @@ export class ConfiguracaoBibliaProvider {
 
   getBiblia(){
     return this.biblia;
+  }
+
+  setBibliaConfigurada(bibliaConfigurada: Biblia){
+    this.biblia = bibliaConfigurada;
   }
 
   salvar(){
