@@ -91,6 +91,7 @@ export class HomePage {
       this.exibirBtnComentar = true;
     } else if(qtdeSelecionados > 1){
       this.exibirPaletaDeCores = true;
+      this.exibirBtnComentar = false;
     }
   }
 
