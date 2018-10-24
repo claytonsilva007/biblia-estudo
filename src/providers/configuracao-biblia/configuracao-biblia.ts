@@ -10,8 +10,8 @@ import { HomePage } from '../../pages/home/home';
 @Injectable()
 export class ConfiguracaoBibliaProvider {
   @ViewChild('nav') navCtrl: NavController;
+
   biblia: Biblia = null;
-  livros: Livro[] = [];
   tipoConfig: number;
   
   versiculos: Versiculo[] = [];
@@ -22,10 +22,17 @@ export class ConfiguracaoBibliaProvider {
 
   configurarBiblia(bibliaParam: string, tipoConfigParam: number){
     this.tipoConfig = tipoConfigParam;        
-    let bibliaAux = JSON.parse(bibliaParam);
-       
-    bibliaAux.livros.forEach(x => this.popularArrayLivros(x));
-    //this.biblia.livros = this.livros;
+    let bibliaAux = JSON.parse(bibliaParam);       
+    bibliaAux.livros.forEach(x => this.popularArrayLivros(x)); 
+    
+    if (this.tipoConfig == 2) {
+      let bibliaTemp = JSON.stringify(this.biblia);
+      this.storage.clear().then(sucess => console.log("removeu tudo"));
+      this.storage.set(this.constantes.BIBLIA_CHAVE, bibliaAux);
+      this.tipoConfig = 1;
+      //this.configurarBiblia();
+    }
+    
   }
 
   popularArrayLivros(livroParam) {
@@ -40,6 +47,7 @@ export class ConfiguracaoBibliaProvider {
     });
 
     this.biblia.livros.push(livro);
+   
   }
 
   cadCapitulo(capituloParam) {
@@ -73,7 +81,7 @@ export class ConfiguracaoBibliaProvider {
   }
 
   instanciarVersiculos(texto: string): Versiculo{
-    let versiculo = new Versiculo("temp");
+    let versiculo = new Versiculo();
     versiculo.texto = texto;  
     return versiculo;
   }

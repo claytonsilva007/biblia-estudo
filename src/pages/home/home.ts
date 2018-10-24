@@ -61,9 +61,6 @@ export class HomePage {
     this.segmentoSelecionado = "versiculos";
     this.abaCapituloDescricao = "Capítulo: " + (indexCapitulo+1);
     this.versiculoParaComentar.indexCapitulo = indexCapitulo;
-
-    console.log(this.biblia.livros[this.versiculoParaComentar.indexLivro].capitulos[this.versiculoParaComentar.indexCapitulo].versiculos[0].texto);
-
   }
 
   /**
