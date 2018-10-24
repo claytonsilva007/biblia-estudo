@@ -48,7 +48,7 @@
 
   <div [ngSwitch]="segmentoSelecionado">
     <ion-list *ngSwitchCase="'livros'">
-        <ion-item *ngFor="let livro of biblia.livros; let index = index" (click)="atualizarSegmentoCapitulos(livro, index)">
+        <ion-item *ngFor="let livro of biblia.livros; let index = index" (click)="atualizarSegmentoCapitulos(index)">
           <ion-label>{{livro.abreviatura}}</ion-label>
           <ion-label>{{livro.nome}}</ion-label>
         </ion-item>
@@ -59,22 +59,22 @@
       <ion-grid *ngFor="let capitulo of biblia.livros[versiculoParaComentar.indexLivro].capitulos; let index = index" no-padding>
         <ion-row *ngIf="index % 4 == 0" no-padding justify-content-start align-items-start>
             <ion-col ion-item no-lines no-padding text-center (click)="atualizarSegmentoVersiculos(index, capitulo)">
-              <button round outline ion-button color="dark" *ngIf="index+1 <= livroSelecionado.capitulos.length"> 
+              <button round outline ion-button color="dark" *ngIf="index+1 <= biblia.livros[versiculoParaComentar.indexLivro].capitulos.length"> 
                 {{index+1}} 
               </button>
             </ion-col>
             <ion-col ion-col ion-item no-lines no-padding text-center (click)="atualizarSegmentoVersiculos(index+1, capitulo)">
-              <button round outline ion-button color="dark" *ngIf="index+2 <= livroSelecionado.capitulos.length"> 
+              <button round outline ion-button color="dark" *ngIf="index+2 <= biblia.livros[versiculoParaComentar.indexLivro].capitulos.length"> 
                 {{index+2}} 
               </button>
             </ion-col>
             <ion-col ion-item no-lines no-padding text-center (click)="atualizarSegmentoVersiculos(ndex+2, capitulo)">
-              <button round outline ion-button color="dark" *ngIf="index+3 <= livroSelecionado.capitulos.length"> 
+              <button round outline ion-button color="dark" *ngIf="index+3 <= biblia.livros[versiculoParaComentar.indexLivro].capitulos.length"> 
                 {{index+3}} 
               </button>
             </ion-col>
             <ion-col ion-item no-lines no-padding text-center (click)="atualizarSegmentoVersiculos(index+3, capitulo)">
-              <button round outline ion-button color="dark" *ngIf="index+4 <= livroSelecionado.capitulos.length"> 
+              <button round outline ion-button color="dark" *ngIf="index+4 <= biblia.livros[versiculoParaComentar.indexLivro].capitulos.length"> 
                 {{index+4}} 
               </button>
             </ion-col>

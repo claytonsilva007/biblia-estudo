@@ -21,8 +21,6 @@ export class HomePage {
   segmentoSelecionado: string = "livros";
   abaLivroDescricao: string = "Livros"
   abaCapituloDescricao: string = "Capítulos";
-  livroSelecionado: Livro = null;
-  capituloSelecionado: Capitulo = null;
   currentSelected: number;
   versiculosSelecionados: number[];
   foiSelecionado: boolean = false;
@@ -39,25 +37,20 @@ export class HomePage {
                 private sincProv: SincronizadorProvider) {
 
     this.biblia = bibliaProvider.getBiblia();
-
-    this.livroSelecionado = new Livro();
-    this.capituloSelecionado = new Capitulo();
     this.versiculoParaComentar = new versiculoParaComentar();
     this.exibirPaletaDeCores = false;
     this.exibirBtnComentar = false;
   } 
 
-  atualizarSegmentoCapitulos(livroParam: Livro, indexLivro: number){
-    this.livroSelecionado = livroParam;
-    this.abaLivroDescricao = this.livroSelecionado.nome;
+  atualizarSegmentoCapitulos(indexLivro: number){
+    this.abaLivroDescricao = this.biblia.livros[indexLivro].nome;
+    this.versiculoParaComentar.nomeLivro = this.biblia.livros[indexLivro].nome;
+    this.versiculoParaComentar.indexLivro = indexLivro;
     this.segmentoSelecionado = "capitulos";
     this.abaCapituloDescricao = "Capítulos";
-    this.versiculoParaComentar.indexLivro = indexLivro;
-    this.versiculoParaComentar.nomeLivro = this.livroSelecionado.nome;
   }
 
   atualizarSegmentoVersiculos(indexCapitulo: number, capitulo: Capitulo){
-    this.capituloSelecionado = capitulo;
     this.segmentoSelecionado = "versiculos";
     this.abaCapituloDescricao = "Capítulo: " + (indexCapitulo+1);
     this.versiculoParaComentar.indexCapitulo = indexCapitulo;
@@ -102,11 +95,11 @@ export class HomePage {
   }
 
   getQuantidadeLinhasSelecionadas(): number{
-    return this.capituloSelecionado.versiculos.filter(vLoop => vLoop.backgroundColor === this.corLinhaSelecionada).length;
+    return this.biblia.livros[this.versiculoParaComentar.indexLivro].capitulos[this.versiculoParaComentar.indexCapitulo].versiculos.filter(vLoop => vLoop.backgroundColor === this.corLinhaSelecionada).length;
   }
 
   setarCor(cor:string){
-    this.capituloSelecionado.versiculos
+    this.biblia.livros[this.versiculoParaComentar.indexLivro].capitulos[this.versiculoParaComentar.indexCapitulo].versiculos
       .filter(versiculoLoop => versiculoLoop.backgroundColor === this.corLinhaSelecionada)
             .forEach(versiculoLoop => versiculoLoop.setCor(cor));
 
@@ -119,16 +112,16 @@ export class HomePage {
     this.exibirBtnComentar = false;
     this.exibirPaletaDeCores = false;
 
-   /* let modalComentarios = this.modalCtrl.create(ComentariosPage, { 
-                          "qtdeComentarios": this.capituloSelecionado.versiculos[this.versiculoParaComentar.indexVersiculo].comentariosUsuario.length,  
+   let modalComentarios = this.modalCtrl.create(ComentariosPage, { 
+                          "qtdeComentarios": this.biblia.livros[this.versiculoParaComentar.indexLivro].capitulos[this.versiculoParaComentar.indexCapitulo].versiculos[this.versiculoParaComentar.indexVersiculo].comentariosUsuario.length,  
                           "indexLivro": this.versiculoParaComentar.indexLivro,
                           "nomeLivro": this.versiculoParaComentar.nomeLivro, 
                           "numCapitulo": this.versiculoParaComentar.indexCapitulo+1, 
                           "numVersiculo": this.versiculoParaComentar.indexVersiculo +1});
 
     modalComentarios.present();
-    modalComentarios.onDidDismiss(data => { this.capituloSelecionado.versiculos[this.versiculoParaComentar.indexVersiculo].adicionarComentario(data.comentario)}); 
-    */
+    modalComentarios.onDidDismiss(data => { this.biblia.livros[this.versiculoParaComentar.indexLivro].capitulos[this.versiculoParaComentar.indexCapitulo].versiculos[this.versiculoParaComentar.indexVersiculo].adicionarComentario(data.comentario)}); 
+    
   }
 
   ocultarBotao(){
@@ -136,24 +129,24 @@ export class HomePage {
   }
 
   podeVisualizarComentariosExistentes(){
-    /*if(this.capituloSelecionado.versiculos[this.versiculoParaComentar.indexVersiculo].backgroundColor === this.corLinhaComentada){
-      if (this.capituloSelecionado.versiculos[this.versiculoParaComentar.indexVersiculo].comentariosUsuario.length > 0 ){
+    if(this.biblia.livros[this.versiculoParaComentar.indexLivro].capitulos[this.versiculoParaComentar.indexCapitulo].versiculos[this.versiculoParaComentar.indexVersiculo].backgroundColor === this.corLinhaComentada){
+      if (this.biblia.livros[this.versiculoParaComentar.indexLivro].capitulos[this.versiculoParaComentar.indexCapitulo].versiculos[this.versiculoParaComentar.indexVersiculo].comentariosUsuario.length > 0 ){
         return true; 
       }      
-    }*/
+    }
     return false;
   }
 
   exibirTodosComentarios(){
-    /*let livro: Livro = this.bibliaProvider.getBiblia().livros[this.versiculoParaComentar.indexLivro];
+    let livro: Livro = this.bibliaProvider.getBiblia().livros[this.versiculoParaComentar.indexLivro];
     let capitulo: Capitulo = livro.capitulos[this.versiculoParaComentar.indexCapitulo];
     let versiculo: Versiculo = capitulo.versiculos[this.versiculoParaComentar.indexVersiculo];
     
-    let tituloParam = "Comentários: " + this.livroSelecionado.nome + " " + (this.versiculoParaComentar.indexCapitulo+1) + "." + (this.versiculoParaComentar.indexVersiculo+1);
+    let tituloParam = "Comentários: " + this.biblia.livros[this.versiculoParaComentar.indexLivro].nome + " " + (this.versiculoParaComentar.indexCapitulo+1) + "." + (this.versiculoParaComentar.indexVersiculo+1);
     let modalTodosComentarios = this.modalCtrl.create(ModalTodosComentariosPage, { "comentariosParam": versiculo.comentariosUsuario, "titulo": tituloParam });
     modalTodosComentarios.present();
 
-    modalTodosComentarios.onDidDismiss(data => {this.verificaSeExistemComentarios(data.qtdeComentarios, versiculo )});*/
+    modalTodosComentarios.onDidDismiss(data => {this.verificaSeExistemComentarios(data.qtdeComentarios, versiculo )});
 
   }
 
