@@ -5,8 +5,6 @@ import { ConfiguracaoBibliaProvider } from '../../providers/configuracao-biblia/
 import { ComentariosPage } from '../comentarios/comentarios';
 import { ModalTodosComentariosPage } from '../modal-todos-comentarios/modal-todos-comentarios';
 
-import { AngularFireDatabase } from '@angular/fire/database';
-import { SincronizadorProvider } from '../../providers/sincronizador/sincronizador';
 import { ConstantesProvider } from '../../providers/constantes/constantes';
 
 @Component({
@@ -29,17 +27,18 @@ export class HomePage {
   exibirBtnComentar: boolean;
   versiculoParaComentar: versiculoParaComentar;
   loading: any;
+  podeVisualizarComentarios: boolean;
 
   biblia: Biblia;
 
-  constructor(private afDB: AngularFireDatabase, public navCtrl: NavController, public bibliaProvider: ConfiguracaoBibliaProvider, 
-                public modalCtrl: ModalController, public loadingCtrl: LoadingController, public constantes: ConstantesProvider, 
-                private sincProv: SincronizadorProvider) {
+  constructor(public navCtrl: NavController, public bibliaProvider: ConfiguracaoBibliaProvider, 
+                public modalCtrl: ModalController, public loadingCtrl: LoadingController, public constantes: ConstantesProvider) {
 
     this.biblia = bibliaProvider.getBiblia();
     this.versiculoParaComentar = new versiculoParaComentar();
     this.exibirPaletaDeCores = false;
     this.exibirBtnComentar = false;
+    this.podeVisualizarComentarios = false;
   } 
 
   atualizarSegmentoCapitulos(indexLivro: number){
@@ -63,40 +62,63 @@ export class HomePage {
   pressEvent(e, versiculo: Versiculo, indexVersiculo:number) {
    
     this.versiculoParaComentar.indexVersiculo = indexVersiculo;
-    this.exibirBtnComentar = true;
-
-    if (versiculo.backgroundColor === this.linhaSemCor){ 
-      versiculo.backgroundColor = this.corLinhaSelecionada; 
-    } else if (versiculo.backgroundColor === this.corLinhaSelecionada){
-      versiculo.backgroundColor = this.linhaSemCor;
-      this.exibirBtnComentar = false;
-    } else if(versiculo.backgroundColor === this.corLinhaComentada) {
-      versiculo.backgroundColor = this.corLinhaComentada;
-      this.exibirBtnComentar = true;
-    } else {
-      versiculo.backgroundColor = this.linhaSemCor;
-      this.exibirBtnComentar = false;
-    }
-
-    this.configurarTela();       
+    this.exibirBtnComentar = false;
+    this.exibirPaletaDeCores = false;   
+    this.configurarCoresDeSelecao(versiculo);
   }
 
-  configurarTela(){
-    this.exibirPaletaDeCores = false;   
-    
-    let qtdeSelecionados = this.getQuantidadeLinhasSelecionadas();
-
-    if(qtdeSelecionados === 1){
-      this.exibirPaletaDeCores = true;
+  configurarCoresDeSelecao(versiculo: Versiculo){
+    if(versiculo.backgroundColor === this.linhaSemCor){
+      versiculo.backgroundColor = this.corLinhaSelecionada;
+      this.configurarExibicaoBotoes(versiculo);
+    } else if(versiculo.backgroundColor === this.corLinhaSelecionada){
+      versiculo.backgroundColor = this.linhaSemCor;
+      this.configurarExibicaoBotoes(versiculo);
+    } else if(versiculo.backgroundColor === this.corLinhaComentada){
       this.exibirBtnComentar = true;
-    } else if(qtdeSelecionados > 1){
-      this.exibirPaletaDeCores = true;
-      this.exibirBtnComentar = false;
+      this.podeVisualizarComentarios = true;
+    } else if(versiculo.backgroundColor !== this.linhaSemCor 
+                && versiculo.backgroundColor !== this.corLinhaComentada 
+                && versiculo.backgroundColor !== this.corLinhaSelecionada){
+
+        this.exibirPaletaDeCores = true;
+        versiculo.backgroundColor = this.corLinhaSelecionada;          
+                  
     }
+  }
+
+  configurarExibicaoBotoes(versiculo: Versiculo){
+    let qtdeVersiculosSelecionados = this.getQuantidadeLinhasSelecionadas();
+
+    if(versiculo.backgroundColor === this.corLinhaSelecionada){
+      if(qtdeVersiculosSelecionados === 0){
+        this.exibirBtnComentar = false;
+        this.exibirPaletaDeCores = false;
+        this.podeVisualizarComentarios = false;
+      } else if(qtdeVersiculosSelecionados === 1){
+        this.exibirBtnComentar = true;
+        this.exibirPaletaDeCores = true;
+        if(versiculo.comentariosUsuario.length > 0){
+          this.podeVisualizarComentarios = true;
+        }
+      } else if(qtdeVersiculosSelecionados > 1){
+        this.exibirBtnComentar = false;
+        this.exibirPaletaDeCores = true;
+        this.podeVisualizarComentarios = false;
+      }
+    } else if(qtdeVersiculosSelecionados === 1){
+      this.exibirBtnComentar = true;
+        this.exibirPaletaDeCores = true;
+    }else if(qtdeVersiculosSelecionados > 1) {
+      this.exibirBtnComentar = false;
+      this.exibirPaletaDeCores = true;
+    } 
   }
 
   getQuantidadeLinhasSelecionadas(): number{
-    return this.biblia.livros[this.versiculoParaComentar.indexLivro].capitulos[this.versiculoParaComentar.indexCapitulo].versiculos.filter(vLoop => vLoop.backgroundColor === this.corLinhaSelecionada).length;
+    return this.biblia.livros[this.versiculoParaComentar.indexLivro]
+                      .capitulos[this.versiculoParaComentar.indexCapitulo]
+                      .versiculos.filter(vLoop => vLoop.backgroundColor === this.corLinhaSelecionada).length;
   }
 
   setarCor(cor:string){
@@ -115,47 +137,71 @@ export class HomePage {
     this.exibirBtnComentar = false;
     this.exibirPaletaDeCores = false;
 
-   let modalComentarios = this.modalCtrl.create(ComentariosPage, { 
-                          "qtdeComentarios": this.biblia.livros[this.versiculoParaComentar.indexLivro].capitulos[this.versiculoParaComentar.indexCapitulo].versiculos[this.versiculoParaComentar.indexVersiculo].comentariosUsuario.length,  
-                          "indexLivro": this.versiculoParaComentar.indexLivro,
-                          "nomeLivro": this.versiculoParaComentar.nomeLivro, 
-                          "numCapitulo": this.versiculoParaComentar.indexCapitulo+1, 
-                          "numVersiculo": this.versiculoParaComentar.indexVersiculo +1});
+    let modalComentarios = this.modalCtrl.create(ComentariosPage, { 
+                            "qtdeComentarios": this.biblia.livros[this.versiculoParaComentar.indexLivro]
+                                                          .capitulos[this.versiculoParaComentar.indexCapitulo]
+                                                          .versiculos[this.versiculoParaComentar.indexVersiculo]
+                                                          .comentariosUsuario.length,  
+                            "indexLivro": this.versiculoParaComentar.indexLivro,
+                            "nomeLivro": this.versiculoParaComentar.nomeLivro, 
+                            "numCapitulo": this.versiculoParaComentar.indexCapitulo+1, 
+                            "numVersiculo": this.versiculoParaComentar.indexVersiculo +1});
 
-    modalComentarios.present();
-    modalComentarios.onDidDismiss(data => 
-      { 
-        this.biblia.livros[this.versiculoParaComentar.indexLivro]
-                .capitulos[this.versiculoParaComentar.indexCapitulo]
-                .versiculos[this.versiculoParaComentar.indexVersiculo].comentariosUsuario = data.comentario; 
-                this.bibliaProvider.salvarBiblia(this.biblia);
-      }); 
-    
-  }
+      modalComentarios.present();
+      modalComentarios.onDidDismiss(data => { 
+        
+          if(data.comentario !== "" && data.comentario !== undefined && data.comentario !== null){
+            
+            this.biblia.livros[this.versiculoParaComentar.indexLivro]
+                  .capitulos[this.versiculoParaComentar.indexCapitulo]
+                  .versiculos[this.versiculoParaComentar.indexVersiculo]
+                  .comentariosUsuario.push(data.comentario);
 
-  ocultarBotao(){
-    this.exibirBtnComentar = false;
-  }
-
-  podeVisualizarComentariosExistentes(){
-    if(this.biblia.livros[this.versiculoParaComentar.indexLivro].capitulos[this.versiculoParaComentar.indexCapitulo].versiculos[this.versiculoParaComentar.indexVersiculo].backgroundColor === this.corLinhaComentada){
-      if (this.biblia.livros[this.versiculoParaComentar.indexLivro].capitulos[this.versiculoParaComentar.indexCapitulo].versiculos[this.versiculoParaComentar.indexVersiculo].comentariosUsuario.length > 0 ){
-        return true; 
-      }      
+            this.biblia.livros[this.versiculoParaComentar.indexLivro]
+                  .capitulos[this.versiculoParaComentar.indexCapitulo]
+                  .versiculos[this.versiculoParaComentar.indexVersiculo]
+                  .backgroundColor = "#EBEFF2";
+                  
+                  this.bibliaProvider.salvarBiblia(this.biblia);
+        } else {
+          this.biblia.livros[this.versiculoParaComentar.indexLivro]
+          .capitulos[this.versiculoParaComentar.indexCapitulo]
+          .versiculos[this.versiculoParaComentar.indexVersiculo]
+          .backgroundColor = "#FFFFFF";
+        } 
+      });    
     }
-    return false;
-  }
 
-  exibirTodosComentarios(){
-    let livro: Livro = this.bibliaProvider.getBiblia().livros[this.versiculoParaComentar.indexLivro];
-    let capitulo: Capitulo = livro.capitulos[this.versiculoParaComentar.indexCapitulo];
-    let versiculo: Versiculo = capitulo.versiculos[this.versiculoParaComentar.indexVersiculo];
-    
-    let tituloParam = "Comentários: " + this.biblia.livros[this.versiculoParaComentar.indexLivro].nome + " " + (this.versiculoParaComentar.indexCapitulo+1) + "." + (this.versiculoParaComentar.indexVersiculo+1);
-    let modalTodosComentarios = this.modalCtrl.create(ModalTodosComentariosPage, { "comentariosParam": versiculo.comentariosUsuario, "titulo": tituloParam });
-    modalTodosComentarios.present();
+    ocultarBotao(){
+      this.exibirBtnComentar = false;
+    }
 
-    modalTodosComentarios.onDidDismiss(data => {this.verificaSeExistemComentarios(data.qtdeComentarios, versiculo )});
+    podeVisualizarComentariosExistentes(){
+      if(this.biblia.livros[this.versiculoParaComentar.indexLivro]
+                    .capitulos[this.versiculoParaComentar.indexCapitulo]
+                    .versiculos[this.versiculoParaComentar.indexVersiculo]
+                    .backgroundColor === this.corLinhaComentada){
+
+                      if (this.biblia.livros[this.versiculoParaComentar.indexLivro]
+                                      .capitulos[this.versiculoParaComentar.indexCapitulo]
+                                      .versiculos[this.versiculoParaComentar.indexVersiculo]
+                                      .comentariosUsuario.length > 0 ){
+                        return true; 
+                      }      
+      }
+      return false;
+    }
+
+    exibirTodosComentarios(){
+      let livro: Livro = this.bibliaProvider.getBiblia().livros[this.versiculoParaComentar.indexLivro];
+      let capitulo: Capitulo = livro.capitulos[this.versiculoParaComentar.indexCapitulo];
+      let versiculo: Versiculo = capitulo.versiculos[this.versiculoParaComentar.indexVersiculo];
+      
+      let tituloParam = "Comentários: " + this.biblia.livros[this.versiculoParaComentar.indexLivro].nome + " " + (this.versiculoParaComentar.indexCapitulo+1) + "." + (this.versiculoParaComentar.indexVersiculo+1);
+      let modalTodosComentarios = this.modalCtrl.create(ModalTodosComentariosPage, { "comentariosParam": versiculo.comentariosUsuario, "titulo": tituloParam });
+      modalTodosComentarios.present();
+
+      modalTodosComentarios.onDidDismiss(data => {this.verificaSeExistemComentarios(data.qtdeComentarios, versiculo )});
 
   }
 
