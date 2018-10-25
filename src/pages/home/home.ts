@@ -18,8 +18,7 @@ export class HomePage {
 
   segmentoSelecionado: string = "livros";
   abaLivroDescricao: string = "Livros"
-  abaCapituloDescricao: string = "Capítulos";
-  currentSelected: number;
+  abaCapituloDescricao: string = "Capítulos";  
   versiculosSelecionados: number[];
   foiSelecionado: boolean = false;
   comentario: string;
@@ -28,6 +27,7 @@ export class HomePage {
   versiculoParaComentar: versiculoParaComentar;
   loading: any;
   podeVisualizarComentarios: boolean;
+  exibirBotoesNavegacao: boolean;
 
   biblia: Biblia;
 
@@ -39,6 +39,7 @@ export class HomePage {
     this.exibirPaletaDeCores = false;
     this.exibirBtnComentar = false;
     this.podeVisualizarComentarios = false;
+    this.exibirBotoesNavegacao = true;
   } 
 
   atualizarSegmentoCapitulos(indexLivro: number){
@@ -65,11 +66,12 @@ export class HomePage {
     this.exibirBtnComentar = false;
     this.exibirPaletaDeCores = false;   
     this.configurarCoresDeSelecao(versiculo);
+    this.configurarExibicaoControleNavegacao(versiculo);
   }
 
   configurarCoresDeSelecao(versiculo: Versiculo){
     if(versiculo.backgroundColor === this.linhaSemCor){
-      versiculo.backgroundColor = this.corLinhaSelecionada;
+      versiculo.backgroundColor = this.corLinhaSelecionada;      
       this.configurarExibicaoBotoes(versiculo);
     } else if(versiculo.backgroundColor === this.corLinhaSelecionada){
       versiculo.backgroundColor = this.linhaSemCor;
@@ -113,6 +115,14 @@ export class HomePage {
       this.exibirBtnComentar = false;
       this.exibirPaletaDeCores = true;
     } 
+  }
+
+  configurarExibicaoControleNavegacao(versiculo: Versiculo){
+    if(this.getQuantidadeLinhasSelecionadas() > 0){
+      this.exibirBotoesNavegacao = false;
+    } else {
+      this.exibirBotoesNavegacao = true;
+    }
   }
 
   getQuantidadeLinhasSelecionadas(): number{
@@ -210,6 +220,27 @@ export class HomePage {
       versiculo.backgroundColor = this.linhaSemCor;
       this.exibirBtnComentar = false;
     }
+  }
+
+  navegarParaTras(){
+    this.versiculoParaComentar.indexCapitulo--;
+    this.biblia.livros[this.versiculoParaComentar.indexLivro]
+      .capitulos[this.versiculoParaComentar.indexCapitulo];
+
+    this.abaCapituloDescricao = "Capítulo: " + (this.versiculoParaComentar.indexCapitulo);
+    this.segmentoSelecionado = "versiculos";      
+  }
+
+  navegarParaFrente(){
+    this.versiculoParaComentar.indexCapitulo++;    
+    this.biblia.livros[this.versiculoParaComentar.indexLivro]
+                .capitulos[this.versiculoParaComentar.indexCapitulo];
+    
+    this.abaCapituloDescricao = "Capítulo: " + (this.versiculoParaComentar.indexCapitulo);
+    this.segmentoSelecionado = "versiculos";                
+      
+    //this.navCtrl.push(HomePage);      
+
   }
 
 }
