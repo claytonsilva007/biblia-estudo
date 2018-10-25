@@ -4,7 +4,7 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { HomePage } from '../pages/home/home';
-import { ListPage } from '../pages/list/list';
+import { ConsultarVersiculoPage } from '../pages/consultar-versiculo/consultar-versiculo';
 
 import { ConfiguracaoBibliaProvider } from '../providers/configuracao-biblia/configuracao-biblia';
 import { ConstantesProvider } from '../providers/constantes/constantes';
@@ -31,8 +31,8 @@ export class MyApp {
 
       // used for an example of ngFor and navigation
       this.pages = [
-        { title: 'Home', component: HomePage },
-        { title: 'List', component: ListPage }
+        { title: 'Biblia de Estudo', component: HomePage },
+        { title: 'Consultar Versísulos', component: ConsultarVersiculoPage }
       ];
 
   }
@@ -42,18 +42,14 @@ export class MyApp {
 
       this.storage.get(this.constantes.CKECK_BIBLIA_STORAGE).then(val => {
         if(val !== null){
-          console.log("VAI PEGAR DO BANCO");            
           this.storage.get(this.constantes.BIBLIA_CHAVE).then(biblia => {
-          this.configBiblia.configurarBiblia(biblia);
-          console.log("PEGOU DO BANCO");
+            this.configBiblia.configurarBiblia(biblia);
           });
         } else {
           this.afDB.list("biblias/biblia").snapshotChanges().subscribe(item => {
             item.map(obj => {
-              console.log("PEGOU DA WEB");
               this.storage.set(this.constantes.BIBLIA_CHAVE, JSON.stringify(this.configBiblia.getBibliaFormatada(JSON.stringify(obj.payload.val()))));
               this.storage.set(this.constantes.CKECK_BIBLIA_STORAGE, "true");
-              console.log("SALVOU LOCAL");
               this.configBiblia.setBibliaConfigurada(this.configBiblia.getBibliaFormatada(JSON.stringify(obj.payload.val())));
               this.storage.set(this.constantes.CKECK_BIBLIA_STORAGE, "true");
               this.nav.push(HomePage);

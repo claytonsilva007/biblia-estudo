@@ -4,7 +4,6 @@ import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
-import { ListPage } from '../pages/list/list';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -23,6 +22,7 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { IonicStorageModule } from '@ionic/storage';
 import { ConstantesProvider } from '../providers/constantes/constantes';
+import { ConsultarVersiculoPage } from '../pages/consultar-versiculo/consultar-versiculo';
 
 export const firebaseConfig = {
   apiKey: "AIzaSyBoOBgbbcVK1v7-k_4wj-wCJESmKr2TFeI",
@@ -37,7 +37,7 @@ export const firebaseConfig = {
   declarations: [
     MyApp,
     HomePage,
-    ListPage,
+    ConsultarVersiculoPage,
     ComentariosPage,
     ModalTodosComentariosPage
   ],
@@ -56,7 +56,7 @@ export const firebaseConfig = {
   entryComponents: [
     MyApp,
     HomePage,
-    ListPage,
+    ConsultarVersiculoPage,
     ComentariosPage, 
     ModalTodosComentariosPage
   ],
