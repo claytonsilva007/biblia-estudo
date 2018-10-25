@@ -226,32 +226,20 @@ export class HomePage {
     try{
       if(this.versiculoParaComentar.indexCapitulo > 0){
         this.biblia.livros[this.versiculoParaComentar.indexLivro].capitulos[this.versiculoParaComentar.indexCapitulo--];
-        
-        this.abaLivroDescricao = this.biblia.livros[this.versiculoParaComentar.indexLivro].nome;
-        this.abaCapituloDescricao = "Capítulo: " + (this.versiculoParaComentar.indexCapitulo+1);
-        this.segmentoSelecionado = "versiculos"; 
-        
+        this.atualizarDadosNavegacao();
       } else if(this.versiculoParaComentar.indexLivro > 0){
         this.versiculoParaComentar.indexLivro--;
         this.versiculoParaComentar.indexCapitulo = this.biblia.livros[this.versiculoParaComentar.indexLivro].capitulos.length - 1;
         this.versiculoParaComentar.indexVersiculo = 0;
-
-        this.abaLivroDescricao = this.biblia.livros[this.versiculoParaComentar.indexLivro].nome;
-        this.abaCapituloDescricao = "Capítulo: " + (this.versiculoParaComentar.indexCapitulo+1);
-        this.segmentoSelecionado = "versiculos"; 
+        this.atualizarDadosNavegacao();
       }      
         
     } catch(e){
-        this.versiculoParaComentar.indexLivro = 0;
-        this.versiculoParaComentar.indexCapitulo = 0;
-        this.versiculoParaComentar.indexVersiculo = 0;
-
-        this.abaLivroDescricao = this.biblia.livros[this.versiculoParaComentar.indexLivro].nome;
-        this.abaCapituloDescricao = "Capítulo: " + (this.versiculoParaComentar.indexCapitulo+1);
-        this.segmentoSelecionado = "versiculos";   
-
+      this.versiculoParaComentar.indexLivro = 0;
+      this.versiculoParaComentar.indexCapitulo = 0;
+      this.versiculoParaComentar.indexVersiculo = 0;
+      this.atualizarDadosNavegacao();
     }    
-    
   }
 
   navegarParaFrente(){
@@ -267,20 +255,21 @@ export class HomePage {
           this.biblia.livros[this.versiculoParaComentar.indexLivro].capitulos[this.versiculoParaComentar.indexCapitulo];
         }
         
-        this.abaLivroDescricao = this.biblia.livros[this.versiculoParaComentar.indexLivro].nome;
-        this.abaCapituloDescricao = "Capítulo: " + (this.versiculoParaComentar.indexCapitulo+1);
-        this.segmentoSelecionado = "versiculos";
+        this.atualizarDadosNavegacao();
       } 
 
     } catch(e){
       this.versiculoParaComentar.indexLivro = 0;
-        this.versiculoParaComentar.indexCapitulo = 0;
-        this.versiculoParaComentar.indexVersiculo = 0;
-
-        this.abaLivroDescricao = this.biblia.livros[this.versiculoParaComentar.indexLivro].nome;
-        this.abaCapituloDescricao = "Capítulo: " + (this.versiculoParaComentar.indexCapitulo+1);
-        this.segmentoSelecionado = "versiculos";
+      this.versiculoParaComentar.indexCapitulo = 0;
+      this.versiculoParaComentar.indexVersiculo = 0;
+      this.atualizarDadosNavegacao();
     }
+  }
+
+  atualizarDadosNavegacao(){
+    this.abaLivroDescricao = this.biblia.livros[this.versiculoParaComentar.indexLivro].nome;
+    this.abaCapituloDescricao = "Capítulo: " + (this.versiculoParaComentar.indexCapitulo+1);
+    this.segmentoSelecionado = "versiculos"; 
   }
 
 }
