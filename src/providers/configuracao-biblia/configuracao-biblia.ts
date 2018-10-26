@@ -22,7 +22,7 @@ export class ConfiguracaoBibliaProvider {
     let BibliaNovoFormato: Biblia = new Biblia();
 
     bibliaAux.livros.forEach(livro => {
-      BibliaNovoFormato.livros.push(this.getLivroNovoFormato(livro));// = this.getArrayLivros(livro);
+      BibliaNovoFormato.livros.push(this.getLivroNovoFormato(livro));
     });
     
     return BibliaNovoFormato;
@@ -35,8 +35,8 @@ export class ConfiguracaoBibliaProvider {
     livro.abreviatura = livroParam.abreviatura;
     livro.nome = livroParam.nome;
   
-    livroParam.capitulos.forEach(capitulo => { 
-      livro.capitulos.push(this.cadCapitulo(capitulo));
+    livroParam.capitulos.forEach((capitulo, index)=> { 
+      livro.capitulos.push(this.cadCapitulo(capitulo, index));
     });
     
     return livro;
@@ -46,60 +46,57 @@ export class ConfiguracaoBibliaProvider {
   configurarBiblia(bibliaParam){
     if(bibliaParam.livros === undefined){
       let bibliaAux = JSON.parse(bibliaParam);       
-      bibliaAux.livros.forEach(x => this.popularArrayLivros(x)); 
+      bibliaAux.livros.forEach( (livro, indexLivro) => this.popularArrayLivros(livro, indexLivro)); 
     } else {
-      bibliaParam.livros.forEach(x => this.popularArrayLivros(x)); 
+      bibliaParam.livros.forEach((livro, indexLivro) => this.popularArrayLivros(livro, indexLivro)); 
     }
   }
 
-  popularArrayLivros(livroParam) {
+  popularArrayLivros(livroParam, indexLivro: number) {
     let livro = new Livro();
     let capitulo = new Capitulo();
 
     livro.abreviatura = livroParam.abreviatura;
     livro.nome = livroParam.nome;
+    livro.codigoLivro = indexLivro;
   
-    livroParam.capitulos.forEach(capitulo => { 
-      livro.capitulos.push(this.cadCapitulo(capitulo));
+    livroParam.capitulos.forEach((capitulo, indexCapitulo) => { 
+      livro.capitulos.push(this.cadCapitulo(capitulo, indexCapitulo));
     });
 
     this.biblia.livros.push(livro);
    
   }
 
-  cadCapitulo(capituloParam) {
+  cadCapitulo(capituloParam, indexCapitulo: number) {
     let capituloTemp: Capitulo;
     let versiculotemp: Versiculo;
     capituloTemp = new Capitulo();
 
     if(capituloParam.versiculos !== undefined){
+      
       capituloTemp = capituloParam;
+      capituloTemp.codigoCapitulo = indexCapitulo;
+      capituloTemp.versiculos.forEach( (versiculo, indexVersiculo) => {
+        versiculo.codigoVersiculo = indexVersiculo;
+        versiculo.codigoCapitulo = indexCapitulo;
+      });
+
     } else {
-      capituloParam.forEach(textoVersiculo => {
+      
+      capituloParam.forEach( (textoVersiculo, indexVersiculo) => {
         versiculotemp = new Versiculo();
         versiculotemp.texto = textoVersiculo;
+        versiculotemp.codigoVersiculo = indexVersiculo;
+        versiculotemp.codigoCapitulo = indexCapitulo;
+        capituloTemp.codigoCapitulo = indexCapitulo;
         capituloTemp.versiculos.push(versiculotemp);
+
       });
     }
          
     return capituloTemp;
   }  
-
-  cadastrarCapitulo(capitulo): Capitulo{
-    let capituloTemp = new Capitulo();
-
-    capitulo.versiculos.forEach(textoVersiculo => {
-      this.instanciarVersiculos(textoVersiculo);
-    });
-
-    return capituloTemp;
-  }
-
-  instanciarVersiculos(texto: string): Versiculo{
-    let versiculo = new Versiculo();
-    versiculo.texto = texto;  
-    return versiculo;
-  }
 
   getBiblia(){
     return this.biblia;

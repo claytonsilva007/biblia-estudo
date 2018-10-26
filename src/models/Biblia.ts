@@ -8,6 +8,7 @@ export class Biblia {
 }
 
 export class Livro {
+    codigoLivro: number;
     abreviatura: string;
     capitulos: Capitulo[];
     nome: string;
@@ -19,6 +20,10 @@ export class Livro {
 }
 
 export class Capitulo {
+    
+    codigoLivro: number;
+    codigoCapitulo: number;
+    
     versiculos: Versiculo[];
 
     constructor() {
@@ -27,6 +32,9 @@ export class Capitulo {
 }
 
 export class Versiculo {
+    codigoLivro: number;
+    codigoCapitulo: number;
+    codigoVersiculo: number;
     texto: string;
     backgroundColor: string;
     comentariosUsuario: string[];

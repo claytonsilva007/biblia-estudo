@@ -11,8 +11,6 @@ import { ConstantesProvider } from '../../providers/constantes/constantes';
 })
 export class ConsultarVersiculoPage {
 
-  jsonQuery = require('json-query');
-
   searchQuery: string = '';
   items: string[];
 
@@ -46,41 +44,40 @@ export class ConsultarVersiculoPage {
     }
   }  
   
-  filtrarComRegex(){
-    let regex = new RegExp("^(?=.*Deus)(?=.*céus)(?=.*terra).*$");      
-    let versiculos: Versiculo[] = this.bibliaProvider.getBiblia().livros[0].capitulos[0].versiculos;      
-    //console.log(versiculos.filter(versiculoLoop => { return versiculoLoop.texto.match(regex) }));
-
-    this.filtarPorMultiplosNiveis();
-  }
-
-
   filtarPorMultiplosNiveis(){
     let retorno: any[] = [];
     let regex = new RegExp("^(?=.*Deus)(?=.*céus)(?=.*terra).*$"); 
 
       this.bibliaProvider.getBiblia().livros.filter(function search(row) {        
-      return Object.keys(row).some((key) => {        
-          
-        if(typeof row[key] === "string") {  // estou no último nível do array aninhado 
-            
-            let x = Object.getOwnPropertyDescriptor(row, "texto");
-            let texto: string = (x !== undefined ? x.value: "");
+        return Object.keys(row).some((key) => {        
+          if(typeof row[key] === "string") { 
+              
+              let x = Object.getOwnPropertyDescriptor(row, "texto");
+              
+              let texto: string = (x !== undefined ? x.value: "");
 
-            if(texto.match(regex)){
-              retorno.push(row);
-              return row;
+              if(texto.match(regex)){
+                retorno.push(row);
+                return row;
+              }              
+              
+            } else if(row[key] && typeof row[key] === "object") {             
+              return search(row[key]);                                     
             }
 
-          } else if(row[key] && typeof row[key] === "object") {             
-            return search(row[key]);                                     
-          }
-
-        return false;                                                     
-
+          return false;                                                     
       });
     }); 
 
     console.log(retorno);
+  }
+
+  testandoMetodoEntries(){
+    this.bibliaProvider.getBiblia().livros.forEach( (livro, indexLivro) => {
+      livro.capitulos.forEach( (capitulo, indexLivro, indexCapitulo) => {
+        console.log(indexLivro + "--" + indexCapitulo);
+      });
+    });
+    
   }
 }
