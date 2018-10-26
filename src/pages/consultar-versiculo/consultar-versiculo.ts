@@ -13,6 +13,7 @@ export class ConsultarVersiculoPage {
 
   searchQuery: string = '';
   items: string[];
+  retorno: Versiculo[] = [];
 
   amplitudePesquisa: string;
   biblia: Biblia;
@@ -22,30 +23,9 @@ export class ConsultarVersiculoPage {
 
   }
 
-  initializeItems() {
-    this.items = [
-      'Amsterdam',
-      'Bogota'    
-    ];
-  }
-
-  getItems(ev: any) {
-    // Reset items back to all of the items
-    this.initializeItems();
-
-    // set val to the value of the searchbar
-    const val = ev.target.value;
-
-    // if the value is an empty string don't filter the items
-    if (val && val.trim() != '') {
-      this.items = this.items.filter((item) => {
-        return (item.toLowerCase().indexOf(val.toLowerCase()) > -1);
-      })
-    }
-  }  
-  
   filtarPorMultiplosNiveis(){
-    let retorno: any[] = [];
+    let versiculo: Versiculo;
+    let retorno: Versiculo[] = [];
     let regex = new RegExp("^(?=.*Deus)(?=.*céus)(?=.*terra).*$"); 
 
       this.bibliaProvider.getBiblia().livros.filter(function search(row) {        
@@ -54,10 +34,21 @@ export class ConsultarVersiculoPage {
               
               let x = Object.getOwnPropertyDescriptor(row, "texto");
               
-              let texto: string = (x !== undefined ? x.value: "");
+              let textoVersiculo: string = (x !== undefined ? x.value: "");              
 
-              if(texto.match(regex)){
-                retorno.push(row);
+              if(textoVersiculo.match(regex)){
+
+                let codCap = Object.getOwnPropertyDescriptor(row, "codigoCapitulo");
+                let codVer = Object.getOwnPropertyDescriptor(row, "codigoVersiculo");
+                let codLiv = row.codigoLivro;
+
+                versiculo = new Versiculo();
+                versiculo.texto = textoVersiculo;
+                versiculo.codigoVersiculo = codVer.value;
+                versiculo.codigoCapitulo = codCap.value;
+                
+                retorno.push(versiculo);
+                
                 return row;
               }              
               
@@ -69,15 +60,8 @@ export class ConsultarVersiculoPage {
       });
     }); 
 
-    console.log(retorno);
-  }
+    this.retorno = retorno;
 
-  testandoMetodoEntries(){
-    this.bibliaProvider.getBiblia().livros.forEach( (livro, indexLivro) => {
-      livro.capitulos.forEach( (capitulo, indexLivro, indexCapitulo) => {
-        console.log(indexLivro + "--" + indexCapitulo);
-      });
-    });
-    
   }
+  
 }

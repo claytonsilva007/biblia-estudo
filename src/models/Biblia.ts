@@ -32,7 +32,6 @@ export class Capitulo {
 }
 
 export class Versiculo {
-    codigoLivro: number;
     codigoCapitulo: number;
     codigoVersiculo: number;
     texto: string;
