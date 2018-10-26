@@ -43,6 +43,10 @@ export class ConstantesProvider {
     return this.DIVISOES_BIBLIA.find(element => element.descricao === descricao);
   }
 
+  getTodasDivisoesBiblia(){
+    return this.DIVISOES_BIBLIA;
+  }
+
 }
 
 export class DivisoesBiblia{

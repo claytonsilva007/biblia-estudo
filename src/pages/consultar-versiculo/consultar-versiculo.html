@@ -1,7 +1,7 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>Consulta de Versículos</ion-title>
+    <ion-title>Consultar </ion-title>
   </ion-navbar>
 
 </ion-header>
@@ -9,7 +9,7 @@
 
 <ion-content padding>
   <ion-searchbar (ionInput)="getItems($event)"></ion-searchbar>
-
+<!--
   <ion-list radio-group [(ngModel)]="amplitudePesquisa">     
     <ion-item>
       <ion-label>Toda a Bíblia</ion-label>
@@ -24,13 +24,7 @@
         <ion-radio value="NT"></ion-radio>
     </ion-item>    
   </ion-list>
-
-  <button ion-button full (click)="consultarNaBibliaToda()">Consultar</button>
-
-  <ion-list>
-    <ion-item *ngFor="let item of items">
-      {{ item }}
-    </ion-item>
-  </ion-list>
-
+-->
+  <button ion-button full (click)="filtrarComRegex()">Consultar</button>
+  
 </ion-content>
