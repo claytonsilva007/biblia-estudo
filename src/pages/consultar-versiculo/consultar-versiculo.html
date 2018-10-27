@@ -8,29 +8,11 @@
 
 
 <ion-content padding>
-  <ion-searchbar (ionInput)="getItems($event)"></ion-searchbar>
-<!--
-  <ion-list radio-group [(ngModel)]="amplitudePesquisa">     
-    <ion-item>
-      <ion-label>Toda a Bíblia</ion-label>
-      <ion-radio checked="true" value="T"></ion-radio>
-    </ion-item>
-    <ion-item>
-      <ion-label>Antigo Testamento</ion-label>
-      <ion-radio value="AT"></ion-radio>
-    </ion-item>
-    <ion-item>
-        <ion-label>Novo Testamento</ion-label>
-        <ion-radio value="NT"></ion-radio>
-    </ion-item>    
-  </ion-list>
--->
-
-  <button ion-button full (click)="filtarPorMultiplosNiveis()">Consultar</button>
+  <ion-searchbar (ionInput)="getItems($event)" placeholder="Exemplo: Jesus chorou"></ion-searchbar>
 
   <ion-list>     
-      <ion-item *ngFor="let r of retorno" text-wrap>
-          {{r.texto}}
+      <ion-item *ngFor="let versiculo of retorno" text-wrap>
+        <b>{{bibliaProvider.getDescricaoCompletaVersiculo(versiculo)}}</b> - {{versiculo.texto}}
       </ion-item>
     </ion-list>
   

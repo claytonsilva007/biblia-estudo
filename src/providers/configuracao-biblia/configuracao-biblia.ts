@@ -21,22 +21,23 @@ export class ConfiguracaoBibliaProvider {
     let bibliaAux = JSON.parse(bibliaFormatoWeb); 
     let BibliaNovoFormato: Biblia = new Biblia();
 
-    bibliaAux.livros.forEach(livro => {
-      BibliaNovoFormato.livros.push(this.getLivroNovoFormato(livro));
+    bibliaAux.livros.forEach((livro, indexLivro) => {
+      BibliaNovoFormato.livros.push(this.getLivroNovoFormato(livro, indexLivro));
     });
     
     return BibliaNovoFormato;
   }
 
 
-  private getLivroNovoFormato(livroParam): Livro {
+  private getLivroNovoFormato(livroParam, indexLivro): Livro {
     let livro = new Livro();
 
     livro.abreviatura = livroParam.abreviatura;
     livro.nome = livroParam.nome;
+    livro.codigoLivro = indexLivro;
   
-    livroParam.capitulos.forEach((capitulo, index)=> { 
-      livro.capitulos.push(this.cadCapitulo(capitulo, index));
+    livroParam.capitulos.forEach((capitulo, indexCapitulo)=> { 
+      livro.capitulos.push(this.cadCapitulo(capitulo, indexCapitulo, indexLivro));
     });
     
     return livro;
@@ -54,21 +55,20 @@ export class ConfiguracaoBibliaProvider {
 
   popularArrayLivros(livroParam, indexLivro: number) {
     let livro = new Livro();
-    let capitulo = new Capitulo();
 
     livro.abreviatura = livroParam.abreviatura;
     livro.nome = livroParam.nome;
     livro.codigoLivro = indexLivro;
   
     livroParam.capitulos.forEach((capitulo, indexCapitulo) => { 
-      livro.capitulos.push(this.cadCapitulo(capitulo, indexCapitulo));
+      livro.capitulos.push(this.cadCapitulo(capitulo, indexCapitulo, indexLivro));
     });
 
     this.biblia.livros.push(livro);
    
   }
 
-  cadCapitulo(capituloParam, indexCapitulo: number) {
+  cadCapitulo(capituloParam, indexCapitulo: number, indexLivro: number) {
     let capituloTemp: Capitulo;
     let versiculotemp: Versiculo;
     capituloTemp = new Capitulo();
@@ -80,6 +80,7 @@ export class ConfiguracaoBibliaProvider {
       capituloTemp.versiculos.forEach( (versiculo, indexVersiculo) => {
         versiculo.codigoVersiculo = indexVersiculo;
         versiculo.codigoCapitulo = indexCapitulo;
+        versiculo.codigoLivro = indexLivro;
       });
 
     } else {
@@ -89,7 +90,7 @@ export class ConfiguracaoBibliaProvider {
         versiculotemp.texto = textoVersiculo;
         versiculotemp.codigoVersiculo = indexVersiculo;
         versiculotemp.codigoCapitulo = indexCapitulo;
-        capituloTemp.codigoCapitulo = indexCapitulo;
+        versiculotemp.codigoLivro = indexLivro;
         capituloTemp.versiculos.push(versiculotemp);
 
       });
@@ -100,6 +101,14 @@ export class ConfiguracaoBibliaProvider {
 
   getBiblia(){
     return this.biblia;
+  }
+
+  public getDescricaoCompletaVersiculo(versiculo: Versiculo): string {
+    let retorno = "";
+    let localizacao: string = "";
+    retorno = localizacao.concat(this.biblia.livros[versiculo.codigoLivro].nome, " " + (versiculo.codigoCapitulo+1) + "." + (versiculo.codigoVersiculo+1));
+
+    return retorno;
   }
 
   setBibliaConfigurada(bibliaConfigurada: Biblia){

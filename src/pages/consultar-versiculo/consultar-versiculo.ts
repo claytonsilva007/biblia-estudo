@@ -1,6 +1,6 @@
-import { Component, VERSION } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { Biblia, Versiculo } from '../../models/Biblia';
+import { Component } from '@angular/core';
+import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
+import { Versiculo } from '../../models/Biblia';
 import { ConfiguracaoBibliaProvider } from '../../providers/configuracao-biblia/configuracao-biblia';
 import { ConstantesProvider } from '../../providers/constantes/constantes';
 
@@ -15,53 +15,99 @@ export class ConsultarVersiculoPage {
   items: string[];
   retorno: Versiculo[] = [];
 
-  amplitudePesquisa: string;
-  biblia: Biblia;
-  versiculos: Versiculo[];
-
-  constructor(public navCtrl: NavController, public navParams: NavParams, private bibliaProvider: ConfiguracaoBibliaProvider, public constantes: ConstantesProvider) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private bibliaProvider: ConfiguracaoBibliaProvider, 
+                public constantes: ConstantesProvider, public toastCtrl: ToastController) {
 
   }
 
-  filtarPorMultiplosNiveis(){
+  ionViewDidLoad() {    
+    this.filtarPorMultiplosNiveis(["Jesus", "Chorou"]);
+  }
+
+  getItems(ev: any) {
+    
+    if (ev.cancelable || ' ' !== ev.target.value){
+      this.retorno = [];
+    }
+    
+    const val: string = ev.target.value;
+
+    if (val && val.trim() != '' && val.length > 10) {
+      this.filtarPorMultiplosNiveis(this.prepararArrayPalavrasDeBusca(val));
+    } 
+  }
+
+  prepararArrayPalavrasDeBusca(chaveDeBusca: string): string[]{
+    chaveDeBusca = chaveDeBusca.replace(/( )+/g, ' ');
+    let listaDePalavras: string[] = chaveDeBusca.split(" ");
+    return listaDePalavras;
+  }
+
+  filtarPorMultiplosNiveis(arrayPalavras: string[]) {
     let versiculo: Versiculo;
     let retorno: Versiculo[] = [];
-    let regex = new RegExp("^(?=.*Deus)(?=.*céus)(?=.*terra).*$"); 
 
-      this.bibliaProvider.getBiblia().livros.filter(function search(row) {        
-        return Object.keys(row).some((key) => {        
-          if(typeof row[key] === "string") { 
-              
-              let x = Object.getOwnPropertyDescriptor(row, "texto");
-              
-              let textoVersiculo: string = (x !== undefined ? x.value: "");              
+    let regex = new RegExp(this.getRegex(arrayPalavras), "i");
 
-              if(textoVersiculo.match(regex)){
+    this.bibliaProvider.getBiblia().livros.filter(function search(row) {
+      return Object.keys(row).some((key) => {
+        if (typeof row[key] === "string") {
 
-                let codCap = Object.getOwnPropertyDescriptor(row, "codigoCapitulo");
-                let codVer = Object.getOwnPropertyDescriptor(row, "codigoVersiculo");
-                let codLiv = row.codigoLivro;
+          let x = Object.getOwnPropertyDescriptor(row, "texto");
 
-                versiculo = new Versiculo();
-                versiculo.texto = textoVersiculo;
-                versiculo.codigoVersiculo = codVer.value;
-                versiculo.codigoCapitulo = codCap.value;
-                
-                retorno.push(versiculo);
-                
-                return row;
-              }              
-              
-            } else if(row[key] && typeof row[key] === "object") {             
-              return search(row[key]);                                     
-            }
+          let textoVersiculo: string = (x !== undefined ? x.value : "");
 
-          return false;                                                     
+          if (textoVersiculo.match(regex)) {
+
+            let codCap = Object.getOwnPropertyDescriptor(row, "codigoCapitulo");
+            let codVer = Object.getOwnPropertyDescriptor(row, "codigoVersiculo");
+            let codLiv = Object.getOwnPropertyDescriptor(row, "codigoLivro");
+
+            versiculo = new Versiculo();
+            versiculo.texto = textoVersiculo;
+            versiculo.codigoVersiculo = codVer.value;
+            versiculo.codigoCapitulo = codCap.value;
+            versiculo.codigoLivro = codLiv.value;
+
+            retorno.push(versiculo);
+
+            return row;
+          }
+
+        } else if (row[key] && typeof row[key] === "object") {
+          return search(row[key]);
+        }
+
+        return false;
       });
-    }); 
+    });
+
+    if(retorno.length === 0){
+      this.presentToast("Nenhum versículo encontrado.");
+    }
 
     this.retorno = retorno;
 
   }
-  
+
+  getRegex(palavras: string[]): string {
+    let regexStr: string = "^";
+
+    palavras.forEach(palavra => {
+      regexStr = regexStr.concat("(?=.*", palavra, ")" );
+    });
+
+    regexStr = regexStr.concat(".*$"); 
+
+    return regexStr;
+  }
+
+  presentToast(mensagem: string) {
+    const toast = this.toastCtrl.create({
+      message: mensagem,
+      duration: 3000
+    });
+    toast.present();
+  }
+
 }
