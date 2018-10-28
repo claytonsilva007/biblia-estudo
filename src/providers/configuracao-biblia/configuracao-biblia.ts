@@ -2,10 +2,6 @@ import { Injectable, ViewChild } from '@angular/core';
 import { Livro, Capitulo, Biblia, Versiculo } from "../../models/Biblia";
 import { ConstantesProvider } from '../constantes/constantes';
 import { Storage } from '@ionic/storage';
-import { NavController } from 'ionic-angular';
-import { HomePage } from '../../pages/home/home';
-
-
 
 @Injectable()
 export class ConfiguracaoBibliaProvider {

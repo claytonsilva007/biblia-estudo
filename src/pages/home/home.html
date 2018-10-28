@@ -26,13 +26,13 @@
 
   <ion-fab right middle edge *ngIf="exibirBtnComentar">
     <button ion-fab>
-      <ion-icon name="more"></ion-icon>
+      <ion-icon name="text"></ion-icon>
     </button>
 
     <ion-fab-list side="left">
 
       <button ion-fab color="secondary" (click)="navegarParaComentarios()">
-        <ion-icon name="text"></ion-icon>
+        <ion-icon name="add-circle"></ion-icon>
       </button>
 
       <button ion-fab color="danger" *ngIf="podeVisualizarComentarios" (click)="exibirTodosComentarios()">
@@ -52,10 +52,25 @@
     </button>
   </ion-fab>
 
-  <ion-fab *ngIf="exibirPaletaDeCores" left middle edge (click)="regularShare()">
-    <button ion-fab color="danger" (click)="regularShare()">
+  <ion-fab *ngIf="exibirPaletaDeCores" left middle edge>
+    <button ion-fab color="danger">
       <ion-icon ios="ios-share" md="md-share"></ion-icon>
     </button>
+
+    <ion-fab-list side="right">
+      <button ion-fab color="secondary" (click)="compartilharPorFacebook()">
+        <ion-icon name="logo-facebook"></ion-icon>
+      </button> 
+      <button ion-fab color="secondary" (click)="compartilharPorWhatsApp()">
+        <ion-icon name="logo-whatsapp"></ion-icon>
+      </button>
+      <button ion-fab color="secondary" (click)="compartilharPorTwitter()">
+        <ion-icon name="logo-twitter"></ion-icon>
+      </button>
+      <button ion-fab color="secondary" (click)="compartilharVersiculo()">
+      <ion-icon name="more"></ion-icon>
+      </button>
+    </ion-fab-list>
   </ion-fab>
 
   <div [ngSwitch]="segmentoSelecionado">
@@ -108,7 +123,6 @@
 
 
   <ion-fab bottom left *ngIf="exibirBotoesNavegacao">
-
     <button ion-fab mini color="branco" (click)="navegarParaTras()">
       <ion-icon name="arrow-dropleft"></ion-icon>
     </button>

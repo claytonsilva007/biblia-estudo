@@ -71,20 +71,7 @@ export class MyApp {
       this.splashScreen.hide();
     });
 
-
-    this.platform.registerBackButtonAction(() => {
-      let nav = this.nav.getAllChildNavs[0];
-      let activeView = nav.getActive();
-
-      if (activeView.name === 'HomePage') {
-        if (nav.canGoBack()) {
-          nav.pop();
-        } else {
-          this.configBiblia.salvar();
-        }
-      }
-    });
-
+    this.configBackButtom();
 
   } // fim método inicializeApp()
 
@@ -96,7 +83,7 @@ export class MyApp {
       // Checks if can go back before show up the alert
       if (activeView.name === 'HomePage') {
         if (nav.canGoBack()) {
-          nav.pop();
+            nav.pop();
         } else {
           const alert = this.alertCtrl.create({
             title: 'Fechar o App',
@@ -105,8 +92,7 @@ export class MyApp {
               text: 'Cancelar',
               role: 'cancel',
               handler: () => {
-                this.nav.setRoot('HomePage');
-                console.log('** Saída do App Cancelada! **');
+                this.nav.setRoot('HomePage');                
               }
             }, {
               text: 'Fechar o App',
@@ -117,6 +103,10 @@ export class MyApp {
           });
           alert.present();
         }
+      } else {
+        if (nav.canGoBack()) {
+          nav.pop();
+        }
       }
     });
   }
@@ -126,7 +116,7 @@ export class MyApp {
     let max = Math.floor(this.utilProvider.versiculos.length);    
     let indexDaSorte: number = Math.floor(Math.random() * (max - min + 1)) + min;
     let versiculoDaSorte = this.utilProvider.versiculos[indexDaSorte];
-    versiculoDaSorte = versiculoDaSorte.concat("\n\nPor favor, aguarde enquanto configuramos a Bíblia");
+    versiculoDaSorte = versiculoDaSorte.concat("<br></br>Por favor, aguarde enquanto configuramos a Bíblia.");
 
     this.loading = this.loadingCtrl.create({
       content: versiculoDaSorte

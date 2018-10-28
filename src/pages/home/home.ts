@@ -312,8 +312,24 @@ export class HomePage {
     this.exibirBotaoDeBusca = true;
   }
 
-  regularShare() {
-    
+  compartilharVersiculo(){
+    this.regularShare();
+    this.showLoading();
+  }
+
+  compartilharPorFacebook(){
+    console.log("compartilharPorWhatsApp");
+  }
+
+  compartilharPorWhatsApp(){
+    console.log("compartilharPorWhatsApp");
+  }
+
+  compartilharPorTwitter(){
+    console.log("compartilharPorTwitter");
+  }
+
+  regularShare() {    
     let vs = this.getVersiculosSelecionados();
     let texto = "";
 
@@ -321,19 +337,17 @@ export class HomePage {
       texto = texto.concat(versiculo.texto);
     });
 
-    texto = texto.concat("\rBiblia de Estudo");
-    
-    this.showLoading();
-    
-    this.socialSharing.share(texto, null, null, null).then(sucess => {
+    texto = texto.concat("<br></br>Biblia de Estudo");
+
+    this.socialSharing.share(texto, null, null, null).then( () => {
       this.hideLoading();
     }).catch(err => {
       this.hideLoading();
     });
+    
   }
 
   private showLoading() {
-
     let min = Math.ceil(0);
     let max = Math.floor(this.utilProvider.versiculos.length);
     let indexDaSorte: number = Math.floor(Math.random() * (max - min + 1)) + min;
