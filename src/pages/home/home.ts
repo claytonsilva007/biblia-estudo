@@ -8,6 +8,9 @@ import { ModalTodosComentariosPage } from '../modal-todos-comentarios/modal-todo
 import { ConstantesProvider } from '../../providers/constantes/constantes';
 import { ConsultarVersiculoPage } from '../consultar-versiculo/consultar-versiculo';
 
+import { SocialSharing } from '@ionic-native/social-sharing';
+import { text } from '@angular/core/src/render3/instructions';
+
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
@@ -33,7 +36,8 @@ export class HomePage {
   biblia: Biblia;
 
   constructor(public navCtrl: NavController, public bibliaProvider: ConfiguracaoBibliaProvider, 
-                public modalCtrl: ModalController, public loadingCtrl: LoadingController, public constantes: ConstantesProvider) {
+                public modalCtrl: ModalController, public loadingCtrl: LoadingController, 
+                public constantes: ConstantesProvider, private socialSharing: SocialSharing) {
 
     this.biblia = bibliaProvider.getBiblia();
     this.versiculoParaComentar = new versiculoParaComentar();
@@ -130,9 +134,15 @@ export class HomePage {
   }
 
   getQuantidadeLinhasSelecionadas(): number{
-    return this.biblia.livros[this.versiculoParaComentar.indexLivro]
+        return this.biblia.livros[this.versiculoParaComentar.indexLivro]
                       .capitulos[this.versiculoParaComentar.indexCapitulo]
                       .versiculos.filter(vLoop => vLoop.backgroundColor === this.corLinhaSelecionada).length;
+  }
+
+  getVersiculosSelecionados(): Versiculo[] {
+    return this.biblia.livros[this.versiculoParaComentar.indexLivro]
+      .capitulos[this.versiculoParaComentar.indexCapitulo]
+      .versiculos.filter(vLoop => vLoop.backgroundColor === this.corLinhaSelecionada);
   }
 
   setarCor(cor:string){
@@ -284,6 +294,16 @@ export class HomePage {
   ocultarBotaoBusca(){
     this.exibirBotaoDeBusca = true;
   }
+
+  regularShare() {
+    let vs = this.getVersiculosSelecionados();
+    let texto = "";
+    vs.forEach(versiculo => {
+      texto = texto.concat(versiculo.texto);
+    });
+    this.socialSharing.share(texto, null, null, null);
+  }
+
 }
 
 export class versiculoParaComentar{

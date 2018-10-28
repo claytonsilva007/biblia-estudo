@@ -24,6 +24,8 @@ import { IonicStorageModule } from '@ionic/storage';
 import { ConstantesProvider } from '../providers/constantes/constantes';
 import { ConsultarVersiculoPage } from '../pages/consultar-versiculo/consultar-versiculo';
 
+import { SocialSharing } from '@ionic-native/social-sharing';
+
 export const firebaseConfig = {
   apiKey: "AIzaSyBoOBgbbcVK1v7-k_4wj-wCJESmKr2TFeI",
   authDomain: "biblia-estudo.firebaseapp.com",
@@ -68,7 +70,8 @@ export const firebaseConfig = {
     ConfiguracaoBibliaProvider,
     SincronizadorProvider,
     AngularFireDatabase,
-    ConstantesProvider
+    ConstantesProvider,
+    SocialSharing
   ]
 })
 export class AppModule {}
