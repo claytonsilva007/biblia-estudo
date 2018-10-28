@@ -25,6 +25,7 @@ import { ConstantesProvider } from '../providers/constantes/constantes';
 import { ConsultarVersiculoPage } from '../pages/consultar-versiculo/consultar-versiculo';
 
 import { SocialSharing } from '@ionic-native/social-sharing';
+import { UtilProvider } from '../providers/util/util';
 
 export const firebaseConfig = {
   apiKey: "AIzaSyBoOBgbbcVK1v7-k_4wj-wCJESmKr2TFeI",
@@ -71,7 +72,8 @@ export const firebaseConfig = {
     SincronizadorProvider,
     AngularFireDatabase,
     ConstantesProvider,
-    SocialSharing
+    SocialSharing,
+    UtilProvider
   ]
 })
 export class AppModule {}

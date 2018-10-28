@@ -9,6 +9,7 @@ import { ConstantesProvider } from '../../providers/constantes/constantes';
 import { ConsultarVersiculoPage } from '../consultar-versiculo/consultar-versiculo';
 
 import { SocialSharing } from '@ionic-native/social-sharing';
+import { UtilProvider } from '../../providers/util/util';
 
 @Component({
   selector: 'page-home',
@@ -31,12 +32,14 @@ export class HomePage {
   podeVisualizarComentarios: boolean;
   exibirBotoesNavegacao: boolean;
   exibirBotaoDeBusca: boolean;
+  loading: any;
 
   biblia: Biblia;
 
   constructor(public navCtrl: NavController, public bibliaProvider: ConfiguracaoBibliaProvider, 
                 public modalCtrl: ModalController, public loadingCtrl: LoadingController, 
-    public constantes: ConstantesProvider, private socialSharing: SocialSharing, public navParams: NavParams) {
+                public constantes: ConstantesProvider, private socialSharing: SocialSharing, 
+                public navParams: NavParams, private utilProvider: UtilProvider) {
 
     this.biblia = bibliaProvider.getBiblia();
     this.versiculoParaComentar = new versiculoParaComentar();
@@ -310,6 +313,7 @@ export class HomePage {
   }
 
   regularShare() {
+    this.showLoading();
     let vs = this.getVersiculosSelecionados();
     let texto = "";
     vs.forEach(versiculo => {
@@ -318,7 +322,28 @@ export class HomePage {
 
     texto = texto.concat("\rBiblia de Estudo");
 
-    this.socialSharing.share(texto, null, null, null);
+    this.socialSharing.share(texto, null, null, null).then(sucess => {
+      this.hideLoading();
+    });
+
+  }
+
+  private showLoading() {
+
+    let min = Math.ceil(0);
+    let max = Math.floor(this.utilProvider.versiculos.length);
+    let indexDaSorte: number = Math.floor(Math.random() * (max - min + 1)) + min;
+    let versiculoDaSorte = this.utilProvider.versiculos[indexDaSorte];
+
+    this.loading = this.loadingCtrl.create({
+      content: versiculoDaSorte
+    });
+
+    this.loading.present();
+  }
+
+  private hideLoading() {
+    this.loading.dismiss();
   }
 
 }
