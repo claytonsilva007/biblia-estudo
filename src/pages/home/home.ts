@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, ModalController, LoadingController } from 'ionic-angular';
+import { NavController, ModalController, LoadingController, NavParams } from 'ionic-angular';
 import { Livro, Capitulo, Versiculo, Biblia } from '../../models/Biblia';
 import { ConfiguracaoBibliaProvider } from '../../providers/configuracao-biblia/configuracao-biblia';
 import { ComentariosPage } from '../comentarios/comentarios';
@@ -9,7 +9,6 @@ import { ConstantesProvider } from '../../providers/constantes/constantes';
 import { ConsultarVersiculoPage } from '../consultar-versiculo/consultar-versiculo';
 
 import { SocialSharing } from '@ionic-native/social-sharing';
-import { text } from '@angular/core/src/render3/instructions';
 
 @Component({
   selector: 'page-home',
@@ -37,7 +36,7 @@ export class HomePage {
 
   constructor(public navCtrl: NavController, public bibliaProvider: ConfiguracaoBibliaProvider, 
                 public modalCtrl: ModalController, public loadingCtrl: LoadingController, 
-                public constantes: ConstantesProvider, private socialSharing: SocialSharing) {
+    public constantes: ConstantesProvider, private socialSharing: SocialSharing, public navParams: NavParams) {
 
     this.biblia = bibliaProvider.getBiblia();
     this.versiculoParaComentar = new versiculoParaComentar();
@@ -47,6 +46,16 @@ export class HomePage {
     this.exibirBotoesNavegacao = true;
     this.exibirBotaoDeBusca = true;
   } 
+
+  ionViewDidLoad() {
+    let versiculo: Versiculo = this.navParams.get("versiculoParam");
+    if(versiculo !== undefined && versiculo !== null){
+      this.atualizarSegmentoCapitulos(versiculo.codigoLivro);
+      this.atualizarSegmentoVersiculos(versiculo.codigoCapitulo);
+      this.segmentoSelecionado = "versiculos";
+    }
+    
+  }
 
   atualizarSegmentoCapitulos(indexLivro: number){
     this.abaLivroDescricao = this.biblia.livros[indexLivro].nome;
@@ -301,6 +310,9 @@ export class HomePage {
     vs.forEach(versiculo => {
       texto = texto.concat(versiculo.texto);
     });
+
+    texto = texto.concat("\rBiblia de Estudo");
+
     this.socialSharing.share(texto, null, null, null);
   }
 

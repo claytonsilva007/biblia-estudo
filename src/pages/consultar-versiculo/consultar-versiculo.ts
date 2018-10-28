@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angu
 import { Versiculo } from '../../models/Biblia';
 import { ConfiguracaoBibliaProvider } from '../../providers/configuracao-biblia/configuracao-biblia';
 import { ConstantesProvider } from '../../providers/constantes/constantes';
+import { HomePage } from '../home/home';
 
 @IonicPage()
 @Component({
@@ -97,5 +98,9 @@ export class ConsultarVersiculoPage {
 
     return regexStr;
   } 
+
+  navegarParaLivro(versiculo: Versiculo){
+    this.navCtrl.push(HomePage, {versiculoParam: versiculo});
+  }
 
 }
