@@ -53,6 +53,7 @@ export class HomePage {
       this.atualizarSegmentoCapitulos(versiculo.codigoLivro);
       this.atualizarSegmentoVersiculos(versiculo.codigoCapitulo);
       this.segmentoSelecionado = "versiculos";
+      this.exibirBotaoDeBusca = false;
     }
     
   }
@@ -301,6 +302,10 @@ export class HomePage {
   }
 
   ocultarBotaoBusca(){
+    this.exibirBotaoDeBusca = false;
+  }
+  
+  exibirBtnBusca(){
     this.exibirBotaoDeBusca = true;
   }
 

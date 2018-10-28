@@ -6,15 +6,15 @@
       <ion-icon name="menu"></ion-icon>
     </button>
 
-    <ion-segment [(ngModel)]="segmentoSelecionado" (click)="ocultarBotaoBusca()">
-      <ion-segment-button value="livros">
-        <b> {{abaLivroDescricao}} </b>
+    <ion-segment [(ngModel)]="segmentoSelecionado">
+      <ion-segment-button value="livros" (click)="exibirBtnBusca()">
+        <b style="color: black"> {{abaLivroDescricao}} </b>
       </ion-segment-button>
-      <ion-segment-button value="capitulos">
-        <b> {{abaCapituloDescricao}} </b>
+      <ion-segment-button value="capitulos" (click)="ocultarBotaoBusca()">
+        <b style="color: black"> {{abaCapituloDescricao}} </b>
       </ion-segment-button>
       <ion-segment-button value="versiculos">
-        <b>Versículos</b>
+        <b style="color: black">Versículos</b>
       </ion-segment-button>
     </ion-segment>
 
