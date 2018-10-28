@@ -313,19 +313,23 @@ export class HomePage {
   }
 
   regularShare() {
-    this.showLoading();
+    
     let vs = this.getVersiculosSelecionados();
     let texto = "";
+
     vs.forEach(versiculo => {
       texto = texto.concat(versiculo.texto);
     });
 
     texto = texto.concat("\rBiblia de Estudo");
-
+    
+    this.showLoading();
+    
     this.socialSharing.share(texto, null, null, null).then(sucess => {
       this.hideLoading();
+    }).catch(err => {
+      this.hideLoading();
     });
-
   }
 
   private showLoading() {

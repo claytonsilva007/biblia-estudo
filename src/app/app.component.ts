@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { Nav, Platform, LoadingController } from 'ionic-angular';
+import { Nav, Platform, LoadingController, AlertController } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
@@ -13,6 +13,7 @@ import { Storage } from '@ionic/storage';
 import { AngularFireDatabase } from '@angular/fire/database';
 import { UtilProvider } from '../providers/util/util';
 
+import { App } from 'ionic-angular';
 
 @Component({
   templateUrl: 'app.html'
@@ -28,7 +29,7 @@ export class MyApp {
   constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen,
     private configBiblia: ConfiguracaoBibliaProvider, private loadingCtrl: LoadingController,
     private storage: Storage, public constantes: ConstantesProvider, private afDB: AngularFireDatabase,
-    private utilProvider: UtilProvider) {
+    private utilProvider: UtilProvider, private app: App, private alertCtrl: AlertController) {
 
     this.initializeApp();
 
@@ -83,6 +84,41 @@ export class MyApp {
         }
       }
     });
+
+
+  } // fim método inicializeApp()
+
+  configBackButtom() {
+    this.platform.registerBackButtonAction(() => {
+      // Catches the active view
+      let nav = this.app.getActiveNavs()[0];
+      let activeView = nav.getActive();
+      // Checks if can go back before show up the alert
+      if (activeView.name === 'HomePage') {
+        if (nav.canGoBack()) {
+          nav.pop();
+        } else {
+          const alert = this.alertCtrl.create({
+            title: 'Fechar o App',
+            message: 'Você tem certeza?',
+            buttons: [{
+              text: 'Cancelar',
+              role: 'cancel',
+              handler: () => {
+                this.nav.setRoot('HomePage');
+                console.log('** Saída do App Cancelada! **');
+              }
+            }, {
+              text: 'Fechar o App',
+              handler: () => {
+                this.platform.exitApp();
+              }
+            }]
+          });
+          alert.present();
+        }
+      }
+    });
   }
 
   private showLoading() {
@@ -90,6 +126,7 @@ export class MyApp {
     let max = Math.floor(this.utilProvider.versiculos.length);    
     let indexDaSorte: number = Math.floor(Math.random() * (max - min + 1)) + min;
     let versiculoDaSorte = this.utilProvider.versiculos[indexDaSorte];
+    versiculoDaSorte = versiculoDaSorte.concat("\n\nPor favor, aguarde enquanto configuramos a Bíblia");
 
     this.loading = this.loadingCtrl.create({
       content: versiculoDaSorte
