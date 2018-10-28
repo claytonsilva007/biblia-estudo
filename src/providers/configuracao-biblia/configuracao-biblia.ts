@@ -45,7 +45,7 @@ export class ConfiguracaoBibliaProvider {
       let bibliaAux = JSON.parse(bibliaParam);       
       bibliaAux.livros.forEach( (livro, indexLivro) => this.popularArrayLivros(livro, indexLivro)); 
     } else {
-      bibliaParam.livros.forEach((livro, indexLivro) => this.popularArrayLivros(livro, indexLivro)); 
+      this.biblia = bibliaParam;//bibliaParam.livros.forEach((livro, indexLivro) => this.popularArrayLivros(livro, indexLivro)); 
     }
   }
 

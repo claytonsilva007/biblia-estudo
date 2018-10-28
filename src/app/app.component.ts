@@ -49,6 +49,7 @@ export class MyApp {
         if (val !== null) {
           this.storage.get(this.constantes.BIBLIA_CHAVE).then(biblia => {
             this.configBiblia.configurarBiblia(biblia);
+            this.nav.push(HomePage);
             this.hideLoading();
           });
         } else {
@@ -85,28 +86,14 @@ export class MyApp {
         if (nav.canGoBack()) {
             nav.pop();
         } else {
-          const alert = this.alertCtrl.create({
-            title: 'Fechar o App',
-            message: 'Você tem certeza?',
-            buttons: [{
-              text: 'Cancelar',
-              role: 'cancel',
-              handler: () => {
-                this.nav.setRoot('HomePage');                
-              }
-            }, {
-              text: 'Fechar o App',
-              handler: () => {
-                this.platform.exitApp();
-              }
-            }]
-          });
-          alert.present();
+          this.exibirConfirmacaoSaida();
         }
-      } else {
+      } else if (activeView.name !== 'HomePage') {
         if (nav.canGoBack()) {
           nav.pop();
-        }
+        } else {
+          this.exibirConfirmacaoSaida();
+        } 
       }
     });
   }
@@ -125,6 +112,27 @@ export class MyApp {
     this.loading.present();    
   } 
   
+  exibirConfirmacaoSaida(){
+    const alert = this.alertCtrl.create({
+      title: 'Fechar o App',
+      message: 'Você tem certeza?',
+      buttons: [{
+        text: 'Cancelar',
+        role: 'cancel',
+        handler: () => {
+          //this.nav.setRoot('HomePage');
+        }
+      }, {
+        text: 'Fechar o App',
+        handler: () => {
+          this.configBiblia.salvarBiblia(this.configBiblia.getBiblia());
+          this.platform.exitApp();
+        }
+      }]
+    });
+    alert.present();
+  }
+
   private hideLoading() {
     this.loading.dismiss();
   }

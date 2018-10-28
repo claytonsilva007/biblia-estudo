@@ -337,7 +337,7 @@ export class HomePage {
       texto = texto.concat(versiculo.texto);
     });
 
-    texto = texto.concat("<br></br>Biblia de Estudo");
+    texto = texto.concat("Biblia de Estudo");
 
     this.socialSharing.share(texto, null, null, null).then( () => {
       this.hideLoading();
