@@ -6,6 +6,7 @@ import { ComentariosPage } from '../comentarios/comentarios';
 import { ModalTodosComentariosPage } from '../modal-todos-comentarios/modal-todos-comentarios';
 
 import { ConstantesProvider } from '../../providers/constantes/constantes';
+import { ConsultarVersiculoPage } from '../consultar-versiculo/consultar-versiculo';
 
 @Component({
   selector: 'page-home',
@@ -25,9 +26,9 @@ export class HomePage {
   exibirPaletaDeCores: boolean;
   exibirBtnComentar: boolean;
   versiculoParaComentar: versiculoParaComentar;
-  loading: any;
   podeVisualizarComentarios: boolean;
   exibirBotoesNavegacao: boolean;
+  exibirBotaoDeBusca: boolean;
 
   biblia: Biblia;
 
@@ -40,6 +41,7 @@ export class HomePage {
     this.exibirBtnComentar = false;
     this.podeVisualizarComentarios = false;
     this.exibirBotoesNavegacao = true;
+    this.exibirBotaoDeBusca = true;
   } 
 
   atualizarSegmentoCapitulos(indexLivro: number){
@@ -48,12 +50,14 @@ export class HomePage {
     this.versiculoParaComentar.indexLivro = indexLivro;
     this.segmentoSelecionado = "capitulos";
     this.abaCapituloDescricao = "Capítulos";
+    this.exibirBotaoDeBusca = false;
   }
 
   atualizarSegmentoVersiculos(indexCapitulo: number){
     this.segmentoSelecionado = "versiculos";
     this.abaCapituloDescricao = "Capítulo: " + (indexCapitulo+1);
     this.versiculoParaComentar.indexCapitulo = indexCapitulo;
+    this.exibirBotaoDeBusca = false;
   }
 
   /**
@@ -273,6 +277,13 @@ export class HomePage {
     this.segmentoSelecionado = "versiculos"; 
   }
 
+  navegarParaTelaBusca(){
+    this.navCtrl.push(ConsultarVersiculoPage);
+  }
+
+  ocultarBotaoBusca(){
+    this.exibirBotaoDeBusca = true;
+  }
 }
 
 export class versiculoParaComentar{
