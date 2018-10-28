@@ -1,6 +1,9 @@
 <ion-header>
 
   <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
     <ion-title>Consultar </ion-title>
   </ion-navbar>
 
@@ -8,7 +11,7 @@
 
 
 <ion-content padding>
-  <ion-searchbar (ionInput)="getItems($event)" placeholder="Exemplo: Jesus chorou"></ion-searchbar>
+  <ion-searchbar (ionInput)="getItems($event)" placeholder="Exemplo: Jesus chorou" #ionInput></ion-searchbar> 
 
   <ion-list>     
       <ion-item *ngFor="let versiculo of retorno" text-wrap>

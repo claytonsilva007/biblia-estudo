@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
 import { Versiculo } from '../../models/Biblia';
 import { ConfiguracaoBibliaProvider } from '../../providers/configuracao-biblia/configuracao-biblia';
@@ -16,7 +16,7 @@ export class ConsultarVersiculoPage {
   retorno: Versiculo[] = [];
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private bibliaProvider: ConfiguracaoBibliaProvider, 
-                public constantes: ConstantesProvider, public toastCtrl: ToastController) {
+                public constantes: ConstantesProvider) {
 
   }
 
@@ -45,7 +45,7 @@ export class ConsultarVersiculoPage {
 
   filtarPorMultiplosNiveis(arrayPalavras: string[]) {
     let versiculo: Versiculo;
-    let retorno: Versiculo[] = [];
+    let retorno: Versiculo[] = [];  
 
     let regex = new RegExp(this.getRegex(arrayPalavras), "i");
 
@@ -80,11 +80,7 @@ export class ConsultarVersiculoPage {
 
         return false;
       });
-    });
-
-    if(retorno.length === 0){
-      this.presentToast("Nenhum versículo encontrado.");
-    }
+    });    
 
     this.retorno = retorno;
 
@@ -100,14 +96,6 @@ export class ConsultarVersiculoPage {
     regexStr = regexStr.concat(".*$"); 
 
     return regexStr;
-  }
-
-  presentToast(mensagem: string) {
-    const toast = this.toastCtrl.create({
-      message: mensagem,
-      duration: 3000
-    });
-    toast.present();
-  }
+  } 
 
 }

@@ -247,6 +247,7 @@ export class HomePage {
     try{
       if( (this.versiculoParaComentar.indexCapitulo +1) < this.biblia.livros[this.versiculoParaComentar.indexLivro].capitulos.length){
         this.biblia.livros[this.versiculoParaComentar.indexLivro].capitulos[this.versiculoParaComentar.indexCapitulo++];
+        this.atualizarDadosNavegacao();
       } else if( (this.versiculoParaComentar.indexCapitulo+1) === this.biblia.livros[this.versiculoParaComentar.indexLivro].capitulos.length){
         if(this.versiculoParaComentar.indexLivro+1 < this.biblia.livros.length){
           this.versiculoParaComentar.indexLivro++;
