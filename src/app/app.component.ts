@@ -43,7 +43,7 @@ export class MyApp {
   initializeApp() {
     this.platform.ready().then(() => {
       
-      this.showLoading();
+      this.showLoading("<br></br>Por favor, aguarde enquanto configuramos a Bíblia.");
 
       this.storage.get(this.constantes.CKECK_BIBLIA_STORAGE).then(val => {
         if (val !== null) {
@@ -82,12 +82,8 @@ export class MyApp {
       let nav = this.app.getActiveNavs()[0];
       let activeView = nav.getActive();
       // Checks if can go back before show up the alert
-      if (activeView.name === 'HomePage') {
-        if (nav.canGoBack()) {
-            nav.pop();
-        } else {
-          this.exibirConfirmacaoSaida();
-        }
+      if (activeView.name === 'HomePage') {        
+          this.exibirConfirmacaoSaida();        
       } else if (activeView.name !== 'HomePage') {
         if (nav.canGoBack()) {
           nav.pop();
@@ -98,12 +94,12 @@ export class MyApp {
     });
   }
 
-  private showLoading() {
+  private showLoading(mensagem: string) {
     let min = Math.ceil(0);
     let max = Math.floor(this.utilProvider.versiculos.length);    
     let indexDaSorte: number = Math.floor(Math.random() * (max - min + 1)) + min;
     let versiculoDaSorte = this.utilProvider.versiculos[indexDaSorte];
-    versiculoDaSorte = versiculoDaSorte.concat("<br></br>Por favor, aguarde enquanto configuramos a Bíblia.");
+    versiculoDaSorte = versiculoDaSorte.concat(mensagem);
 
     this.loading = this.loadingCtrl.create({
       content: versiculoDaSorte
@@ -124,9 +120,12 @@ export class MyApp {
         }
       }, {
         text: 'Fechar o App',
-        handler: () => {
-          this.configBiblia.salvarBiblia(this.configBiblia.getBiblia());
-          this.platform.exitApp();
+        handler: () => { 
+          this.showLoading("Salvando alterações");         
+          this.storage.set(this.constantes.BIBLIA_CHAVE, this.configBiblia.getBiblia()).then(sucess => {
+            this.hideLoading();
+            this.platform.exitApp();
+          })
         }
       }]
     });
