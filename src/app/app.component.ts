@@ -12,7 +12,7 @@ import { Storage } from '@ionic/storage';
 
 import { AngularFireDatabase } from '@angular/fire/database';
 import { UtilProvider } from '../providers/util/util';
-
+import { AppMinimize } from '@ionic-native/app-minimize';
 import { App } from 'ionic-angular';
 
 @Component({
@@ -29,7 +29,7 @@ export class MyApp {
   constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen,
     private configBiblia: ConfiguracaoBibliaProvider, private loadingCtrl: LoadingController,
     private storage: Storage, public constantes: ConstantesProvider, private afDB: AngularFireDatabase,
-    private utilProvider: UtilProvider, private app: App, private alertCtrl: AlertController) {
+    private utilProvider: UtilProvider, private app: App, private appMinimize: AppMinimize) {
 
     this.initializeApp();
 
@@ -83,12 +83,14 @@ export class MyApp {
       let activeView = nav.getActive();
       // Checks if can go back before show up the alert
       if (activeView.name === 'HomePage') {        
-          this.exibirConfirmacaoSaida();        
+        this.appMinimize.minimize();
+        this.storage.set(this.constantes.BIBLIA_CHAVE, this.configBiblia.getBiblia()); 
       } else if (activeView.name !== 'HomePage') {
         if (nav.canGoBack()) {
           nav.pop();
         } else {
-          this.exibirConfirmacaoSaida();
+          this.appMinimize.minimize(); 
+          this.storage.set(this.constantes.BIBLIA_CHAVE, this.configBiblia.getBiblia());
         } 
       }
     });
@@ -106,32 +108,8 @@ export class MyApp {
     });
 
     this.loading.present();    
-  } 
+  }   
   
-  exibirConfirmacaoSaida(){
-    const alert = this.alertCtrl.create({
-      title: 'Fechar o App',
-      message: 'Você tem certeza?',
-      buttons: [{
-        text: 'Cancelar',
-        role: 'cancel',
-        handler: () => {
-          //this.nav.setRoot('HomePage');
-        }
-      }, {
-        text: 'Fechar o App',
-        handler: () => { 
-          this.showLoading("Salvando alterações");         
-          this.storage.set(this.constantes.BIBLIA_CHAVE, this.configBiblia.getBiblia()).then(sucess => {
-            this.hideLoading();
-            this.platform.exitApp();
-          })
-        }
-      }]
-    });
-    alert.present();
-  }
-
   private hideLoading() {
     this.loading.dismiss();
   }

@@ -53,8 +53,6 @@ export class ComentariosPage {
       toast.present();
     }
 
-    this.bibliaProvider.salvar();
-
   }
 
   carregarComentarios(){

@@ -24,7 +24,7 @@ export class UtilProvider {
     this.versiculos.push("Êx. 23.25 - E servireis ao Senhor, vosso Deus, e ele abençoará o vosso pão e a vossa água; e eu tirarei do meio de ti as enfermidades.");
     this.versiculos.push("Sl. 34.8 - Provai e vede que o Senhor é bom; bem - aventurado o homem que nele confia.");
     this.versiculos.push("Pv. 16.20 - O que atenta prudentemente para a palavra achará o bem, e o que confia no Senhor será bem - aventurado.");
-    this.versiculos.push("6.26-27 - Mas a vós, que ouvis, digo: Amai a vossos inimigos, fazei bem aos que vos aborrecem, bendizei os que vos maldizem e orai pelos que vos caluniam. Lc. ");
+    this.versiculos.push("Lc. 6.26-27 - Mas a vós, que ouvis, digo: Amai a vossos inimigos, fazei bem aos que vos aborrecem, bendizei os que vos maldizem e orai pelos que vos caluniam. Lc. ");
     this.versiculos.push("Fm. 1.25 - A graça de nosso Senhor Jesus Cristo seja com o vosso espírito. Amém! ");
     this.versiculos.push("Gl. 5.22-23 - Mas o fruto do Espírito é: amor, gozo, paz, longanimidade, benignidade, bondade, fé, mansidão, temperança. Contra essas coisas não há lei. ");
     this.versiculos.push("Dt. 28.1 - E será que, se ouvires a voz do Senhor, teu Deus, tendo cuidado de guardar todos os seus mandamentos que eu te ordeno hoje, o Senhor, teu Deus, te exaltará sobre todas as nações da terra.");

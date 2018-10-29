@@ -199,7 +199,6 @@ export class HomePage {
                   .versiculos[this.versiculoParaComentar.indexVersiculo]
                   .backgroundColor = "#EBEFF2";
                   
-                  this.bibliaProvider.salvarBiblia(this.biblia);
         } else {
           this.biblia.livros[this.versiculoParaComentar.indexLivro]
           .capitulos[this.versiculoParaComentar.indexCapitulo]

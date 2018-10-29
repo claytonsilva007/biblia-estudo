@@ -26,6 +26,7 @@ import { ConsultarVersiculoPage } from '../pages/consultar-versiculo/consultar-v
 
 import { SocialSharing } from '@ionic-native/social-sharing';
 import { UtilProvider } from '../providers/util/util';
+import { AppMinimize } from '@ionic-native/app-minimize';
 
 export const firebaseConfig = {
   apiKey: "AIzaSyBoOBgbbcVK1v7-k_4wj-wCJESmKr2TFeI",
@@ -73,7 +74,8 @@ export const firebaseConfig = {
     AngularFireDatabase,
     ConstantesProvider,
     SocialSharing,
-    UtilProvider
+    UtilProvider,
+    AppMinimize
   ]
 })
 export class AppModule {}
