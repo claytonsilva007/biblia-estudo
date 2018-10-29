@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, ModalController, LoadingController, NavParams } from 'ionic-angular';
+import { NavController, ModalController, LoadingController, NavParams, AlertController } from 'ionic-angular';
 import { Livro, Capitulo, Versiculo, Biblia } from '../../models/Biblia';
 import { ConfiguracaoBibliaProvider } from '../../providers/configuracao-biblia/configuracao-biblia';
 import { ComentariosPage } from '../comentarios/comentarios';
@@ -173,7 +173,7 @@ export class HomePage {
   navegarParaComentarios(){ 
     this.exibirBtnComentar = false;
     this.exibirPaletaDeCores = false;
-
+    
     let modalComentarios = this.modalCtrl.create(ComentariosPage, { 
                             "qtdeComentarios": this.biblia.livros[this.versiculoParaComentar.indexLivro]
                                                           .capitulos[this.versiculoParaComentar.indexCapitulo]
@@ -207,11 +207,7 @@ export class HomePage {
         } 
       });    
     }
-
-    ocultarBotao(){
-      this.exibirBtnComentar = false;
-    }
-
+    
     podeVisualizarComentariosExistentes(){
       if(this.biblia.livros[this.versiculoParaComentar.indexLivro]
                     .capitulos[this.versiculoParaComentar.indexCapitulo]
@@ -235,9 +231,9 @@ export class HomePage {
       
       let tituloParam = "Comentários: " + this.biblia.livros[this.versiculoParaComentar.indexLivro].nome + " " + (this.versiculoParaComentar.indexCapitulo+1) + "." + (this.versiculoParaComentar.indexVersiculo+1);
       let modalTodosComentarios = this.modalCtrl.create(ModalTodosComentariosPage, { "comentariosParam": versiculo.comentariosUsuario, "titulo": tituloParam });
+      
       modalTodosComentarios.present();
-
-      modalTodosComentarios.onDidDismiss(data => {this.verificaSeExistemComentarios(data.qtdeComentarios, versiculo )});
+      modalTodosComentarios.onDidDismiss(data => {this.verificaSeExistemComentarios(data.qtdeComentarios, versiculo )}); 
 
   }
 
@@ -311,6 +307,11 @@ export class HomePage {
     this.navCtrl.push(ConsultarVersiculoPage);
   }
 
+  ocultarBotao(){
+    this.exibirBtnComentar = false;
+  }
+
+
   ocultarBotaoBusca(){
     this.exibirBotaoDeBusca = false;
   }
@@ -381,7 +382,6 @@ export class HomePage {
   private hideLoading() {
     this.loading.dismiss();
   }
-
 }
 
 export class versiculoParaComentar{
