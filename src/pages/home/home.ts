@@ -293,6 +293,14 @@ export class HomePage {
     }
   }
 
+  swipeEvent(e) {
+    if(e.direction == 2){
+      this.navegarParaFrente();
+    } else if(e.direction == 4){
+      this.navegarParaTras();
+    }
+  }
+
   atualizarDadosNavegacao(){
     this.abaLivroDescricao = this.biblia.livros[this.versiculoParaComentar.indexLivro].nome;
     this.abaCapituloDescricao = "Capítulo: " + (this.versiculoParaComentar.indexCapitulo+1);
@@ -311,39 +319,50 @@ export class HomePage {
     this.exibirBotaoDeBusca = true;
   }
 
+  configBtnComentarios(){
+    if(this.exibirBtnComentar){
+      this.exibirBtnComentar = false;
+    } else{
+      this.exibirBtnComentar = true;
+    }
+  }
+
+  /** compartilhamento dos versículos selecionados */
   compartilharVersiculo(){
     this.regularShare();
     this.showLoading();
   }
 
   compartilharPorFacebook(){
-    console.log("compartilharPorWhatsApp");
+    this.socialSharing.shareViaFacebook(this.getTextoFormatadoParaCompartilhar());
   }
 
   compartilharPorWhatsApp(){
-    console.log("compartilharPorWhatsApp");
+    this.socialSharing.shareViaWhatsApp(this.getTextoFormatadoParaCompartilhar());
   }
 
   compartilharPorTwitter(){
-    console.log("compartilharPorTwitter");
+    this.socialSharing.shareViaTwitter(this.getTextoFormatadoParaCompartilhar());
   }
 
   regularShare() {    
+    this.socialSharing.share(this.getTextoFormatadoParaCompartilhar(), null, null, null).then( () => {
+      this.hideLoading();
+    }).catch(err => {
+      this.hideLoading();
+    });
+  }
+
+  getTextoFormatadoParaCompartilhar(): string{
     let vs = this.getVersiculosSelecionados();
     let texto = "";
-
     vs.forEach(versiculo => {
       texto = texto.concat(versiculo.texto);
     });
 
     texto = texto.concat("Biblia de Estudo");
-
-    this.socialSharing.share(texto, null, null, null).then( () => {
-      this.hideLoading();
-    }).catch(err => {
-      this.hideLoading();
-    });
     
+    return texto;
   }
 
   private showLoading() {

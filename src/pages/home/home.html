@@ -2,19 +2,19 @@
 
   <ion-toolbar>
 
-    <button ion-button menuToggle>
+    <button ion-button menuToggle color="primary">
       <ion-icon name="menu"></ion-icon>
     </button>
 
-    <ion-segment [(ngModel)]="segmentoSelecionado">
+    <ion-segment [(ngModel)]="segmentoSelecionado" color="danger">
       <ion-segment-button value="livros" (click)="exibirBtnBusca()">
-        <b style="color: black"> {{abaLivroDescricao}} </b>
+        <b style="color: #32db64"> {{abaLivroDescricao}} </b>
       </ion-segment-button>
       <ion-segment-button value="capitulos" (click)="ocultarBotaoBusca()">
-        <b style="color: black"> {{abaCapituloDescricao}} </b>
+        <b style="color: #32db64"> {{abaCapituloDescricao}} </b>
       </ion-segment-button>
       <ion-segment-button value="versiculos">
-        <b style="color: black">Versículos</b>
+        <b style="color: #32db64">Versículos</b>
       </ion-segment-button>
     </ion-segment>
 
@@ -23,7 +23,7 @@
 
 <ion-content>
 
-
+  <!-- COMENTÁRIOS --> 
   <ion-fab right middle edge *ngIf="exibirBtnComentar">
     <button ion-fab>
       <ion-icon name="text"></ion-icon>
@@ -36,7 +36,7 @@
       </button>
 
       <button ion-fab color="danger" *ngIf="podeVisualizarComentarios" (click)="exibirTodosComentarios()">
-        <ion-icon name="eye"></ion-icon>
+        <ion-icon name="create"></ion-icon>
       </button>
 
       <button ion-fab color="dark" (click)="ocultarBotao()">
@@ -46,13 +46,16 @@
     </ion-fab-list>
   </ion-fab>
 
+  <!-- BOTÃO DE PESQUISA. SOMENTE EXIBIDO NA TELA DE LIVROS --> 
+
   <ion-fab *ngIf="exibirBotaoDeBusca" right middle edge>
     <button ion-fab color="light" (click)="navegarParaTelaBusca()">
       <ion-icon name="search"></ion-icon>
     </button>
   </ion-fab>
 
-  <ion-fab *ngIf="exibirPaletaDeCores" left middle edge>
+  <!-- ÁREA DE COMPARTILHAMENTO -->
+  <ion-fab *ngIf="exibirPaletaDeCores" left middle edge (click)="configBtnComentarios()">
     <button ion-fab color="danger">
       <ion-icon ios="ios-share" md="md-share"></ion-icon>
     </button>
@@ -73,7 +76,8 @@
     </ion-fab-list>
   </ion-fab>
 
-  <div [ngSwitch]="segmentoSelecionado">
+  <!-- LIVROS --> 
+  <div [ngSwitch]="segmentoSelecionado" (swipe)="swipeEvent($event)">
     <ion-list *ngSwitchCase="'livros'">
       <ion-item-group>
         <ion-item (click)="atualizarSegmentoCapitulos(index)" *ngFor="let livro of biblia.livros; let index = index" no-lines>
@@ -83,7 +87,9 @@
       </ion-item-group>
     </ion-list>
 
-    <ion-list *ngSwitchCase="'capitulos'">
+    <!-- CAPÍTULOS --> 
+
+    <ion-list *ngSwitchCase="'capitulos'" (swipe)="swipeEvent($event)">
       <ion-grid *ngFor="let capitulo of biblia.livros[versiculoParaComentar.indexLivro].capitulos; let index = index" no-padding no-lines>
         <ion-row *ngIf="index % 4 == 0" no-padding justify-content-start align-items-start no-lines>
           <ion-col ion-item no-lines no-padding text-center (click)="atualizarSegmentoVersiculos(index)">
@@ -110,7 +116,9 @@
       </ion-grid>
     </ion-list>
 
-    <ion-list *ngSwitchCase="'versiculos'">
+    <!-- VERSÍCULOS --> 
+
+    <ion-list *ngSwitchCase="'versiculos'" (swipe)="swipeEvent($event)">
       <ion-item [ngStyle]="{'background-color': versiculo.backgroundColor!==null ? versiculo.backgroundColor : 'null' }"
         *ngFor="let versiculo of biblia.livros[this.versiculoParaComentar.indexLivro].capitulos[this.versiculoParaComentar.indexCapitulo].versiculos; let index = index"
         text-wrap (tap)="pressEvent($event, versiculo, index)" no-padding no-lines>
@@ -122,20 +130,22 @@
     <ion-item></ion-item>
   </div>
 
-
+  <!-- ÁREA DE NAVEGAÇÃO --> 
   <ion-fab bottom left *ngIf="exibirBotoesNavegacao">
     <button ion-fab mini color="branco" (click)="navegarParaTras()">
       <ion-icon name="arrow-dropleft"></ion-icon>
     </button>
   </ion-fab>
 
-  <ion-fab bottom right *ngIf="exibirBotoesNavegacao" (click)="navegarParaFrente()">
-    <button ion-fab mini color="branco">
+  <ion-fab bottom right *ngIf="exibirBotoesNavegacao">
+    <button ion-fab mini color="branco" (click)="navegarParaFrente()">
       <ion-icon name="arrow-dropright"></ion-icon>
     </button>
   </ion-fab>
 
 </ion-content>
+
+  <!-- PALETA DE CORES --> 
 
 <ion-footer no-shadow *ngIf="exibirPaletaDeCores">
   <ion-toolbar position="bottom">
