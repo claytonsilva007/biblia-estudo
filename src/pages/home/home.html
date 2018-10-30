@@ -18,6 +18,12 @@
       </ion-segment-button>
     </ion-segment>
 
+    <ion-buttons end>
+      <button ion-button color="primary" round (click)="presentActionSheet()">
+        <ion-icon name="more"></ion-icon>
+      </button>
+    </ion-buttons>
+
   </ion-toolbar>
 </ion-header>
 
@@ -85,7 +91,7 @@
     <ion-list *ngSwitchCase="'livros'">
       <ion-item-group>
         <ion-item (click)="atualizarSegmentoCapitulos(index)" *ngFor="let livro of biblia.livros; let index = index" no-lines>
-          <ion-label style="font-size: 18px; padding-right: 5px; padding-left: 5px; margin-bottom: 2px; text-justify: auto; width: 10px">{{livro.abreviatura}}</ion-label>
+          <ion-label [style.font-size]=" fontSize + 'rem' " style="padding-right: 5px; padding-left: 5px; margin-bottom: 2px; text-justify: auto; width: 10px">{{livro.abreviatura}}</ion-label>
           <ion-label style="font-size: 18px; padding-right: 5px; padding-left: 5px; margin-bottom: 2px; text-justify: auto">{{livro.nome}}</ion-label>-->
         </ion-item>
       </ion-item-group>

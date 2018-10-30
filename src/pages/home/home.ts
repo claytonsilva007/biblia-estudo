@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, ModalController, LoadingController, NavParams } from 'ionic-angular';
+import { NavController, ModalController, LoadingController, NavParams, ActionSheetController } from 'ionic-angular';
 import { Livro, Capitulo, Versiculo, Biblia } from '../../models/Biblia';
 import { ConfiguracaoBibliaProvider } from '../../providers/configuracao-biblia/configuracao-biblia';
 import { ComentariosPage } from '../comentarios/comentarios';
@@ -38,13 +38,15 @@ export class HomePage {
   VisualizarBtnCriar: boolean;
   ultimoVersiculoSelecionado: Versiculo;
   exibirBtnCompartilhamento: boolean;
-
   biblia: Biblia;
+
+  fontSize: number = 1;
 
   constructor(public navCtrl: NavController, public bibliaProvider: ConfiguracaoBibliaProvider, 
                 public modalCtrl: ModalController, public loadingCtrl: LoadingController, 
                 public constantes: ConstantesProvider, private socialSharing: SocialSharing, 
-    public navParams: NavParams, private utilProvider: UtilProvider, private toastCtrl: ToastController) {
+                public navParams: NavParams, private utilProvider: UtilProvider, 
+                private toastCtrl: ToastController, public actionSheetCtrl: ActionSheetController) {
 
     this.biblia = bibliaProvider.getBiblia();
     this.versiculoParaComentar = new versiculoParaComentar();
@@ -335,7 +337,8 @@ export class HomePage {
   atualizarDadosNavegacao(){
     this.abaLivroDescricao = this.biblia.livros[this.versiculoParaComentar.indexLivro].nome;
     this.abaCapituloDescricao = "Capítulo: " + (this.versiculoParaComentar.indexCapitulo+1);
-    this.segmentoSelecionado = "versiculos"; 
+    this.segmentoSelecionado = "versiculos";
+    this.exibirBotaoDeBusca = false; 
   }
 
   navegarParaTelaBusca(){
@@ -440,6 +443,14 @@ export class HomePage {
     return texto;
   }
 
+  aumentarFonte(){
+    this.fontSize = this.fontSize * 1.1;
+  }
+
+  reduzirFonte(){
+    this.fontSize = this.fontSize * 0.9;
+  }
+
   private showLoading() {
     let min = Math.ceil(0);
     let max = Math.floor(this.utilProvider.versiculos.length);
@@ -471,6 +482,38 @@ export class HomePage {
     toast.present();
   }
 
+
+  presentActionSheet() {
+    const actionSheet = this.actionSheetCtrl.create({
+      title: 'Configurações de Leitura',
+      buttons: [
+        {
+          text: 'Seus comentários',
+          role: '',
+          handler: () => {
+            console.log('Destructive clicked');
+          }
+        },{
+          text: 'Aumentar fonte',
+          handler: () => {
+            this.aumentarFonte();
+          }
+        },{
+          text: 'Comparar versões',
+          handler: () => {
+            console.log('Archive clicked');
+          }
+        },{
+          text: 'Cancel',
+          role: 'cancel',
+          handler: () => {
+            console.log('Cancel clicked');
+          }
+        }
+      ]
+    });
+    actionSheet.present();
+  }
 }
 
 export class versiculoParaComentar{
