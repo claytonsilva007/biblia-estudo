@@ -33,6 +33,8 @@ export class HomePage {
   exibirBotoesNavegacao: boolean;
   exibirBotaoDeBusca: boolean;
   loading: any;
+  VisualizarBtnCriar: boolean;
+  ultimoVersiculoSelecionado: Versiculo;
 
   biblia: Biblia;
 
@@ -48,6 +50,7 @@ export class HomePage {
     this.podeVisualizarComentarios = false;
     this.exibirBotoesNavegacao = true;
     this.exibirBotaoDeBusca = true;
+    this.VisualizarBtnCriar = true;
   } 
 
   ionViewDidLoad() {
@@ -88,6 +91,7 @@ export class HomePage {
     this.exibirPaletaDeCores = false;   
     this.configurarCoresDeSelecao(versiculo);
     this.configurarExibicaoControleNavegacao(versiculo);
+    this.ultimoVersiculoSelecionado = versiculo;
   }
 
   configurarCoresDeSelecao(versiculo: Versiculo){
@@ -99,6 +103,7 @@ export class HomePage {
       this.configurarExibicaoBotoes(versiculo);
     } else if(versiculo.backgroundColor === this.corLinhaComentada){
       this.exibirBtnComentar = true;
+      this.VisualizarBtnCriar = false;
       this.podeVisualizarComentarios = true;
     } else if(versiculo.backgroundColor !== this.linhaSemCor 
                 && versiculo.backgroundColor !== this.corLinhaComentada 
@@ -237,6 +242,13 @@ export class HomePage {
 
   }
 
+  excluirComentario(){
+    if(this.ultimoVersiculoSelecionado.comentariosUsuario.length > 0){
+      this.ultimoVersiculoSelecionado.backgroundColor = this.linhaSemCor;
+      this.ultimoVersiculoSelecionado.comentariosUsuario.splice(0, 1);
+    }
+  }
+
   verificaSeExistemComentarios(qtdeComentarios: number, versiculo: Versiculo){
     if(qtdeComentarios == 0 ){
       versiculo.backgroundColor = this.linhaSemCor;
@@ -318,6 +330,14 @@ export class HomePage {
   
   exibirBtnBusca(){
     this.exibirBotaoDeBusca = true;
+  }
+
+  podeVisualizarBtnCriar(): boolean{
+    
+    if (this.getVersiculosSelecionados().length == 0){
+      return true;  
+    }
+    return false;
   }
 
   configBtnComentarios(){

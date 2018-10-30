@@ -31,12 +31,16 @@
 
     <ion-fab-list side="left">
 
-      <button ion-fab color="secondary" (click)="navegarParaComentarios()">
+      <button ion-fab color="primary" (click)="navegarParaComentarios()" *ngIf="VisualizarBtnCriar">
         <ion-icon name="add-circle"></ion-icon>
       </button>
 
-      <button ion-fab color="danger" *ngIf="podeVisualizarComentarios" (click)="exibirTodosComentarios()">
+      <button ion-fab color="secondary" *ngIf="podeVisualizarComentarios" (click)="exibirTodosComentarios()">
         <ion-icon name="create"></ion-icon>
+      </button>
+
+      <button ion-fab color="danger" *ngIf="podeVisualizarComentarios" (click)="excluirComentario()">
+        <ion-icon name="trash"></ion-icon>
       </button>
 
       <button ion-fab color="dark" (click)="ocultarBotao()">

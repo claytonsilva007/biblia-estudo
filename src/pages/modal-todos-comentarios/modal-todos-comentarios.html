@@ -3,8 +3,8 @@
   <ion-navbar>
 
     <ion-buttons start>
-      <button ion-buttom (click)="closeModal()">
-        <ion-icon name="md-close" showWhen="android,windows"></ion-icon>
+      <button ion-buttom (click)="excluirComentario(0)">
+        <ion-icon name="trash"></ion-icon>
       </button>
     </ion-buttons>
 
@@ -15,19 +15,16 @@
 
 
 <ion-content padding>
-  <ion-list>
-    <ion-item text-wrap *ngFor="let comentarioLoop of comentarios; let index = index;">
-      <ion-item-divider color="light" (click)="excluirComentario(index)">
-        Comentário {{index + 1}} 
-        <ion-icon name="trash" item-end color="danger"></ion-icon>
-      </ion-item-divider>
 
-      <ion-textarea rows="8" value={{comentarioLoop}}></ion-textarea>
-      
-      <p></p>
-    </ion-item>
+  <ion-textarea rows="10" [(ngModel)]="comentarios[0]" value="comentarios[0]"></ion-textarea>
 
-    <button ion-button full color="primary" (click)="closeModal()">Salvar</button>
+  <p></p>
+  <p></p>
 
-  </ion-list>
+  <button ion-button full color="primary" (click)="closeModal()">Salvar</button>
+  <button ion-button full color="danger" (click)="closeModal()">Cancelar</button>
+  <button ion-button full color="secondary" clear (click)="exibirComentarios()" *ngIf="qtdeComentarios>0">Ver todos os
+    comentários</button>
+
+
 </ion-content>
