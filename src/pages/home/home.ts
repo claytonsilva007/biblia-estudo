@@ -37,6 +37,7 @@ export class HomePage {
   loading: any;
   VisualizarBtnCriar: boolean;
   ultimoVersiculoSelecionado: Versiculo;
+  exibirBtnCompartilhamento: boolean;
 
   biblia: Biblia;
 
@@ -53,6 +54,7 @@ export class HomePage {
     this.exibirBotoesNavegacao = true;
     this.exibirBotaoDeBusca = true;
     this.VisualizarBtnCriar = true;
+    this.exibirBtnCompartilhamento = false;
   } 
 
   ionViewDidLoad() {
@@ -90,7 +92,8 @@ export class HomePage {
    
     this.versiculoParaComentar.indexVersiculo = indexVersiculo;
     this.exibirBtnComentar = false;
-    this.exibirPaletaDeCores = false;   
+    this.exibirPaletaDeCores = false; 
+    this.exibirBtnCompartilhamento = false;
     this.configurarCoresDeSelecao(versiculo);
     this.configurarExibicaoControleNavegacao(versiculo);
     this.ultimoVersiculoSelecionado = versiculo;
@@ -112,6 +115,7 @@ export class HomePage {
                 && versiculo.backgroundColor !== this.corLinhaSelecionada){
 
         this.exibirPaletaDeCores = true;
+        this.exibirBtnCompartilhamento = true;
         versiculo.backgroundColor = this.corLinhaSelecionada;          
                   
     }
@@ -124,25 +128,30 @@ export class HomePage {
       if(qtdeVersiculosSelecionados === 0){
         this.exibirBtnComentar = false;
         this.exibirPaletaDeCores = false;
+        this.exibirBtnCompartilhamento = false;
         this.podeVisualizarComentarios = false;
       } else if(qtdeVersiculosSelecionados === 1){
         this.exibirBtnComentar = true;
         this.exibirPaletaDeCores = true;
+        this.exibirBtnCompartilhamento = true;
         this.exibirBtnComentar = true;
         if(versiculo.comentariosUsuario.length > 0){
           this.podeVisualizarComentarios = true;
         }
       } else if(qtdeVersiculosSelecionados > 1){
         this.exibirBtnComentar = false;
-        this.exibirPaletaDeCores = true;
+        this.exibirPaletaDeCores = false;
+        this.exibirBtnCompartilhamento = false;
         this.podeVisualizarComentarios = false;
       }
     } else if(qtdeVersiculosSelecionados === 1){
       this.exibirBtnComentar = true;
         this.exibirPaletaDeCores = true;
+      this.exibirBtnCompartilhamento = false;
     }else if(qtdeVersiculosSelecionados > 1) {
       this.exibirBtnComentar = false;
       this.exibirPaletaDeCores = true;
+      this.exibirBtnCompartilhamento = true;
     } 
   }
 
@@ -181,6 +190,7 @@ export class HomePage {
   navegarParaComentarios(){ 
     this.exibirBtnComentar = false;
     this.exibirPaletaDeCores = false;
+    this.exibirBtnCompartilhamento = false;
     
     let modalComentarios = this.modalCtrl.create(ComentariosPage, { 
                             "qtdeComentarios": this.biblia.livros[this.versiculoParaComentar.indexLivro]
@@ -352,6 +362,14 @@ export class HomePage {
       this.exibirBtnComentar = false;
     } else{
       this.exibirBtnComentar = true;
+    }
+  }
+
+  configBtnCompartilhamentos(){
+    if (this.exibirBtnCompartilhamento){
+      this.exibirBtnCompartilhamento = false;
+    } else {
+      this.exibirBtnCompartilhamento = true;
     }
   }
 

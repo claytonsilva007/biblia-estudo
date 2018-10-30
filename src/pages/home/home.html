@@ -2,7 +2,7 @@
 
   <ion-toolbar>
 
-    <button ion-button menuToggle color="primary">
+    <button ion-button menuToggle color="primary" style="display:block; height: 45px; width: 45px; border-radius: 85%; border: 2px solid yellow;"> 
       <ion-icon name="menu"></ion-icon>
     </button>
 
@@ -24,7 +24,7 @@
 <ion-content>
 
   <!-- COMENTÁRIOS --> 
-  <ion-fab right middle edge *ngIf="exibirBtnComentar">
+  <ion-fab right middle edge *ngIf="exibirBtnComentar" (click)="configBtnCompartilhamentos()">
     <button ion-fab>
       <ion-icon name="text"></ion-icon>
     </button>
@@ -59,7 +59,7 @@
   </ion-fab>
 
   <!-- ÁREA DE COMPARTILHAMENTO -->
-  <ion-fab *ngIf="exibirPaletaDeCores" left middle edge (click)="configBtnComentarios()">
+  <ion-fab *ngIf="exibirBtnCompartilhamento" left middle edge (click)="configBtnComentarios()">
     <button ion-fab color="danger">
       <ion-icon ios="ios-share" md="md-share"></ion-icon>
     </button>
