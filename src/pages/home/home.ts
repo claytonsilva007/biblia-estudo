@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, ModalController, LoadingController, NavParams, AlertController } from 'ionic-angular';
+import { NavController, ModalController, LoadingController, NavParams } from 'ionic-angular';
 import { Livro, Capitulo, Versiculo, Biblia } from '../../models/Biblia';
 import { ConfiguracaoBibliaProvider } from '../../providers/configuracao-biblia/configuracao-biblia';
 import { ComentariosPage } from '../comentarios/comentarios';
@@ -10,6 +10,8 @@ import { ConsultarVersiculoPage } from '../consultar-versiculo/consultar-versicu
 
 import { SocialSharing } from '@ionic-native/social-sharing';
 import { UtilProvider } from '../../providers/util/util';
+
+import { ToastController } from 'ionic-angular';
 
 @Component({
   selector: 'page-home',
@@ -41,7 +43,7 @@ export class HomePage {
   constructor(public navCtrl: NavController, public bibliaProvider: ConfiguracaoBibliaProvider, 
                 public modalCtrl: ModalController, public loadingCtrl: LoadingController, 
                 public constantes: ConstantesProvider, private socialSharing: SocialSharing, 
-                public navParams: NavParams, private utilProvider: UtilProvider) {
+    public navParams: NavParams, private utilProvider: UtilProvider, private toastCtrl: ToastController) {
 
     this.biblia = bibliaProvider.getBiblia();
     this.versiculoParaComentar = new versiculoParaComentar();
@@ -126,6 +128,7 @@ export class HomePage {
       } else if(qtdeVersiculosSelecionados === 1){
         this.exibirBtnComentar = true;
         this.exibirPaletaDeCores = true;
+        this.exibirBtnComentar = true;
         if(versiculo.comentariosUsuario.length > 0){
           this.podeVisualizarComentarios = true;
         }
@@ -203,6 +206,8 @@ export class HomePage {
                   .capitulos[this.versiculoParaComentar.indexCapitulo]
                   .versiculos[this.versiculoParaComentar.indexVersiculo]
                   .backgroundColor = "#EBEFF2";
+            
+            this.presentToast("Comentário adicionado com sucesso!");      
                   
         } else {
           this.biblia.livros[this.versiculoParaComentar.indexLivro]
@@ -246,6 +251,8 @@ export class HomePage {
     if(this.ultimoVersiculoSelecionado.comentariosUsuario.length > 0){
       this.ultimoVersiculoSelecionado.backgroundColor = this.linhaSemCor;
       this.ultimoVersiculoSelecionado.comentariosUsuario.splice(0, 1);
+      this.exibirBtnComentar = false;
+      this.presentToast("Comentário excluído com sucesso!");
     }
   }
 
@@ -402,6 +409,21 @@ export class HomePage {
   private hideLoading() {
     this.loading.dismiss();
   }
+
+  presentToast(mensagem: string) {
+    let toast = this.toastCtrl.create({
+      message: mensagem,
+      duration: 3000,
+      position: 'botom'
+    });
+
+    toast.onDidDismiss(() => {
+     
+    });
+
+    toast.present();
+  }
+
 }
 
 export class versiculoParaComentar{
