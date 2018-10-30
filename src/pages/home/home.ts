@@ -380,15 +380,15 @@ export class HomePage {
   }
 
   compartilharPorFacebook(){
-    this.socialSharing.shareViaFacebook(this.getTextoFormatadoParaCompartilhar());
+    this.socialSharing.shareViaFacebook(this.getTextoFormatadoParaCompartilhar(), "", "");
   }
 
   compartilharPorWhatsApp(){
-    this.socialSharing.shareViaWhatsApp(this.getTextoFormatadoParaCompartilhar());
+    this.socialSharing.shareViaWhatsApp(this.getTextoFormatadoParaCompartilhar(), "", "");
   }
 
   compartilharPorTwitter(){
-    this.socialSharing.shareViaTwitter(this.getTextoFormatadoParaCompartilhar());
+    this.socialSharing.shareViaTwitter(this.getTextoFormatadoParaCompartilhar(), "", "");
   }
 
   regularShare() {    
@@ -431,7 +431,7 @@ export class HomePage {
   presentToast(mensagem: string) {
     let toast = this.toastCtrl.create({
       message: mensagem,
-      duration: 3000,
+      duration: 1500,
       position: 'botom'
     });
 
