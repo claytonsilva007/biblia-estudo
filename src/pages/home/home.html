@@ -6,7 +6,7 @@
       <ion-icon name="menu"></ion-icon>
     </button>
 
-    <ion-segment [(ngModel)]="segmentoSelecionado" color="danger">
+    <ion-segment [(ngModel)]="segmentoSelecionado" color="danger" (click)="ocultarBtnCompartilharEComentarClick()">
       <ion-segment-button value="livros" (click)="exibirBtnBusca()">
         <b style="color: #32db64"> {{abaLivroDescricao}} </b>
       </ion-segment-button>
@@ -23,7 +23,7 @@
 
 <ion-content>
 
-  <!-- COMENTÁRIOS --> 
+  <!-- FAB DE COMENTÁRIOS --> 
   <ion-fab right middle edge *ngIf="exibirBtnComentar" (click)="configBtnCompartilhamentos()">
     <button ion-fab>
       <ion-icon name="text"></ion-icon>
@@ -53,7 +53,7 @@
   <!-- BOTÃO DE PESQUISA. SOMENTE EXIBIDO NA TELA DE LIVROS --> 
 
   <ion-fab *ngIf="exibirBotaoDeBusca" right middle edge>
-    <button ion-fab color="light" (click)="navegarParaTelaBusca()">
+    <button ion-fab color="primary" mini (click)="navegarParaTelaBusca()">
       <ion-icon name="search"></ion-icon>
     </button>
   </ion-fab>
@@ -85,8 +85,8 @@
     <ion-list *ngSwitchCase="'livros'">
       <ion-item-group>
         <ion-item (click)="atualizarSegmentoCapitulos(index)" *ngFor="let livro of biblia.livros; let index = index" no-lines>
-          <ion-label style="font-size: 18px; padding-right: 15px; padding-left: 15px; margin-bottom: 2px; text-justify: auto">{{livro.abreviatura}}</ion-label>
-          <ion-label style="font-size: 18px; padding-right: 15px; padding-left: 15px; margin-bottom: 2px; text-justify: auto">{{livro.nome}}</ion-label>
+          <ion-label style="font-size: 18px; padding-right: 5px; padding-left: 5px; margin-bottom: 2px; text-justify: auto; width: 10px">{{livro.abreviatura}}</ion-label>
+          <ion-label style="font-size: 18px; padding-right: 5px; padding-left: 5px; margin-bottom: 2px; text-justify: auto">{{livro.nome}}</ion-label>-->
         </ion-item>
       </ion-item-group>
     </ion-list>
@@ -97,23 +97,23 @@
       <ion-grid *ngFor="let capitulo of biblia.livros[versiculoParaComentar.indexLivro].capitulos; let index = index" no-padding no-lines>
         <ion-row *ngIf="index % 4 == 0" no-padding justify-content-start align-items-start no-lines>
           <ion-col ion-item no-lines no-padding text-center (click)="atualizarSegmentoVersiculos(index)">
-            <button round outline ion-button color="dark" *ngIf="index+1 <= biblia.livros[versiculoParaComentar.indexLivro].capitulos.length">
-              {{index+1}}
+            <button round ion-button color="primary" *ngIf="index+1 <= biblia.livros[versiculoParaComentar.indexLivro].capitulos.length">
+              <b style="font-size: 18px; padding-right: 5px; padding-left: 5px; margin-bottom: 2px; text-justify: auto">{{index+1}}</b>
             </button>
           </ion-col>
           <ion-col ion-col ion-item no-lines no-padding text-center (click)="atualizarSegmentoVersiculos(index+1)">
-            <button round outline ion-button color="dark" *ngIf="index+2 <= biblia.livros[versiculoParaComentar.indexLivro].capitulos.length">
-              {{index+2}}
+            <button round ion-button color="primary" *ngIf="index+2 <= biblia.livros[versiculoParaComentar.indexLivro].capitulos.length">
+                <b style="font-size: 18px; padding-right: 5px; padding-left: 5px; margin-bottom: 2px; text-justify: auto">{{index+2}}</b>
             </button>
           </ion-col>
           <ion-col ion-item no-lines no-padding text-center (click)="atualizarSegmentoVersiculos(index+2)">
-            <button round outline ion-button color="dark" *ngIf="index+3 <= biblia.livros[versiculoParaComentar.indexLivro].capitulos.length">
-              {{index+3}}
+            <button round ion-button color="primary" *ngIf="index+3 <= biblia.livros[versiculoParaComentar.indexLivro].capitulos.length">
+                <b style="font-size: 18px; padding-right: 5px; padding-left: 5px; margin-bottom: 2px; text-justify: auto">{{index+3}}</b>
             </button>
           </ion-col>
           <ion-col ion-item no-lines no-padding text-center (click)="atualizarSegmentoVersiculos(index+3)">
-            <button round outline ion-button color="dark" *ngIf="index+4 <= biblia.livros[versiculoParaComentar.indexLivro].capitulos.length">
-              {{index+4}}
+            <button round ion-button color="primary" *ngIf="index+4 <= biblia.livros[versiculoParaComentar.indexLivro].capitulos.length">
+                <b style="font-size: 18px; padding-right: 5px; padding-left: 5px; margin-bottom: 2px; text-justify: auto">{{index+4}}</b>
             </button>
           </ion-col>
         </ion-row>
@@ -127,7 +127,7 @@
         *ngFor="let versiculo of biblia.livros[this.versiculoParaComentar.indexLivro].capitulos[this.versiculoParaComentar.indexCapitulo].versiculos; let index = index"
         text-wrap (tap)="pressEvent($event, versiculo, index)" no-padding no-lines>
         <ion-label range-left style="font-size: 18px; padding-right: 15px; padding-left: 15px; margin-bottom: 2px; text-justify: auto">
-          {{ index+1 + ". " + versiculo.texto}}
+          <b style="color: #488aff">{{ index+1 + "." }}</b> {{versiculo.texto}}
         </ion-label>
       </ion-item>
     </ion-list>
@@ -136,13 +136,13 @@
 
   <!-- ÁREA DE NAVEGAÇÃO --> 
   <ion-fab bottom left *ngIf="exibirBotoesNavegacao">
-    <button ion-fab mini color="branco" (click)="navegarParaTras()">
+    <button ion-fab mini color="secondary" (click)="navegarParaTras()">
       <ion-icon name="arrow-dropleft"></ion-icon>
     </button>
   </ion-fab>
 
   <ion-fab bottom right *ngIf="exibirBotoesNavegacao">
-    <button ion-fab mini color="branco" (click)="navegarParaFrente()">
+    <button ion-fab mini color="secondary" (click)="navegarParaFrente()">
       <ion-icon name="arrow-dropright"></ion-icon>
     </button>
   </ion-fab>

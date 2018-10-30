@@ -64,6 +64,7 @@ export class HomePage {
       this.atualizarSegmentoVersiculos(versiculo.codigoCapitulo);
       this.segmentoSelecionado = "versiculos";
       this.exibirBotaoDeBusca = false;
+      this.exibirBotoesNavegacao = true;
     }
     
   }
@@ -75,6 +76,8 @@ export class HomePage {
     this.segmentoSelecionado = "capitulos";
     this.abaCapituloDescricao = "Capítulos";
     this.exibirBotaoDeBusca = false;
+    this.exibirBtnCompartilhamento = false;
+    this.exibirBotoesNavegacao = true;
   }
 
   atualizarSegmentoVersiculos(indexCapitulo: number){
@@ -82,6 +85,8 @@ export class HomePage {
     this.abaCapituloDescricao = "Capítulo: " + (indexCapitulo+1);
     this.versiculoParaComentar.indexCapitulo = indexCapitulo;
     this.exibirBotaoDeBusca = false;
+    this.exibirBtnCompartilhamento = false;
+    this.exibirBotoesNavegacao = true;
   }
 
   /**
@@ -184,6 +189,7 @@ export class HomePage {
 
     this.exibirPaletaDeCores = false;
     this.exibirBtnComentar = false;
+    this.exibirBtnCompartilhamento = false;
 
   }
  
@@ -344,7 +350,26 @@ export class HomePage {
   ocultarBotaoBusca(){
     this.exibirBotaoDeBusca = false;
   }
+
+  // SEMPRE QUE O USUÁRIO ESTIVER EM UM SEGMENTO DIFERENTE DE VERSÍCULOS, OS BOTÕES ABAIXO DEVEM SER OCULTADOS.
+  ocultarBtnCompartilharEComentarClick(){
+    if(this.segmentoSelecionado === "livros" || this.segmentoSelecionado === "capitulos"){
+      this.exibirBtnCompartilhamento = false;
+      this.exibirBtnComentar = false;      
+      this.getVersiculosSelecionados().forEach(v => {v.backgroundColor = this.linhaSemCor});
+      this.exibirPaletaDeCores = false;
+      this.exibirBotoesNavegacao = true;
+    }
+  }
   
+  ocultarBtnCompartilharEComentar(){
+      this.exibirBtnCompartilhamento = false;
+      this.exibirBtnComentar = false;      
+      this.getVersiculosSelecionados().forEach(v => {v.backgroundColor = this.linhaSemCor});
+      this.exibirPaletaDeCores = false;
+      this.exibirBotoesNavegacao = true;
+  }
+
   exibirBtnBusca(){
     this.exibirBotaoDeBusca = true;
   }
@@ -381,14 +406,17 @@ export class HomePage {
 
   compartilharPorFacebook(){
     this.socialSharing.shareViaFacebook(this.getTextoFormatadoParaCompartilhar(), "", "");
+    this.ocultarBtnCompartilharEComentar();
   }
 
   compartilharPorWhatsApp(){
     this.socialSharing.shareViaWhatsApp(this.getTextoFormatadoParaCompartilhar(), "", "");
+    this.ocultarBtnCompartilharEComentar();
   }
 
   compartilharPorTwitter(){
     this.socialSharing.shareViaTwitter(this.getTextoFormatadoParaCompartilhar(), "", "");
+    this.ocultarBtnCompartilharEComentar();
   }
 
   regularShare() {    
@@ -397,6 +425,7 @@ export class HomePage {
     }).catch(err => {
       this.hideLoading();
     });
+    this.ocultarBtnCompartilharEComentar();
   }
 
   getTextoFormatadoParaCompartilhar(): string{
