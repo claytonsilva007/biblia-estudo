@@ -12,6 +12,7 @@ import { SocialSharing } from '@ionic-native/social-sharing';
 import { UtilProvider } from '../../providers/util/util';
 
 import { ToastController } from 'ionic-angular';
+import { ModalFontePage } from '../modal-fonte/modal-fonte';
 
 @Component({
   selector: 'page-home',
@@ -40,7 +41,7 @@ export class HomePage {
   exibirBtnCompartilhamento: boolean;
   biblia: Biblia;
 
-  fontSize: number = 1;
+  fontSize: number;
 
   constructor(public navCtrl: NavController, public bibliaProvider: ConfiguracaoBibliaProvider, 
                 public modalCtrl: ModalController, public loadingCtrl: LoadingController, 
@@ -57,6 +58,7 @@ export class HomePage {
     this.exibirBotaoDeBusca = true;
     this.VisualizarBtnCriar = true;
     this.exibirBtnCompartilhamento = false;
+    this.fontSize = this.bibliaProvider.biblia.tamanhoFonte;
   } 
 
   ionViewDidLoad() {
@@ -443,12 +445,9 @@ export class HomePage {
     return texto;
   }
 
-  aumentarFonte(){
-    this.fontSize = this.fontSize * 1.1;
-  }
-
-  reduzirFonte(){
-    this.fontSize = this.fontSize * 0.9;
+  configurarFonte(){
+    this.modalCtrl.create(ModalFontePage).present();
+    this.fontSize = this.bibliaProvider.biblia.tamanhoFonte;
   }
 
   private showLoading() {
@@ -494,9 +493,9 @@ export class HomePage {
             console.log('Destructive clicked');
           }
         },{
-          text: 'Aumentar fonte',
+          text: 'Ajustar tamanho da fonte',
           handler: () => {
-            this.aumentarFonte();
+            this.configurarFonte();
           }
         },{
           text: 'Comparar versões',

@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFireDatabase } from '@angular/fire/database';
 import { Observable } from 'rxjs';
-import { Storage } from '@ionic/storage';
-
 
 @Injectable()
 export class SincronizadorProvider {
@@ -11,7 +9,7 @@ export class SincronizadorProvider {
   items: Observable<any[]>;
   livros: string = ""; 
 
-  constructor(private afDB: AngularFireDatabase, private storage: Storage) {
+  constructor(private afDB: AngularFireDatabase) {
     
   }
 

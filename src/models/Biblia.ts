@@ -1,6 +1,7 @@
 export class Biblia {
     nome: string;
     livros: Livro[];
+    tamanhoFonte: number = 2;
 
     constructor() {
         this.livros = new Array();

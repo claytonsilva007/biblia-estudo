@@ -1,0 +1,30 @@
+
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Tamanho da Fonte: {{tamanhoFonte}}</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content padding>
+  
+  <ion-item style="text-align: center" no-lines>
+    <ion-label style="align-items: center" [style.font-size]= " tamanhoFonte + 'rem' ">{{frase}}</ion-label>
+  </ion-item>
+  
+  <ion-item no-lines></ion-item>
+ 
+  <ion-item no-lines>
+    <ion-range min="1" max="5" [(ngModel)]="tamanhoFonte" color="secondary">
+      <ion-label range-left><b>1</b></ion-label>
+      <ion-label range-right><b>5</b></ion-label>
+    </ion-range>
+  </ion-item>
+
+  <ion-item no-lines></ion-item>
+
+  <button ion-button full color="primary" (click)="salvar()">Salvar</button>
+  <button ion-button full color="danger" (click)="closeModal()">Cancelar</button>
+
+</ion-content>
