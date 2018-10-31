@@ -484,7 +484,7 @@ export class HomePage {
 
   presentActionSheet() {
     const actionSheet = this.actionSheetCtrl.create({
-      title: 'Configurações de Leitura',
+      title: 'Opções de Leitura',
       buttons: [
         {
           text: 'Seus comentários',

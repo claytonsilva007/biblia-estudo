@@ -1,7 +1,7 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title><b style="color: #32db64">Configurar Fonte</b></ion-title>
+    <ion-title><b style="color: #32db64"> Tamanho da fonte: </b> <b style="color: #488aff">{{fonteCabecaho}}</b> </ion-title>
   </ion-navbar>
 
 </ion-header>
@@ -31,6 +31,7 @@
   <ion-item no-lines></ion-item>
 
   <button ion-button full color="primary" (click)="salvar()">Salvar</button>
-  <button ion-button full color="danger" (click)="closeModal()">Cancelar</button>
+  <button ion-button full color="danger"  (click)="closeModal()">Cancelar</button>
+  <button ion-button full outline clear color="secondary"  (click)="restaurarValorPadrao()">Restarurar valor padrão</button>
 
 </ion-content>
