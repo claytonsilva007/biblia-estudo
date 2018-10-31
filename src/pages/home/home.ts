@@ -42,6 +42,7 @@ export class HomePage {
   biblia: Biblia;
 
   fontSize: number;
+  exibirComentariosUsuario: boolean;
 
   constructor(public navCtrl: NavController, public bibliaProvider: ConfiguracaoBibliaProvider, 
                 public modalCtrl: ModalController, public loadingCtrl: LoadingController, 
@@ -59,6 +60,7 @@ export class HomePage {
     this.VisualizarBtnCriar = true;
     this.exibirBtnCompartilhamento = false;
     this.fontSize = this.bibliaProvider.biblia.tamanhoFonte;
+    this.exibirComentariosUsuario = false;
   } 
 
   ionViewDidLoad() {
@@ -487,10 +489,10 @@ export class HomePage {
       title: 'Opções de Leitura',
       buttons: [
         {
-          text: 'Seus comentários',
+          text: 'Visualiar seus comentários',
           role: '',
           handler: () => {
-            console.log('Destructive clicked');
+            this.exibirComentariosUsuario = true;
           }
         },{
           text: 'Ajustar tamanho da fonte',

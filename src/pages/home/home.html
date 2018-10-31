@@ -134,7 +134,13 @@
         text-wrap (tap)="pressEvent($event, versiculo, index)" no-padding no-lines>
         <ion-label range-left [style.font-size]=" this.bibliaProvider.biblia.tamanhoFonte + 'rem' " style="padding-right: 15px; padding-left: 15px; margin-bottom: 2px; text-justify: auto">
           <b style="color: #488aff">{{ index+1 + "." }}</b> {{versiculo.texto}}
-        </ion-label>
+        </ion-label>      
+
+        <ion-item *ngIf="exibirComentariosUsuario && versiculo.comentariosUsuario.length > 0">
+            <ion-label>
+                {{versiculo.comentariosUsuario[0]}}
+              </ion-label>
+        </ion-item>
       </ion-item>
     </ion-list>
     <ion-item></ion-item>
