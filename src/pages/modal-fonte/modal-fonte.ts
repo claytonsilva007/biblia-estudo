@@ -19,14 +19,19 @@ export class ModalFontePage {
     
     this.frase = "Jesus!";
   }
+  
 
-  ionViewDidLoad() {
-    
+  aumentar(){
+    this.tamanhoFonte = this.tamanhoFonte + 0.1;
+  }
+
+  diminuir(){
+    this.tamanhoFonte = this.tamanhoFonte - 0.1;
   }
 
   salvar(){
     this.bibliaProvider.biblia.tamanhoFonte = this.tamanhoFonte;
-    this.closeModal();
+    this.viewController.dismiss();
   }
   
   closeModal() {

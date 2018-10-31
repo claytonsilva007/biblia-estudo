@@ -42,7 +42,6 @@ export class UtilProvider {
     this.versiculos.push("Rm. 8.31 - Que diremos, pois, diante dessas coisas? Se Deus é por nós, quem será contra nós?"); 
     this.versiculos.push("Js. 10.18 - E disse o Senhor a Josué: “Não tenha medo desses reis; eu os entreguei nas suas mãos. Ne­nhum deles conseguirá resistir a você.");
     this.versiculos.push("Nm. 6:24-26 – “O Senhor te abençoe e te guarde; o Senhor faça resplandecer o seu rosto sobre ti e te conceda graça; o Senhor volte para ti o seu rosto e te dê paz”");
-    this.versiculos.push("Êx. 23:25 – “Pres­tem culto ao Senhor, o Deus de vocês, e ele os aben­çoará, dando a vocês alimento e água. Tirarei a doença do meio de vocês");
     this.versiculos.push("Pv. 16: 3 – Consagre ao Senhor tudo o que você faz, e os seus planos serão bem - sucedidos");
     this.versiculos.push("Tg. 4.7 – Sujeitai-vos, pois, a Deus, resisti ao Diabo, e ele fugirá de vós.");
   }

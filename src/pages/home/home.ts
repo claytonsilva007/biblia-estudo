@@ -446,8 +446,8 @@ export class HomePage {
   }
 
   configurarFonte(){
-    this.modalCtrl.create(ModalFontePage).present();
-    this.fontSize = this.bibliaProvider.biblia.tamanhoFonte;
+    let modalFonte = this.modalCtrl.create(ModalFontePage);
+    modalFonte.present();
   }
 
   private showLoading() {
@@ -496,17 +496,18 @@ export class HomePage {
           text: 'Ajustar tamanho da fonte',
           handler: () => {
             this.configurarFonte();
+            this.fontSize = this.bibliaProvider.biblia.tamanhoFonte;
           }
         },{
           text: 'Comparar versões',
           handler: () => {
-            console.log('Archive clicked');
+            
           }
         },{
           text: 'Cancel',
           role: 'cancel',
           handler: () => {
-            console.log('Cancel clicked');
+            
           }
         }
       ]
