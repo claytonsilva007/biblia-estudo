@@ -22,7 +22,7 @@ export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
   rootPage: any = HomePage;
-  pages: Array<{ title: string, component: any }>;
+  pages: Array<{ title: string, component: any, icon: string }>;
 
   loading: any;
   
@@ -35,8 +35,8 @@ export class MyApp {
 
     // used for an example of ngFor and navigation
     this.pages = [
-      { title: 'Biblia de Estudo', component: HomePage },
-      { title: 'Consultar Versísulos', component: ConsultarVersiculoPage }
+      { title: 'Biblia de Estudo', component: HomePage, icon: 'book'},
+      { title: 'Consultar Versísulos', component: ConsultarVersiculoPage, icon: 'search' }
     ];
   }
 

@@ -6,6 +6,7 @@ export class Biblia {
     constructor() {
         this.livros = new Array();
     }
+    
 }
 
 export class Livro {
