@@ -19,9 +19,6 @@ import { ModalFontePage } from '../modal-fonte/modal-fonte';
   templateUrl: 'home.html'
 })
 export class HomePage {
-  corLinhaSelecionada: string = "#C2C7D6";
-  corLinhaComentada: string = "#EBEFF2";
-  linhaSemCor: string = "#FFFFFF"; 
 
   segmentoSelecionado: string = "livros";
   abaLivroDescricao: string = "Livros"
@@ -111,23 +108,23 @@ export class HomePage {
   }
 
   configurarCoresDeSelecao(versiculo: Versiculo){
-    if(versiculo.backgroundColor === this.linhaSemCor){
-      versiculo.backgroundColor = this.corLinhaSelecionada;      
+    if(versiculo.backgroundColor === this.constantes.TEXTO_SEM_COR){
+      versiculo.backgroundColor = this.constantes.COR_TEXTO_SELECIONADO;      
       this.configurarExibicaoBotoes(versiculo);
-    } else if(versiculo.backgroundColor === this.corLinhaSelecionada){
-      versiculo.backgroundColor = this.linhaSemCor;
+    } else if(versiculo.backgroundColor === this.constantes.COR_TEXTO_SELECIONADO){
+      versiculo.backgroundColor = this.constantes.COR_TEXTO_SELECIONADO;
       this.configurarExibicaoBotoes(versiculo);
-    } else if(versiculo.backgroundColor === this.corLinhaComentada){
+    } else if(versiculo.backgroundColor === this.constantes.COR_TEXTO_COMENTADO){
       this.exibirBtnComentar = true;
       this.VisualizarBtnCriar = false;
       this.podeVisualizarComentarios = true;
-    } else if(versiculo.backgroundColor !== this.linhaSemCor 
-                && versiculo.backgroundColor !== this.corLinhaComentada 
-                && versiculo.backgroundColor !== this.corLinhaSelecionada){
+    } else if(versiculo.backgroundColor !== this.constantes.COR_TEXTO_SELECIONADO 
+                && versiculo.backgroundColor !== this.constantes.COR_TEXTO_COMENTADO 
+                && versiculo.backgroundColor !== this.constantes.COR_TEXTO_SELECIONADO){
 
         this.exibirPaletaDeCores = true;
         this.exibirBtnCompartilhamento = true;
-        versiculo.backgroundColor = this.corLinhaSelecionada;          
+        versiculo.backgroundColor = this.constantes.COR_TEXTO_SELECIONADO;          
                   
     }
   }
@@ -135,7 +132,7 @@ export class HomePage {
   configurarExibicaoBotoes(versiculo: Versiculo){
     let qtdeVersiculosSelecionados = this.getQuantidadeLinhasSelecionadas();
 
-    if(versiculo.backgroundColor === this.corLinhaSelecionada){
+    if(versiculo.backgroundColor === this.constantes.COR_TEXTO_SELECIONADO){
       if(qtdeVersiculosSelecionados === 0){
         this.exibirBtnComentar = false;
         this.exibirPaletaDeCores = false;
@@ -177,18 +174,18 @@ export class HomePage {
   getQuantidadeLinhasSelecionadas(): number{
         return this.biblia.livros[this.versiculoParaComentar.indexLivro]
                       .capitulos[this.versiculoParaComentar.indexCapitulo]
-                      .versiculos.filter(vLoop => vLoop.backgroundColor === this.corLinhaSelecionada).length;
+                      .versiculos.filter(vLoop => vLoop.backgroundColor === this.constantes.COR_TEXTO_SELECIONADO).length;
   }
 
   getVersiculosSelecionados(): Versiculo[] {
     return this.biblia.livros[this.versiculoParaComentar.indexLivro]
       .capitulos[this.versiculoParaComentar.indexCapitulo]
-      .versiculos.filter(vLoop => vLoop.backgroundColor === this.corLinhaSelecionada);
+      .versiculos.filter(vLoop => vLoop.backgroundColor === this.constantes.COR_TEXTO_SELECIONADO);
   }
 
   setarCor(cor:string){
     this.biblia.livros[this.versiculoParaComentar.indexLivro].capitulos[this.versiculoParaComentar.indexCapitulo].versiculos
-      .filter(versiculoLoop => versiculoLoop.backgroundColor === this.corLinhaSelecionada)
+      .filter(versiculoLoop => versiculoLoop.backgroundColor === this.constantes.COR_TEXTO_SELECIONADO)
             .forEach(versiculoLoop => {
               versiculoLoop.backgroundColor = cor; 
             });
@@ -244,7 +241,7 @@ export class HomePage {
       if(this.biblia.livros[this.versiculoParaComentar.indexLivro]
                     .capitulos[this.versiculoParaComentar.indexCapitulo]
                     .versiculos[this.versiculoParaComentar.indexVersiculo]
-                    .backgroundColor === this.corLinhaComentada){
+                    .backgroundColor === this.constantes.COR_TEXTO_COMENTADO){
 
                       if (this.biblia.livros[this.versiculoParaComentar.indexLivro]
                                       .capitulos[this.versiculoParaComentar.indexCapitulo]
@@ -271,7 +268,7 @@ export class HomePage {
 
   excluirComentario(){
     if(this.ultimoVersiculoSelecionado.comentariosUsuario.length > 0){
-      this.ultimoVersiculoSelecionado.backgroundColor = this.linhaSemCor;
+      this.ultimoVersiculoSelecionado.backgroundColor = this.constantes.COR_TEXTO_SELECIONADO;
       this.ultimoVersiculoSelecionado.comentariosUsuario.splice(0, 1);
       this.exibirBtnComentar = false;
       this.presentToast("Comentário excluído com sucesso!");
@@ -280,7 +277,7 @@ export class HomePage {
 
   verificaSeExistemComentarios(qtdeComentarios: number, versiculo: Versiculo){
     if(qtdeComentarios == 0 ){
-      versiculo.backgroundColor = this.linhaSemCor;
+      versiculo.backgroundColor = this.constantes.COR_TEXTO_SELECIONADO;
       this.exibirBtnComentar = false;
     }
   }
@@ -363,7 +360,7 @@ export class HomePage {
     if(this.segmentoSelecionado === "livros" || this.segmentoSelecionado === "capitulos"){
       this.exibirBtnCompartilhamento = false;
       this.exibirBtnComentar = false;      
-      this.getVersiculosSelecionados().forEach(v => {v.backgroundColor = this.linhaSemCor});
+      this.getVersiculosSelecionados().forEach(v => {v.backgroundColor = this.constantes.COR_TEXTO_SELECIONADO});
       this.exibirPaletaDeCores = false;
       this.exibirBotoesNavegacao = true;
     }
@@ -372,7 +369,7 @@ export class HomePage {
   ocultarBtnCompartilharEComentar(){
       this.exibirBtnCompartilhamento = false;
       this.exibirBtnComentar = false;      
-      this.getVersiculosSelecionados().forEach(v => {v.backgroundColor = this.linhaSemCor});
+      this.getVersiculosSelecionados().forEach(v => {v.backgroundColor = this.constantes.COR_TEXTO_SELECIONADO});
       this.exibirPaletaDeCores = false;
       this.exibirBotoesNavegacao = true;
   }
@@ -485,14 +482,25 @@ export class HomePage {
 
 
   presentActionSheet() {
+
+    let textoBtnComentarios = "Visualiar seus comentários";
+    
+    if(this.exibirComentariosUsuario === true){
+      textoBtnComentarios = "Ocultar seus comentários";
+    }
+
     const actionSheet = this.actionSheetCtrl.create({
       title: 'Opções de Leitura',
       buttons: [
         {
-          text: 'Visualiar seus comentários',
+          text: textoBtnComentarios,
           role: '',
           handler: () => {
-            this.exibirComentariosUsuario = true;
+            if(this.exibirComentariosUsuario === false){
+              this.exibirComentariosUsuario = true;  
+            } else {
+              this.exibirComentariosUsuario = false;
+            }
           }
         },{
           text: 'Ajustar tamanho da fonte',

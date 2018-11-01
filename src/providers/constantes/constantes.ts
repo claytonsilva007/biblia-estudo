@@ -8,7 +8,12 @@ export class ConstantesProvider {
   public BIBLIA_CHAVE: string = "biblia";
   public CKECK_BIBLIA_STORAGE: string = "1";
   public ULTIMO_LIVRO_LIDO: string = "2";
+  
+  //VARIÁVEIS RELACIONADAS AO TEXTO
   public CHAVE_TAMANHO_FONTE: string = "tamanho_fonte";
+  public COR_TEXTO_SELECIONADO: string = "#C2C7D6";
+  public COR_TEXTO_COMENTADO: string = "#EBEFF2";
+  public TEXTO_SEM_COR: string = "#FFFFFF";
 
   
   public PENTATEUCO: string = "Pentateuco";

@@ -100,6 +100,7 @@ export class ConsultarVersiculoPage {
   } 
 
   navegarParaLivro(versiculo: Versiculo){
+    versiculo.backgroundColor = this.constantes.COR_TEXTO_SELECIONADO;
     this.navCtrl.push(HomePage, {versiculoParam: versiculo});
   }
 
