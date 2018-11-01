@@ -151,14 +151,14 @@ export class HomePage {
         }
       } else if(qtdeVersiculosSelecionados > 1){
         this.exibirBtnComentar = false;
-        this.exibirPaletaDeCores = false;
-        this.exibirBtnCompartilhamento = false;
+        this.exibirPaletaDeCores = true;
+        this.exibirBtnCompartilhamento = true;
         this.podeVisualizarComentarios = false;
       }
     } else if(qtdeVersiculosSelecionados === 1){
       this.exibirBtnComentar = true;
         this.exibirPaletaDeCores = true;
-      this.exibirBtnCompartilhamento = false;
+      this.exibirBtnCompartilhamento = true;
     }else if(qtdeVersiculosSelecionados > 1) {
       this.exibirBtnComentar = false;
       this.exibirPaletaDeCores = true;
