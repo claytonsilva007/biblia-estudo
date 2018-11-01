@@ -68,6 +68,7 @@ export class HomePage {
       this.segmentoSelecionado = "versiculos";
       this.exibirBotaoDeBusca = false;
       this.exibirBotoesNavegacao = true;
+      this.biblia.livros[versiculo.codigoLivro].capitulos[versiculo.codigoCapitulo].versiculos[versiculo.codigoVersiculo].backgroundColor = versiculo.backgroundColor;
     }
     
   }
@@ -112,7 +113,7 @@ export class HomePage {
       versiculo.backgroundColor = this.constantes.COR_TEXTO_SELECIONADO;      
       this.configurarExibicaoBotoes(versiculo);
     } else if(versiculo.backgroundColor === this.constantes.COR_TEXTO_SELECIONADO){
-      versiculo.backgroundColor = this.constantes.COR_TEXTO_SELECIONADO;
+      versiculo.backgroundColor = this.constantes.TEXTO_SEM_COR;
       this.configurarExibicaoBotoes(versiculo);
     } else if(versiculo.backgroundColor === this.constantes.COR_TEXTO_COMENTADO){
       this.exibirBtnComentar = true;
@@ -434,12 +435,15 @@ export class HomePage {
 
   getTextoFormatadoParaCompartilhar(): string{
     let vs = this.getVersiculosSelecionados();
+    let strRef: string = "";
+    vs.length === 1 ? strRef = this.bibliaProvider.getDescricaoCompletaVersiculo(vs[0]) : strRef = this.bibliaProvider.getDescricaoCompletaVersiculo(vs[0]).concat("-", (vs[vs.length-1].codigoVersiculo+1).toString());
+    
     let texto = "";
     vs.forEach(versiculo => {
       texto = texto.concat(versiculo.texto);
     });
 
-    texto = texto.concat("Biblia de Estudo");
+    texto = texto.concat(" \n", strRef, " - Biblia de Estudo");
     
     return texto;
   }
