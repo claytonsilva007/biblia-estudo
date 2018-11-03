@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { Livro, Capitulo, Biblia, Versiculo } from "../../models/Biblia";
 import { ConstantesProvider } from '../constantes/constantes';
 import { Storage } from '@ionic/storage';
+import { PlanoLeitura } from '../../models/PlanosLeitura';
+import { AngularFireDatabase } from '@angular/fire/database';
 
 @Injectable()
 export class ConfiguracaoBibliaProvider {
@@ -9,21 +11,20 @@ export class ConfiguracaoBibliaProvider {
   biblia: Biblia = null;
   versiculos: Versiculo[] = [];
   
-  constructor(private storage: Storage, private constantes: ConstantesProvider) { 
+  constructor(private storage: Storage, private constantes: ConstantesProvider, private afDB: AngularFireDatabase) { 
     this.biblia = new Biblia();
   } 
 
   getBibliaFormatada(bibliaFormatoWeb: string): Biblia{
-    let bibliaAux = JSON.parse(bibliaFormatoWeb); 
+    let bibliaAux = JSON.parse(bibliaFormatoWeb);
     let BibliaNovoFormato: Biblia = new Biblia();
 
     bibliaAux.livros.forEach((livro, indexLivro) => {
       BibliaNovoFormato.livros.push(this.getLivroNovoFormato(livro, indexLivro));
     });
-    
+    this.configurarPlanosDeLeitura();
     return BibliaNovoFormato;
-  }
-
+  }  
 
   private getLivroNovoFormato(livroParam, indexLivro): Livro {
     let livro = new Livro();
@@ -35,18 +36,32 @@ export class ConfiguracaoBibliaProvider {
     livroParam.capitulos.forEach((capitulo, indexCapitulo)=> { 
       livro.capitulos.push(this.cadCapitulo(capitulo, indexCapitulo, indexLivro));
     });
-    
+
     return livro;
    
   }
 
+  configurarPlanosDeLeitura(){
+    let planos: PlanoLeitura[] = [];
+    this.afDB.list("biblias/PlanosDeLeitura").snapshotChanges().subscribe(item => {
+      item.map(obj => {
+        let planosStr = JSON.stringify(obj.payload.val());
+        planos.push(JSON.parse(planosStr));
+      });
+      
+      this.biblia.planosDeLeitura = planos;
+      this.storage.set(this.constantes.BIBLIA_CHAVE, this.biblia);
+      this.storage.set(this.constantes.CKECK_BIBLIA_STORAGE, "true");
+    });
+  }
+
+  /** Método chamado quando a bíblia encontra-se no BD */
   configurarBiblia(bibliaParam){
     if(bibliaParam.livros === undefined){
-      let bibliaAux = JSON.parse(bibliaParam);       
-      bibliaAux.livros.forEach( (livro, indexLivro) => this.popularArrayLivros(livro, indexLivro)); 
+      this.biblia = JSON.parse(bibliaParam); 
     } else {
-      this.biblia = bibliaParam;//bibliaParam.livros.forEach((livro, indexLivro) => this.popularArrayLivros(livro, indexLivro)); 
-    }
+      this.biblia = bibliaParam;
+    }    
   }
 
   popularArrayLivros(livroParam, indexLivro: number) {
@@ -70,18 +85,8 @@ export class ConfiguracaoBibliaProvider {
     capituloTemp = new Capitulo();
 
     if(capituloParam.versiculos !== undefined){
-      
-      capituloTemp = capituloParam;
       capituloTemp.codigoCapitulo = indexCapitulo;
-      capituloTemp.versiculos.forEach( (versiculo, indexVersiculo) => {
-        versiculo.codigoVersiculo = indexVersiculo;
-        versiculo.codigoCapitulo = indexCapitulo;
-        versiculo.codigoLivro = indexLivro;
-      });
-
-    } else {
-      
-      capituloParam.forEach( (textoVersiculo, indexVersiculo) => {
+      capituloParam.versiculos.forEach( (textoVersiculo, indexVersiculo) => {
         versiculotemp = new Versiculo();
         versiculotemp.texto = textoVersiculo;
         versiculotemp.codigoVersiculo = indexVersiculo;

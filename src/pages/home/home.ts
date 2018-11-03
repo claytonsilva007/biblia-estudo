@@ -263,7 +263,7 @@ export class HomePage {
       let modalTodosComentarios = this.modalCtrl.create(ModalTodosComentariosPage, { "comentariosParam": versiculo.comentariosUsuario, "titulo": tituloParam });
       
       modalTodosComentarios.present();
-      modalTodosComentarios.onDidDismiss(data => {this.verificaSeExistemComentarios(data.qtdeComentarios, versiculo )}); 
+      modalTodosComentarios.onDidDismiss(data => { this.verificaSeExistemComentariosRetornoModal(data.qtdeComentarios, versiculo )}); 
 
   }
 
@@ -276,11 +276,21 @@ export class HomePage {
     }
   }
 
-  verificaSeExistemComentarios(qtdeComentarios: number, versiculo: Versiculo){
+  verificaSeExistemComentariosRetornoModal(qtdeComentarios: number, versiculo: Versiculo){
     if(qtdeComentarios == 0 ){
       versiculo.backgroundColor = this.constantes.COR_TEXTO_SELECIONADO;
       this.exibirBtnComentar = false;
     }
+  }
+
+  /**
+   * retorna a quantidade de versículos comentados no capítulo selecionado.
+   */
+  verificaExistenciaComentariosCapitulo(): number{
+    return this.biblia.livros[this.versiculoParaComentar.indexLivro]
+                .capitulos[this.versiculoParaComentar.indexCapitulo]
+                .versiculos.filter(v => v.comentariosUsuario.length > 0).length;
+                
   }
 
   navegarParaTras(){
@@ -443,7 +453,7 @@ export class HomePage {
       texto = texto.concat(versiculo.texto);
     });
 
-    texto = texto.concat(" \n", strRef, " - Biblia de Estudo");
+    texto = texto.concat(" \n\n", strRef, " - Bíblia de Estudo");
     
     return texto;
   }
@@ -487,15 +497,11 @@ export class HomePage {
 
   presentActionSheet() {
 
-    let textoBtnComentarios = "Visualiar seus comentários";
+    let buttons: any[] = [];
+    let textoBtnComentarios = "Visualizar seus comentários";
     
-    if(this.exibirComentariosUsuario === true){
-      textoBtnComentarios = "Ocultar seus comentários";
-    }
-
-    const actionSheet = this.actionSheetCtrl.create({
-      title: 'Opções de Leitura',
-      buttons: [
+    if(this.verificaExistenciaComentariosCapitulo() > 0){
+      buttons.push(
         {
           text: textoBtnComentarios,
           role: '',
@@ -506,26 +512,39 @@ export class HomePage {
               this.exibirComentariosUsuario = false;
             }
           }
-        },{
-          text: 'Ajustar tamanho da fonte',
-          handler: () => {
-            this.configurarFonte();
-            this.fontSize = this.bibliaProvider.biblia.tamanhoFonte;
-          }
-        },{
-          text: 'Comparar versões',
-          handler: () => {
-            
-          }
-        },{
-          text: 'Cancel',
-          role: 'cancel',
-          handler: () => {
-            
-          }
-        }
-      ]
+        });
+      }
+
+    buttons.push({
+      text: 'Ajustar tamanho da fonte',
+      handler: () => {
+        this.configurarFonte();
+        this.fontSize = this.bibliaProvider.biblia.tamanhoFonte;
+      }
+    }); 
+
+    buttons.push({
+      text: 'Comparar versões',
+      handler: () => { }
+    });      
+
+    buttons.push({
+      text: 'Cancel',
+      role: 'cancel',
+      handler: () => { }
     });
+
+    if(this.exibirComentariosUsuario === true){
+      textoBtnComentarios = "Ocultar seus comentários";
+    }
+
+    const actionSheet = this.actionSheetCtrl.create(
+      {
+        title: 'Opções de Leitura',
+        buttons
+      }
+    );
+
     actionSheet.present();
   }
 }

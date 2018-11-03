@@ -14,6 +14,7 @@ import { AngularFireDatabase } from '@angular/fire/database';
 import { UtilProvider } from '../providers/util/util';
 import { AppMinimize } from '@ionic-native/app-minimize';
 import { App } from 'ionic-angular';
+import { PlanosLeituraPage } from '../pages/planos-leitura/planos-leitura';
 
 @Component({
   templateUrl: 'app.html'
@@ -36,7 +37,8 @@ export class MyApp {
     // used for an example of ngFor and navigation
     this.pages = [
       { title: 'Biblia de Estudo', component: HomePage, icon: 'book'},
-      { title: 'Consultar Versísulos', component: ConsultarVersiculoPage, icon: 'search' }
+      { title: 'Consultar Versísulos', component: ConsultarVersiculoPage, icon: 'search'},
+      { title: 'Planos de Leitura', component: PlanosLeituraPage, icon: 'map' }
     ];
   }
 
@@ -55,8 +57,7 @@ export class MyApp {
         } else {
           this.afDB.list("biblias/biblia").snapshotChanges().subscribe(item => {
             item.map(obj => {
-              this.storage.set(this.constantes.BIBLIA_CHAVE, JSON.stringify(this.configBiblia.getBibliaFormatada(JSON.stringify(obj.payload.val()))));
-              this.storage.set(this.constantes.CKECK_BIBLIA_STORAGE, "true");
+              this.configBiblia.getBibliaFormatada(JSON.stringify(obj.payload.val()));              
               this.configBiblia.setBibliaConfigurada(this.configBiblia.getBibliaFormatada(JSON.stringify(obj.payload.val())));
               this.storage.set(this.constantes.CKECK_BIBLIA_STORAGE, "true");
               this.nav.push(HomePage);

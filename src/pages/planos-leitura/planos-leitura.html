@@ -1,0 +1,58 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle color="secondary">
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title><b style="color: #32db64">Planos de Leitura</b></ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  
+    <ion-card *ngFor="let planoLeitura of planosLeitura">
+      <ion-item>
+        <ion-avatar item-start>
+          <img src="assets/icon/drawable-xhdpi-icon.png">
+        </ion-avatar>
+        <h2><b>{{planoLeitura.titulo}}</b></h2>
+        <p>{{planoLeitura.subTitulo}}</p>
+      </ion-item>
+      <p></p>
+      <!--<img src="img/advance-card-bttf.png">-->
+
+      <ion-card-content>
+        <p>
+            {{planoLeitura.descricao}}
+        </p>
+      </ion-card-content>
+
+      <ion-row>
+        <ion-col>
+          <button ion-button icon-start clear small color="primary">
+            <ion-icon name="thumbs-up"></ion-icon>
+            <div>{{planoLeitura.likes}}</div>
+          </button>
+        </ion-col>
+        <ion-col>
+          <button ion-button icon-start clear small color="primary">
+            <ion-icon name="text"></ion-icon>
+            <div>{{planoLeitura.comentarios.length}} Comentários</div>
+          </button>
+        </ion-col>
+        <ion-col>
+          <button ion-button icon-start clear small color="primary">
+            <ion-icon name="share"></ion-icon>
+            <div>{{planoLeitura.compartilhamentos}}</div>
+          </button>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col center text-center>
+          <ion-note>
+            Autor: <b>Garret Kell</b>
+          </ion-note>
+        </ion-col>
+      </ion-row>
+    </ion-card>
+    
+</ion-content>

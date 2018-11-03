@@ -28,6 +28,7 @@ import { SocialSharing } from '@ionic-native/social-sharing';
 import { UtilProvider } from '../providers/util/util';
 import { AppMinimize } from '@ionic-native/app-minimize';
 import { ModalFontePage } from '../pages/modal-fonte/modal-fonte';
+import { PlanosLeituraPage } from '../pages/planos-leitura/planos-leitura';
 
 export const firebaseConfig = {
   apiKey: "AIzaSyBoOBgbbcVK1v7-k_4wj-wCJESmKr2TFeI",
@@ -45,7 +46,8 @@ export const firebaseConfig = {
     ConsultarVersiculoPage,
     ComentariosPage,
     ModalTodosComentariosPage,
-    ModalFontePage
+    ModalFontePage,
+    PlanosLeituraPage
   ],
   imports: [
     BrowserModule,
@@ -65,7 +67,8 @@ export const firebaseConfig = {
     ConsultarVersiculoPage,
     ComentariosPage, 
     ModalTodosComentariosPage,
-    ModalFontePage
+    ModalFontePage,
+    PlanosLeituraPage
   ],
   providers: [
     StatusBar,

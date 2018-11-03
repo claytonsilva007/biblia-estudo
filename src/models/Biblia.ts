@@ -1,12 +1,15 @@
+import { PlanoLeitura } from "./PlanosLeitura";
+
 export class Biblia {
     nome: string;
     livros: Livro[];
     tamanhoFonte: number = 2;
+    planosDeLeitura: PlanoLeitura[];
 
     constructor() {
-        this.livros = new Array();
+        this.livros = [];
+        this.planosDeLeitura = [];
     }
-    
 }
 
 export class Livro {
