@@ -498,8 +498,14 @@ export class HomePage {
   presentActionSheet() {
 
     let buttons: any[] = [];
-    let textoBtnComentarios = "Visualizar seus comentários";
+    let textoBtnComentarios = "";
     
+    if(this.exibirComentariosUsuario === true){
+      textoBtnComentarios = "Ocultar seus comentários";
+    } else {
+      textoBtnComentarios = "Visualizar seus comentários";
+    }
+
     if(this.verificaExistenciaComentariosCapitulo() > 0){
       buttons.push(
         {
