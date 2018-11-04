@@ -29,6 +29,7 @@ import { UtilProvider } from '../providers/util/util';
 import { AppMinimize } from '@ionic-native/app-minimize';
 import { ModalFontePage } from '../pages/modal-fonte/modal-fonte';
 import { PlanosLeituraPage } from '../pages/planos-leitura/planos-leitura';
+import { ModalComentariosPostPage } from '../pages/modal-comentarios-post/modal-comentarios-post';
 
 export const firebaseConfig = {
   apiKey: "AIzaSyBoOBgbbcVK1v7-k_4wj-wCJESmKr2TFeI",
@@ -47,7 +48,8 @@ export const firebaseConfig = {
     ComentariosPage,
     ModalTodosComentariosPage,
     ModalFontePage,
-    PlanosLeituraPage
+    PlanosLeituraPage,
+    ModalComentariosPostPage
   ],
   imports: [
     BrowserModule,
@@ -68,7 +70,8 @@ export const firebaseConfig = {
     ComentariosPage, 
     ModalTodosComentariosPage,
     ModalFontePage,
-    PlanosLeituraPage
+    PlanosLeituraPage,
+    ModalComentariosPostPage
   ],
   providers: [
     StatusBar,

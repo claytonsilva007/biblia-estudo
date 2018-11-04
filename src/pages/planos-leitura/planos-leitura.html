@@ -28,19 +28,19 @@
 
       <ion-row>
         <ion-col>
-          <button ion-button icon-start clear small color="primary">
+          <button ion-button icon-start clear small color="primary" (click)="curtir(planoLeitura)">
             <ion-icon name="thumbs-up"></ion-icon>
             <div>{{planoLeitura.likes}}</div>
           </button>
         </ion-col>
         <ion-col>
-          <button ion-button icon-start clear small color="primary">
+          <button ion-button icon-start clear small color="primary" (click)="comentar(planoLeitura)">
             <ion-icon name="text"></ion-icon>
             <div>{{planoLeitura.comentarios.length}} Comentários</div>
           </button>
         </ion-col>
         <ion-col>
-          <button ion-button icon-start clear small color="primary">
+          <button ion-button icon-start clear small color="primary" (click)="compartilhar(planoLeitura)">
             <ion-icon name="share"></ion-icon>
             <div>{{planoLeitura.compartilhamentos}}</div>
           </button>
