@@ -417,6 +417,7 @@ export class HomePage {
   compartilharVersiculo(){
     this.regularShare();
     this.showLoading();
+    this.getVersiculosSelecionados().forEach(v => {v.backgroundColor = this.constantes.TEXTO_SEM_COR});
   }
 
   compartilharPorFacebook(){
