@@ -84,7 +84,7 @@ export const firebaseConfig = {
     ConstantesProvider,
     SocialSharing,
     UtilProvider,
-    AppMinimize
+    AppMinimize    
   ]
 })
 export class AppModule {}

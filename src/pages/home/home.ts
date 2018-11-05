@@ -554,7 +554,20 @@ export class HomePage {
 
     actionSheet.present();
   }
+
+  ionViewWillLeave() {
+    this.getVersiculosSelecionados().forEach(v => {v.backgroundColor = this.constantes.TEXTO_SEM_COR});
+    this.exibirPaletaDeCores = false;
+    this.exibirBtnComentar = false;
+    this.podeVisualizarComentarios = false;
+    this.exibirBotoesNavegacao = true;
+    this.exibirBotaoDeBusca = true;
+    this.VisualizarBtnCriar = true;
+    this.exibirBtnCompartilhamento = false;
+  }
+
 }
+
 
 export class versiculoParaComentar{
   

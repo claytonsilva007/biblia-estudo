@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { Nav, Platform, LoadingController } from 'ionic-angular';
+import { Nav, Platform, LoadingController, MenuController } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
@@ -24,14 +24,14 @@ export class MyApp {
 
   rootPage: any = HomePage;
   pages: Array<{ title: string, component: any, icon: string }>;
-
   loading: any;
+  modalListPages: string[];
   
   constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen,
     private configBiblia: ConfiguracaoBibliaProvider, private loadingCtrl: LoadingController,
     private storage: Storage, public constantes: ConstantesProvider, private afDB: AngularFireDatabase,
-    private utilProvider: UtilProvider, private app: App, private appMinimize: AppMinimize) {
-
+    private utilProvider: UtilProvider, private app: App, private appMinimize: AppMinimize, private menuCtrl: MenuController) {
+    
     this.initializeApp();
 
     // used for an example of ngFor and navigation
@@ -78,25 +78,24 @@ export class MyApp {
   } // fim método inicializeApp()
 
   configBackButtom() {
-    this.platform.registerBackButtonAction(() => {
-      // Catches the active view
+    this.platform.registerBackButtonAction(() => {      
       let nav = this.app.getActiveNavs()[0];
       let activeView = nav.getActive();
-      // Checks if can go back before show up the alert
-      if (activeView.name === 'HomePage') {        
+
+      if (this.menuCtrl.isOpen()) {
+          this.menuCtrl.close();
+          return;
+      } else if (activeView.name === 'HomePage') {        
         this.appMinimize.minimize();
         this.storage.set(this.constantes.BIBLIA_CHAVE, this.configBiblia.getBiblia()); 
-      } else if (activeView.name !== 'HomePage') {
-        if (nav.canGoBack()) {
-          nav.pop();
-        } else {
-          this.appMinimize.minimize(); 
-          this.storage.set(this.constantes.BIBLIA_CHAVE, this.configBiblia.getBiblia());
-        } 
+      } else if(activeView.name === 'ModalCmp'){        
+        activeView.dismiss();      
+      } else {
+         nav.push(HomePage);
       }
     });
   }
-
+  
   private showLoading(mensagem: string) {
     let min = Math.ceil(0);
     let max = Math.floor(this.utilProvider.versiculos.length);    
