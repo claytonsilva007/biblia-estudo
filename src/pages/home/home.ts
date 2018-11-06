@@ -59,20 +59,7 @@ export class HomePage {
     this.fontSize = this.bibliaProvider.biblia.tamanhoFonte;
     this.exibirComentariosUsuario = false;
   } 
-
-  ionViewDidLoad() {
-    let versiculo: Versiculo = this.navParams.get("versiculoParam");
-    if(versiculo !== undefined && versiculo !== null){
-      this.atualizarSegmentoCapitulos(versiculo.codigoLivro);
-      this.atualizarSegmentoVersiculos(versiculo.codigoCapitulo);
-      this.segmentoSelecionado = "versiculos";
-      this.exibirBotaoDeBusca = false;
-      this.exibirBotoesNavegacao = true;
-      this.biblia.livros[versiculo.codigoLivro].capitulos[versiculo.codigoCapitulo].versiculos[versiculo.codigoVersiculo].backgroundColor = versiculo.backgroundColor;
-    }
-    
-  }
-
+  
   atualizarSegmentoCapitulos(indexLivro: number){
     this.abaLivroDescricao = this.biblia.livros[indexLivro].nome;
     this.versiculoParaComentar.nomeLivro = this.biblia.livros[indexLivro].nome;
@@ -554,18 +541,6 @@ export class HomePage {
 
     actionSheet.present();
   }
-
-  ionViewWillLeave() {
-    this.getVersiculosSelecionados().forEach(v => {v.backgroundColor = this.constantes.TEXTO_SEM_COR});
-    this.exibirPaletaDeCores = false;
-    this.exibirBtnComentar = false;
-    this.podeVisualizarComentarios = false;
-    this.exibirBotoesNavegacao = true;
-    this.exibirBotaoDeBusca = true;
-    this.VisualizarBtnCriar = true;
-    this.exibirBtnCompartilhamento = false;
-  }
-
 }
 
 
