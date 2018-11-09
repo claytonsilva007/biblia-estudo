@@ -30,6 +30,8 @@ import { AppMinimize } from '@ionic-native/app-minimize';
 import { ModalFontePage } from '../pages/modal-fonte/modal-fonte';
 import { PlanosLeituraPage } from '../pages/planos-leitura/planos-leitura';
 import { ModalComentariosPostPage } from '../pages/modal-comentarios-post/modal-comentarios-post';
+import { PlanosLeituraAtivosPage } from '../pages/planos-leitura-ativos/planos-leitura-ativos';
+import { ModalDetalhePlanosLeituraPage } from '../pages/modal-detalhe-planos-leitura/modal-detalhe-planos-leitura';
 
 export const firebaseConfig = {
   apiKey: "AIzaSyBoOBgbbcVK1v7-k_4wj-wCJESmKr2TFeI",
@@ -49,7 +51,9 @@ export const firebaseConfig = {
     ModalTodosComentariosPage,
     ModalFontePage,
     PlanosLeituraPage,
-    ModalComentariosPostPage
+    ModalComentariosPostPage, 
+    PlanosLeituraAtivosPage,
+    ModalDetalhePlanosLeituraPage
   ],
   imports: [
     BrowserModule,
@@ -71,7 +75,9 @@ export const firebaseConfig = {
     ModalTodosComentariosPage,
     ModalFontePage,
     PlanosLeituraPage,
-    ModalComentariosPostPage
+    ModalComentariosPostPage, 
+    PlanosLeituraAtivosPage,
+    ModalDetalhePlanosLeituraPage
   ],
   providers: [
     StatusBar,

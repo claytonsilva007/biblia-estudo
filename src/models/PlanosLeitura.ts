@@ -1,15 +1,44 @@
 import { ComentarioPlanosLeitura } from '../models/ComentarioPlanosLeitura';
  
 export class PlanoLeitura{
+    autor: string;
     titulo: string;
     subTitulo: string;
     descricao: string;
-    likes: number;
     compartilhamentos: number;
+    likes: number;
     comentarios: ComentarioPlanosLeitura[];
-    autor: string;
+    diasDeLeitura: number;
+    ativo: boolean;
+    unidadesLeituraDiaria: UnidadesLeituraDiaria[];
 
     constructor(){
         this.comentarios = [];
+        this.unidadesLeituraDiaria = [];
+        this.ativo = false;
+    }
+}
+
+export class UnidadesLeituraDiaria{
+    
+    dataParaLeitura: Date;
+    statusLeituraSegmentos: boolean;
+    tituloLeituraDiaria: string;
+    segmentosDeLeituraDiaria: SegmentoLeituraDiaria[];
+
+    constructor(){
+        this.segmentosDeLeituraDiaria = [];
+        this.statusLeituraSegmentos = false;
+        this.dataParaLeitura = new Date();
+    }
+}
+
+export class SegmentoLeituraDiaria{
+    
+    segmentoLeitura: string;
+    statusLeitura: boolean;
+
+    constructor(){
+        this.statusLeitura = false;
     }
 }

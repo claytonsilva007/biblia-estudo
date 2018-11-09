@@ -27,4 +27,5 @@ export class ModalComentariosPostPage {
     this.viewCtrl.dismiss();
   }
 
+
 }
