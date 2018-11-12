@@ -12,7 +12,7 @@
  
   <ion-label *ngIf="planosLeitura.length ===0" style="color: red" text-wrap>Você não possui nenhum plano de leitura ativo."</ion-label>
 
-  <ion-card *ngFor="let planoLeitura of planosLeitura" class="ion-card">
+  <ion-card *ngFor="let planoLeitura of planosLeitura" class="ion-card" (click)="navegarParaDetalhePlanoLeitura(planoLeitura)">
     <ion-item>
       <ion-avatar item-start>
         <img src="assets/icon/drawable-xhdpi-icon.png">

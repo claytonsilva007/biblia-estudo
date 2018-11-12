@@ -37,6 +37,7 @@ export class SegmentoLeituraDiaria{
     
     segmentoLeitura: string;
     statusLeitura: boolean;
+    descricaoSegmento: string;
 
     constructor(){
         this.statusLeitura = false;

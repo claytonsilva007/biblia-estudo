@@ -16,14 +16,15 @@
         </ion-avatar>
         <h2><b>{{planoLeitura.titulo}}</b></h2>
         <p>{{planoLeitura.subTitulo}}</p>
-        <button ion-button clear color="primary" (click)="iniciarPlanoLeitura(planoLeitura)" item-end>
+        <button ion-button clear color="primary" (click)="iniciarPlanoLeitura(planoLeitura)" item-end *ngIf="!planoLeitura.ativo">
           Iniciar 
         </button>
+        <button ion-button clear *ngIf="planoLeitura.ativo" item-end style="color: #32db64">Ativo</button>
       </ion-item>
       <p></p>
       <!--<img src="img/advance-card-bttf.png">-->
 
-      <ion-card-content>
+      <ion-card-content (click)="navegarParaDetalhePlanoLeitura(planoLeitura)">
         <p>
             {{planoLeitura.descricao}}
         </p>

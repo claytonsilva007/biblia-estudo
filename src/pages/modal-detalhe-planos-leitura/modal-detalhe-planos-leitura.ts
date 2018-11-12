@@ -12,16 +12,54 @@ export class ModalDetalhePlanosLeituraPage {
 
   planoLeitura: PlanoLeitura;
   unidadesLeitura: UnidadesLeituraDiaria[];
-
+  
+  unidadeLeituraDiaAtual: UnidadesLeituraDiaria;
+  unidadesLeituraAtrasadas: UnidadesLeituraDiaria[];
 
   constructor(public navParams: NavParams, private bibliaProvider: ConfiguracaoBibliaProvider, private viewCtrl: ViewController) {
     this.planoLeitura = new PlanoLeitura();
     this.planoLeitura = JSON.parse(JSON.stringify(this.navParams.get("planoParam")));
     this.unidadesLeitura = this.planoLeitura.unidadesLeituraDiaria;
+    this.filtrarUnidadeLeituraDiaAtual();
+  }
 
-    this.unidadesLeitura.forEach(uld => console.log(uld));
+  filtrarUnidadeLeituraDiaAtual(){
+    this.unidadeLeituraDiaAtual = new UnidadesLeituraDiaria();
 
-    console.log(this.planoLeitura.unidadesLeituraDiaria[0].dataParaLeitura);
+    this.planoLeitura.unidadesLeituraDiaria.forEach(uld => { 
+      if(this.recuperarLeituraDataAtual(uld.dataParaLeitura)){
+        this.unidadeLeituraDiaAtual = uld;
+        return false;
+      } else {
+        return true;
+      }
+    });    
+  }
+
+  recuperarLeituraDataAtual(data: Date): boolean{
+    let achou: boolean = false;
+    let dataHoje = new Date(new Date().getTime());
+    let dataAux: Date = new Date(data);
+
+    if(dataHoje.getDate() === dataAux.getDate() && dataHoje.getMonth() === dataAux.getMonth() && dataHoje.getFullYear() === dataAux.getFullYear()){
+      achou = true;
+    }
+    return achou;
+  }
+
+  filtrarUnidadesLeituraAtrasadas(){
+    this.unidadesLeituraAtrasadas = [];
+    this.planoLeitura.unidadesLeituraDiaria.forEach(uld => this.verificaSeDataEhAnterior(uld.dataParaLeitura));
+  }
+
+  verificaSeDataEhAnterior(data: Date){
+    let dataAux = new Date(data);
+    let dataHoje = new Date(new Date().getTime());
+
+    if(dataAux.getTime() > dataHoje.getTime()){
+      console.log("Não há atrasos.");
+    }
+
   }
 
   ionViewDidEnter(){

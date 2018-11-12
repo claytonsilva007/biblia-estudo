@@ -26,20 +26,35 @@ export class PlanosLeituraPage {
   iniciarPlanoLeitura(planoLeitura: PlanoLeitura){
     
     planoLeitura.ativo = true;
-    var currentDate = new Date(new Date().getTime() + 24 * 60 * 60 * 1000);
+    var currentDate = new Date(new Date().getTime());
 
-    planoLeitura.unidadesLeituraDiaria.forEach(uld => {
-      let data = currentDate.setDate(currentDate.getDate() + 1);
+    planoLeitura.unidadesLeituraDiaria.forEach( (uld, index) => {
+      let data = currentDate.setDate(currentDate.getDate() + index);
       uld.dataParaLeitura = new Date(data);
+      
+      uld.segmentosLeituraDiaria.forEach(sld => {
+        sld.descricaoSegmento = this.formatarDescricaoSegmento(sld.segmentoLeitura);
+      });
+
     }); 
     
-    this.modalCtrl.create(ModalDetalhePlanosLeituraPage, {planoParam: planoLeitura}).present();
-    //this.exibirMensagem("Seu Plano de Leitura foi configurado com sucesso!");
-    
+    this.navegarParaDetalhePlanoLeitura(planoLeitura);
+    this.exibirMensagem("Seu Plano de Leitura foi iniciado com sucesso!");
+  }
+
+  formatarDescricaoSegmento(descricaoCompacta: string): string {
+    let auxDesc: string[] = descricaoCompacta.split(";");
+    let indexLivro: number = Number(auxDesc[0]) - 1;
+    let nomeLivro: string = this.bibliaProvider.biblia.livros[indexLivro].nome.concat(" ", auxDesc[1], ".", auxDesc[2]);
+    return nomeLivro;
+  }
+
+  navegarParaDetalhePlanoLeitura(planoLeitura: PlanoLeitura){
+    this.navCtrl.push(ModalDetalhePlanosLeituraPage, {planoParam: planoLeitura});
   }
 
   abrirPlanoLeituraSelecionado(){
-    this.modalCtrl.create(ModalDetalhePlanosLeituraPage).present();
+    this.navCtrl.push(ModalDetalhePlanosLeituraPage);
   }
 
   comentar(planoLeitura: PlanoLeitura){
