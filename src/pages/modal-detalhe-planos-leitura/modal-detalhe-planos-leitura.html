@@ -1,22 +1,58 @@
 <ion-header>
-    <ion-toolbar>
-      <ion-title><b style="color: #32db64">Plano de Leitura - Detalhe</b></ion-title>
-      <ion-buttons start>
-        <button ion-buttom (click)="closeModal()">
-          <ion-icon name="md-close"></ion-icon>
-        </button>
-      </ion-buttons>
-    </ion-toolbar>
-  </ion-header>
-
+  <ion-toolbar>
+    <ion-title><b style="color: #32db64">Plano de Leitura - Detalhe</b></ion-title>
+    <ion-buttons start>
+      <button ion-buttom (click)="closeModal()">
+        <ion-icon name="md-close"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
 
 <ion-content padding>
-    <ion-list *ngFor="let uld of bibliaProvider.biblia.planosDeLeitura.unidadesLeituraDiaria">
-        <ion-item>
-          {{uld.dataParaLeitura}}
-          <ion-icon name="leaf" item-start></ion-icon>
-            Herbology
-          <ion-icon name="rose" item-end></ion-icon>
-        </ion-item>
-      </ion-list>
+
+  <ion-card *ngFor="let uld of unidadesLeitura" >
+    <ion-item>
+      <h2 text-wrap style="align-items: center"><b>{{ uld.tituloLeituraDiaria }}</b></h2>
+      <p>{{ uld.dataParaLeitura | date }}</p>
+    </ion-item>
+    <p></p>
+    <!--<img src="img/advance-card-bttf.png">-->
+  
+    <ion-card-content *ngFor="let sl of uld.segmentosLeituraDiaria">
+      <p>
+      {{ sl.segmentoLeitura }}
+      </p>
+    </ion-card-content>
+  
+    <ion-row>
+      <ion-col>
+        <button ion-button icon-start clear small color="primary" (click)="curtir(planoLeitura)">
+          <ion-icon name="thumbs-up"></ion-icon>
+          <div>{{planoLeitura.likes}}</div>
+        </button>
+      </ion-col>
+      <ion-col>
+        <button ion-button icon-start clear small color="primary" (click)="comentar(planoLeitura)">
+          <ion-icon name="text"></ion-icon>
+          <div>{{planoLeitura.comentarios.length}} Comentários</div>
+        </button>
+      </ion-col>
+      <ion-col>
+        <button ion-button icon-start clear small color="primary" (click)="compartilhar(planoLeitura)">
+          <ion-icon name="share"></ion-icon>
+          <div>{{planoLeitura.compartilhamentos}}</div>
+        </button>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col center text-center>
+        <ion-note>
+          Autor: <b>Garret Kell</b>
+        </ion-note>
+      </ion-col>
+    </ion-row>
+  </ion-card>
+
+
 </ion-content>

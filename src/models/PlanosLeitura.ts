@@ -24,10 +24,10 @@ export class UnidadesLeituraDiaria{
     dataParaLeitura: Date;
     statusLeituraSegmentos: boolean;
     tituloLeituraDiaria: string;
-    segmentosDeLeituraDiaria: SegmentoLeituraDiaria[];
+    segmentosLeituraDiaria: SegmentoLeituraDiaria[];
 
     constructor(){
-        this.segmentosDeLeituraDiaria = [];
+        this.segmentosLeituraDiaria = [];
         this.statusLeituraSegmentos = false;
         this.dataParaLeitura = new Date();
     }

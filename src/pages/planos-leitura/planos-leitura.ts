@@ -33,7 +33,7 @@ export class PlanosLeituraPage {
       uld.dataParaLeitura = new Date(data);
     }); 
     
-    this.modalCtrl.create(ModalDetalhePlanosLeituraPage).present();
+    this.modalCtrl.create(ModalDetalhePlanosLeituraPage, {planoParam: planoLeitura}).present();
     //this.exibirMensagem("Seu Plano de Leitura foi configurado com sucesso!");
     
   }
