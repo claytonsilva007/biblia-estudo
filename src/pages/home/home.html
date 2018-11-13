@@ -107,22 +107,22 @@
         <ion-row *ngIf="index % 4 == 0" no-padding justify-content-start align-items-start no-lines>
           <ion-col ion-item no-lines no-padding text-center (click)="atualizarSegmentoVersiculos(index)">
             <button clear round ion-button color="dark" *ngIf="index+1 <= biblia.livros[versiculoParaComentar.indexLivro].capitulos.length">
-              <b [style.font-size]=" this.bibliaProvider.biblia.tamanhoFonte + 'rem' " style="padding-right: 5px; padding-left: 5px; margin-bottom: 2px; text-justify: auto">{{index+1}}</b>
+              <b [style.font-size]=" this.bibliaProvider.biblia.tamanhoFonte + 'rem' " style="padding-right: 5px; padding-left: 5px; margin-bottom: 2px; text-justify: auto; color: green">{{index+1}}</b>
             </button>
           </ion-col>
           <ion-col ion-col ion-item no-lines no-padding text-center (click)="atualizarSegmentoVersiculos(index+1)">
             <button clear round ion-button color="dark" *ngIf="index+2 <= biblia.livros[versiculoParaComentar.indexLivro].capitulos.length">
-                <b [style.font-size]=" this.bibliaProvider.biblia.tamanhoFonte + 'rem' " style="padding-right: 5px; padding-left: 5px; margin-bottom: 2px; text-justify: auto">{{index+2}}</b>
+                <b [style.font-size]=" this.bibliaProvider.biblia.tamanhoFonte + 'rem' " style="padding-right: 5px; padding-left: 5px; margin-bottom: 2px; text-justify: auto; color: green">{{index+2}}</b>
             </button>
           </ion-col>
           <ion-col ion-item no-lines no-padding text-center (click)="atualizarSegmentoVersiculos(index+2)">
             <button clear round ion-button color="dark" *ngIf="index+3 <= biblia.livros[versiculoParaComentar.indexLivro].capitulos.length">
-                <b [style.font-size]=" this.bibliaProvider.biblia.tamanhoFonte + 'rem' " style="padding-right: 5px; padding-left: 5px; margin-bottom: 2px; text-justify: auto">{{index+3}}</b>
+                <b [style.font-size]=" this.bibliaProvider.biblia.tamanhoFonte + 'rem' " style="padding-right: 5px; padding-left: 5px; margin-bottom: 2px; text-justify: auto; color: green">{{index+3}}</b>
             </button>
           </ion-col>
           <ion-col ion-item no-lines no-padding text-center (click)="atualizarSegmentoVersiculos(index+3)">
             <button round clear ion-button color="dark" *ngIf="index+4 <= biblia.livros[versiculoParaComentar.indexLivro].capitulos.length">
-                <b [style.font-size]=" this.bibliaProvider.biblia.tamanhoFonte + 'rem' " style="padding-right: 5px; padding-left: 5px; margin-bottom: 2px; text-justify: auto">{{index+4}}</b>
+                <b [style.font-size]=" this.bibliaProvider.biblia.tamanhoFonte + 'rem' " style="padding-right: 5px; padding-left: 5px; margin-bottom: 2px; text-justify: auto; color: green">{{index+4}}</b>
             </button>
           </ion-col>
         </ion-row>
@@ -137,7 +137,7 @@
         text-wrap (tap)="pressEvent($event, versiculo, index)" no-padding no-lines>
         
         <ion-label range-left [style.font-size]=" this.bibliaProvider.biblia.tamanhoFonte + 'rem' " style="padding-right: 15px; padding-left: 15px; margin-bottom: 2px; text-justify: auto">
-          <b style="color: #488aff">{{ index+1 + "." }}</b> {{versiculo.texto}}
+          <b style="color: green">{{ index+1 + "." }}</b> {{versiculo.texto}}
         </ion-label>              
       </ion-item>
 

@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavParams, ViewController } from 'ionic-angular';
+import { IonicPage, NavParams } from 'ionic-angular';
 import { ConfiguracaoBibliaProvider } from '../../providers/configuracao-biblia/configuracao-biblia';
-import { PlanoLeitura, UnidadesLeituraDiaria } from '../../models/PlanosLeitura';
+import { PlanoLeitura, UnidadesLeituraDiaria, SegmentoLeituraDiaria } from '../../models/PlanosLeitura';
 
 
 @IonicPage()
@@ -16,16 +16,20 @@ export class DetalhePlanoLeituraPage {
 
   unidadeLeituraDiaAtual: UnidadesLeituraDiaria;
   unidadesLeituraAtrasadas: UnidadesLeituraDiaria[];
+  dataSegmentoLeitura: Date;
+  dataHoje: Date;
+
 
   segmentoSelecionado: string;
 
-  constructor(public navParams: NavParams, private bibliaProvider: ConfiguracaoBibliaProvider, private viewCtrl: ViewController) {
+  constructor(public navParams: NavParams, private bibliaProvider: ConfiguracaoBibliaProvider) {
     this.segmentoSelecionado = "hoje";
     this.unidadesLeituraAtrasadas = [];
     this.planoLeitura = new PlanoLeitura();
     this.planoLeitura = JSON.parse(JSON.stringify(this.navParams.get("planoParam")));
     this.unidadesLeitura = this.planoLeitura.unidadesLeituraDiaria;
     this.filtrarUnidadeLeituraDiaAtual();
+    this.filtrarUnidadesLeituraAtrasadas();
   }
 
   filtrarUnidadeLeituraDiaAtual() {
@@ -53,17 +57,32 @@ export class DetalhePlanoLeituraPage {
   }
 
   filtrarUnidadesLeituraAtrasadas() {
-    this.planoLeitura.unidadesLeituraDiaria.forEach(uld => this.verificaSeDataEhAnterior(uld.dataParaLeitura));
+
+    this.unidadesLeituraAtrasadas = this.planoLeitura.unidadesLeituraDiaria
+      .filter(uld => this.dataEhAnteriorHoje(uld.dataParaLeitura))
+      .filter(uld => this.verificaAtrasosSegmento(uld.segmentosLeituraDiaria));
+      
   }
 
-  verificaSeDataEhAnterior(data: Date) {
-    let dataAux = new Date(data);
-    let dataHoje = new Date(new Date().getTime());
+  verificaAtrasosSegmento(sld: SegmentoLeituraDiaria[]){
+     if(sld.filter(s => s.statusLeitura === false).length > 0){
+       return true;
+     } else {
+       return false;
+     }
+  }
 
-    if (dataAux.getTime() > dataHoje.getTime()) {
-      console.log("Não há atrasos.");
+  dataEhAnteriorHoje(data: Date) {
+    
+    let ehAnterior = false;
+    this.dataSegmentoLeitura = new Date(data);
+    this.dataHoje = new Date(new Date().getDate()+1); 
+
+    if (this.dataSegmentoLeitura.getTime() < this.dataHoje.getTime()) {
+      ehAnterior = true;
     }
 
+    return ehAnterior;
   }
 
   ionViewDidLoad() {
