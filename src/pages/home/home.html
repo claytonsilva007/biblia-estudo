@@ -3,24 +3,24 @@
   <ion-toolbar>
     <!--CSS PARA COLOCAR BOTÃO ARREDONDADO-->
     <!-- style="display:block; height: 45px; width: 45px; border-radius: 85%; border: 2px solid yellow;" -->
-    <button ion-button menuToggle color="secondary"> 
+    <button ion-button menuToggle color="primary"> 
       <ion-icon name="menu"></ion-icon>
     </button>
 
     <ion-segment [(ngModel)]="segmentoSelecionado" color="danger" (click)="ocultarBtnCompartilharEComentarClick()">
       <ion-segment-button value="livros" (click)="exibirBtnBusca()">
-        <b style="color: #32db64"> {{abaLivroDescricao}} </b>
+        <b style="color: #488aff"> {{abaLivroDescricao}} </b>
       </ion-segment-button>
       <ion-segment-button value="capitulos" (click)="ocultarBotaoBusca()">
-        <b style="color: #32db64"> {{abaCapituloDescricao}} </b>
+        <b style="color: #488aff"> {{abaCapituloDescricao}} </b>
       </ion-segment-button>
       <ion-segment-button value="versiculos">
-        <b style="color: #32db64">Versículos</b>
+        <b style="color: #488aff">Versículos</b>
       </ion-segment-button>
     </ion-segment>
 
     <ion-buttons end>
-      <button ion-button color="secondary" round (click)="presentActionSheet()" style="margin-right: 15px">
+      <button ion-button color="primary" round (click)="presentActionSheet()" style="margin-right: 15px">
         <ion-icon name="more"></ion-icon>
       </button>
     </ion-buttons>
@@ -32,21 +32,23 @@
 
   <!-- FAB DE COMENTÁRIOS --> 
   <ion-fab right middle edge *ngIf="exibirBtnComentar" (click)="configBtnCompartilhamentos()">
-    <button ion-fab>
+   
+   
+    <button ion-fab color="secondary">
       <ion-icon name="text"></ion-icon>
     </button>
 
     <ion-fab-list side="left">
 
-      <button ion-fab color="secondary" (click)="navegarParaComentarios()" *ngIf="VisualizarBtnCriar">
+      <button ion-fab color="primary" (click)="navegarParaComentarios()" *ngIf="VisualizarBtnCriar">
         <ion-icon name="add-circle"></ion-icon>
       </button>
 
-      <button ion-fab color="secondary" *ngIf="podeVisualizarComentarios" (click)="exibirTodosComentarios()">
+      <button ion-fab color="primary" *ngIf="podeVisualizarComentarios" (click)="exibirTodosComentarios()">
         <ion-icon name="create"></ion-icon>
       </button>
 
-      <button ion-fab color="danger" *ngIf="podeVisualizarComentarios" (click)="excluirComentario()">
+      <button ion-fab color="primary" *ngIf="podeVisualizarComentarios" (click)="excluirComentario()">
         <ion-icon name="trash"></ion-icon>
       </button>
 
@@ -60,7 +62,7 @@
   <!-- BOTÃO DE PESQUISA. SOMENTE EXIBIDO NA TELA DE LIVROS --> 
 
   <ion-fab *ngIf="exibirBotaoDeBusca" right middle edge>
-    <button ion-fab color="primary" mini (click)="navegarParaTelaBusca()">
+    <button ion-fab color="secondary" mini (click)="navegarParaTelaBusca()">
       <ion-icon name="search"></ion-icon>
     </button>
   </ion-fab>
@@ -104,22 +106,22 @@
       <ion-grid *ngFor="let capitulo of biblia.livros[versiculoParaComentar.indexLivro].capitulos; let index = index" no-padding no-lines>
         <ion-row *ngIf="index % 4 == 0" no-padding justify-content-start align-items-start no-lines>
           <ion-col ion-item no-lines no-padding text-center (click)="atualizarSegmentoVersiculos(index)">
-            <button clear round ion-button color="primary" *ngIf="index+1 <= biblia.livros[versiculoParaComentar.indexLivro].capitulos.length">
+            <button clear round ion-button color="dark" *ngIf="index+1 <= biblia.livros[versiculoParaComentar.indexLivro].capitulos.length">
               <b [style.font-size]=" this.bibliaProvider.biblia.tamanhoFonte + 'rem' " style="padding-right: 5px; padding-left: 5px; margin-bottom: 2px; text-justify: auto">{{index+1}}</b>
             </button>
           </ion-col>
           <ion-col ion-col ion-item no-lines no-padding text-center (click)="atualizarSegmentoVersiculos(index+1)">
-            <button clear round ion-button color="primary" *ngIf="index+2 <= biblia.livros[versiculoParaComentar.indexLivro].capitulos.length">
+            <button clear round ion-button color="dark" *ngIf="index+2 <= biblia.livros[versiculoParaComentar.indexLivro].capitulos.length">
                 <b [style.font-size]=" this.bibliaProvider.biblia.tamanhoFonte + 'rem' " style="padding-right: 5px; padding-left: 5px; margin-bottom: 2px; text-justify: auto">{{index+2}}</b>
             </button>
           </ion-col>
           <ion-col ion-item no-lines no-padding text-center (click)="atualizarSegmentoVersiculos(index+2)">
-            <button clear round ion-button color="primary" *ngIf="index+3 <= biblia.livros[versiculoParaComentar.indexLivro].capitulos.length">
+            <button clear round ion-button color="dark" *ngIf="index+3 <= biblia.livros[versiculoParaComentar.indexLivro].capitulos.length">
                 <b [style.font-size]=" this.bibliaProvider.biblia.tamanhoFonte + 'rem' " style="padding-right: 5px; padding-left: 5px; margin-bottom: 2px; text-justify: auto">{{index+3}}</b>
             </button>
           </ion-col>
           <ion-col ion-item no-lines no-padding text-center (click)="atualizarSegmentoVersiculos(index+3)">
-            <button round clear ion-button color="primary" *ngIf="index+4 <= biblia.livros[versiculoParaComentar.indexLivro].capitulos.length">
+            <button round clear ion-button color="dark" *ngIf="index+4 <= biblia.livros[versiculoParaComentar.indexLivro].capitulos.length">
                 <b [style.font-size]=" this.bibliaProvider.biblia.tamanhoFonte + 'rem' " style="padding-right: 5px; padding-left: 5px; margin-bottom: 2px; text-justify: auto">{{index+4}}</b>
             </button>
           </ion-col>

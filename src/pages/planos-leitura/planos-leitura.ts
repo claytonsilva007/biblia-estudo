@@ -3,7 +3,7 @@ import { IonicPage, NavController, NavParams, ModalController, ToastController }
 import { ConfiguracaoBibliaProvider } from '../../providers/configuracao-biblia/configuracao-biblia';
 import { PlanoLeitura } from '../../models/PlanosLeitura';
 import { ModalComentariosPostPage } from '../modal-comentarios-post/modal-comentarios-post';
-import { ModalDetalhePlanosLeituraPage } from '../modal-detalhe-planos-leitura/modal-detalhe-planos-leitura';
+import { DetalhePlanoLeituraPage } from '../detalhe-plano-leitura/detalhe-plano-leitura';
 
 
 
@@ -50,11 +50,12 @@ export class PlanosLeituraPage {
   }
 
   navegarParaDetalhePlanoLeitura(planoLeitura: PlanoLeitura){
-    this.navCtrl.push(ModalDetalhePlanosLeituraPage, {planoParam: planoLeitura});
+    this.navCtrl.setRoot(DetalhePlanoLeituraPage, { planoParam: planoLeitura });
+    //this.navCtrl.push(DetalhePlanoLeituraPage, {planoParam: planoLeitura});
   }
 
   abrirPlanoLeituraSelecionado(){
-    this.navCtrl.push(ModalDetalhePlanosLeituraPage);
+    this.navCtrl.push(DetalhePlanoLeituraPage);
   }
 
   comentar(planoLeitura: PlanoLeitura){

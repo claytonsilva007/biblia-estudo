@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { PlanoLeitura } from '../../models/PlanosLeitura';
 import { ConfiguracaoBibliaProvider } from '../../providers/configuracao-biblia/configuracao-biblia';
-import { ModalDetalhePlanosLeituraPage } from '../modal-detalhe-planos-leitura/modal-detalhe-planos-leitura';
+import { DetalhePlanoLeituraPage } from '../detalhe-plano-leitura/detalhe-plano-leitura';
 
 @IonicPage()
 @Component({
@@ -19,7 +19,7 @@ export class PlanosLeituraAtivosPage {
   }
 
   navegarParaDetalhePlanoLeitura(planoLeitura: PlanoLeitura){
-    this.navCtrl.push(ModalDetalhePlanosLeituraPage, {planoParam: planoLeitura});
+    this.navCtrl.push(DetalhePlanoLeituraPage, {planoParam: planoLeitura});
   }
 
 }

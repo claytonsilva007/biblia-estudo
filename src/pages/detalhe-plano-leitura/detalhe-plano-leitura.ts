@@ -3,16 +3,23 @@ import { IonicPage, NavParams, ViewController } from 'ionic-angular';
 import { ConfiguracaoBibliaProvider } from '../../providers/configuracao-biblia/configuracao-biblia';
 import { PlanoLeitura, UnidadesLeituraDiaria } from '../../models/PlanosLeitura';
 
+/**
+ * Generated class for the DetalhePlanoLeituraPage page.
+ *
+ * See https://ionicframework.com/docs/components/#navigation for more info on
+ * Ionic pages and navigation.
+ */
+
 @IonicPage()
 @Component({
-  selector: 'page-modal-detalhe-planos-leitura',
-  templateUrl: 'modal-detalhe-planos-leitura.html',
+  selector: 'page-detalhe-plano-leitura',
+  templateUrl: 'detalhe-plano-leitura.html',
 })
-export class ModalDetalhePlanosLeituraPage {
+export class DetalhePlanoLeituraPage {
 
   planoLeitura: PlanoLeitura;
   unidadesLeitura: UnidadesLeituraDiaria[];
-  
+
   unidadeLeituraDiaAtual: UnidadesLeituraDiaria;
   unidadesLeituraAtrasadas: UnidadesLeituraDiaria[];
 
@@ -23,51 +30,48 @@ export class ModalDetalhePlanosLeituraPage {
     this.filtrarUnidadeLeituraDiaAtual();
   }
 
-  filtrarUnidadeLeituraDiaAtual(){
+  filtrarUnidadeLeituraDiaAtual() {
     this.unidadeLeituraDiaAtual = new UnidadesLeituraDiaria();
 
-    this.planoLeitura.unidadesLeituraDiaria.forEach(uld => { 
-      if(this.recuperarLeituraDataAtual(uld.dataParaLeitura)){
+    this.planoLeitura.unidadesLeituraDiaria.forEach(uld => {
+      if (this.recuperarLeituraDataAtual(uld.dataParaLeitura)) {
         this.unidadeLeituraDiaAtual = uld;
         return false;
       } else {
         return true;
       }
-    });    
+    });
   }
 
-  recuperarLeituraDataAtual(data: Date): boolean{
+  recuperarLeituraDataAtual(data: Date): boolean {
     let achou: boolean = false;
     let dataHoje = new Date(new Date().getTime());
     let dataAux: Date = new Date(data);
 
-    if(dataHoje.getDate() === dataAux.getDate() && dataHoje.getMonth() === dataAux.getMonth() && dataHoje.getFullYear() === dataAux.getFullYear()){
+    if (dataHoje.getDate() === dataAux.getDate() && dataHoje.getMonth() === dataAux.getMonth() && dataHoje.getFullYear() === dataAux.getFullYear()) {
       achou = true;
     }
     return achou;
   }
 
-  filtrarUnidadesLeituraAtrasadas(){
+  filtrarUnidadesLeituraAtrasadas() {
     this.unidadesLeituraAtrasadas = [];
     this.planoLeitura.unidadesLeituraDiaria.forEach(uld => this.verificaSeDataEhAnterior(uld.dataParaLeitura));
   }
 
-  verificaSeDataEhAnterior(data: Date){
+  verificaSeDataEhAnterior(data: Date) {
     let dataAux = new Date(data);
     let dataHoje = new Date(new Date().getTime());
 
-    if(dataAux.getTime() > dataHoje.getTime()){
+    if (dataAux.getTime() > dataHoje.getTime()) {
       console.log("Não há atrasos.");
     }
 
   }
 
-  ionViewDidEnter(){
+  ionViewDidLoad() {
     
   }
 
-  closeModal(){
-    this.viewCtrl.dismiss();
-  }
-  
 }
+
