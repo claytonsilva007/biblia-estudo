@@ -1,100 +1,176 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title><b style="color: #488aff">Plano de Leitura - Detalhe</b></ion-title>
-  </ion-toolbar>
+    
+    <button ion-button menuToggle color="primary">
+      <ion-icon name="menu"></ion-icon>
+    </button>
+
+    <ion-title><b style="color: #488aff">Plano de Leitura</b></ion-title>
+
+    </ion-toolbar>
+
+    <ion-segment [(ngModel)]="segmentoSelecionado" color="dark" style="background-color: #f4f4f4">
+      <ion-segment-button value="hoje">
+        Hoje
+      </ion-segment-button>
+      <ion-segment-button value="atrasado">
+        Atrasado
+      </ion-segment-button>
+      <ion-segment-button value="detalhamento">
+        Detalhamento
+      </ion-segment-button>
+    </ion-segment>
+
 </ion-header>
 
-<ion-content padding>
-    <ion-card class="ion-card">
-      <ion-item>
-        <h2 text-wrap style="align-items: center"><b>{{ unidadeLeituraDiaAtual.tituloLeituraDiaria }}</b></h2>
-        <h3>{{ unidadeLeituraDiaAtual.dataParaLeitura | date: 'dd/MM/yyyy' }}</h3>
-      </ion-item>
-      <p></p>
-      <!--<img src="img/advance-card-bttf.png">-->
-
-      <ion-card-content>
-        <ion-list *ngFor="let sl of unidadeLeituraDiaAtual.segmentosLeituraDiaria">
-          <ion-item>
-            {{ sl.descricaoSegmento }}
-          </ion-item>
-        </ion-list>
-      </ion-card-content>
-
-      <ion-row>
-        <ion-col>
-          <button ion-button icon-start clear small color="primary" (click)="curtir(planoLeitura)">
-            <ion-icon name="thumbs-up"></ion-icon>
-            <div>{{planoLeitura.likes}}</div>
-          </button>
-        </ion-col>
-        <ion-col>
-          <button ion-button icon-start clear small color="primary" (click)="comentar(planoLeitura)">
-            <ion-icon name="text"></ion-icon>
-            <div>{{planoLeitura.comentarios.length}} Comentários</div>
-          </button>
-        </ion-col>
-        <ion-col>
-          <button ion-button icon-start clear small color="primary" (click)="compartilhar(planoLeitura)">
-            <ion-icon name="share"></ion-icon>
-            <div>{{planoLeitura.compartilhamentos}}</div>
-          </button>
-        </ion-col>
-      </ion-row>
-      <ion-row>
-        <ion-col center text-center>
-          <ion-note>
-            Autor: <b>Garret Kell</b>
-          </ion-note>
-        </ion-col>
-      </ion-row>
-    </ion-card>
+<ion-content no-padding style="background-color: #f4f4f4">
   
-
-  <ion-card *ngFor="let uld of unidadesLeitura" class="ion-card">
-    <ion-item>
-      <h2 text-wrap style="align-items: center"><b>{{ uld.tituloLeituraDiaria }}</b></h2>
-      <h3>{{ uld.dataParaLeitura | date: 'dd/MM/yyyy' }}</h3>
-    </ion-item>
-    <p></p>
-    <!--<img src="img/advance-card-bttf.png">-->
-
-    <ion-card-content>
-      <ion-list *ngFor="let sl of uld.segmentosLeituraDiaria">
-        <ion-item>
-          {{ sl.descricaoSegmento }}
+  <div [ngSwitch]="segmentoSelecionado">
+    
+    <ion-list *ngSwitchCase="'hoje'">
+      <ion-card class="ion-card">
+        <ion-item style="text-align: left">
+          <h2 text-wrap style="align-items: left"><b>{{ unidadeLeituraDiaAtual.tituloLeituraDiaria }}</b></h2>
+          <h3 style="text-align: left">{{ unidadeLeituraDiaAtual.dataParaLeitura | date: 'dd/MM/yyyy' }}</h3>
         </ion-item>
-      </ion-list>
-    </ion-card-content>
+        <p></p>
+        <!--<img src="img/advance-card-bttf.png">-->
+      
+        <ion-card-content>
+          <ion-list *ngFor="let sl of unidadeLeituraDiaAtual.segmentosLeituraDiaria">
+            <ion-item>
+              {{ sl.descricaoSegmento }}
+            </ion-item>
+          </ion-list>
+        </ion-card-content>
+      
+        <ion-row>
+          <ion-col>
+            <button ion-button icon-start clear small color="primary" (click)="curtir(planoLeitura)">
+              <ion-icon name="thumbs-up"></ion-icon>
+              <div>{{planoLeitura.likes}}</div>
+            </button>
+          </ion-col>
+          <ion-col>
+            <button ion-button icon-start clear small color="primary" (click)="comentar(planoLeitura)">
+              <ion-icon name="text"></ion-icon>
+              <div>{{planoLeitura.comentarios.length}} Comentários</div>
+            </button>
+          </ion-col>
+          <ion-col>
+            <button ion-button icon-start clear small color="primary" (click)="compartilhar(planoLeitura)">
+              <ion-icon name="share"></ion-icon>
+              <div>{{planoLeitura.compartilhamentos}}</div>
+            </button>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col center text-center>
+            <ion-note>
+              Autor: <b>Garret Kell</b>
+            </ion-note>
+          </ion-col>
+        </ion-row>
+      </ion-card>
+    </ion-list>
+  
+    <ion-list *ngSwitchCase="'atrasado'">
 
-    <ion-row>
-      <ion-col>
-        <button ion-button icon-start clear small color="primary" (click)="curtir(planoLeitura)">
-          <ion-icon name="thumbs-up"></ion-icon>
-          <div>{{planoLeitura.likes}}</div>
-        </button>
-      </ion-col>
-      <ion-col>
-        <button ion-button icon-start clear small color="primary" (click)="comentar(planoLeitura)">
-          <ion-icon name="text"></ion-icon>
-          <div>{{planoLeitura.comentarios.length}} Comentários</div>
-        </button>
-      </ion-col>
-      <ion-col>
-        <button ion-button icon-start clear small color="primary" (click)="compartilhar(planoLeitura)">
-          <ion-icon name="share"></ion-icon>
-          <div>{{planoLeitura.compartilhamentos}}</div>
-        </button>
-      </ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col center text-center>
-        <ion-note>
-          Autor: <b>Garret Kell</b>
-        </ion-note>
-      </ion-col>
-    </ion-row>
-  </ion-card>
+      <ion-label text-wrap *ngIf="unidadesLeituraAtrasadas.length === 0" style="color: green"> PARABÉNS!!!! Não existem atrasos em seu plano de leitura.</ion-label>
+      
+      <ion-card *ngFor="let uld of unidadesLeituraAtrasadas" class="ion-card">
+        <ion-item style="text-align: left">
+          <h2 text-wrap style="align-items: left"><b>{{ uld.tituloLeituraDiaria }}</b></h2>
+          <h3 style="text-align: left">{{ uld.dataParaLeitura | date: 'dd/MM/yyyy' }}</h3>
+        </ion-item>
+        <p></p>
+        <!--<img src="img/advance-card-bttf.png">-->
+      
+        <ion-card-content>
+          <ion-list *ngFor="let sl of uld.segmentosLeituraDiaria">
+            <ion-item>
+              {{ sl.descricaoSegmento }}
+            </ion-item>
+          </ion-list>
+        </ion-card-content>
+      
+        <ion-row>
+          <ion-col>
+            <button ion-button icon-start clear small color="primary" (click)="curtir(planoLeitura)">
+              <ion-icon name="thumbs-up"></ion-icon>
+              <div>{{planoLeitura.likes}}</div>
+            </button>
+          </ion-col>
+          <ion-col>
+            <button ion-button icon-start clear small color="primary" (click)="comentar(planoLeitura)">
+              <ion-icon name="text"></ion-icon>
+              <div>{{planoLeitura.comentarios.length}} Comentários</div>
+            </button>
+          </ion-col>
+          <ion-col>
+            <button ion-button icon-start clear small color="primary" (click)="compartilhar(planoLeitura)">
+              <ion-icon name="share"></ion-icon>
+              <div>{{planoLeitura.compartilhamentos}}</div>
+            </button>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col center text-center>
+            <ion-note>
+              Autor: <b>Garret Kell</b>
+            </ion-note>
+          </ion-col>
+        </ion-row>
+      </ion-card>
+    </ion-list>
+  
+    <ion-list *ngSwitchCase="'detalhamento'">
+      <ion-card *ngFor="let uld of unidadesLeitura" class="ion-card">
+        <ion-item style="text-align: left">
+          <h2 text-wrap style="align-items: left"><b>{{ uld.tituloLeituraDiaria }}</b></h2>
+          <h3 style="text-align: left">{{ uld.dataParaLeitura | date: 'dd/MM/yyyy' }}</h3>
+        </ion-item>
+        <p></p>
+        <!--<img src="img/advance-card-bttf.png">-->
+      
+        <ion-card-content>
+          <ion-list *ngFor="let sl of uld.segmentosLeituraDiaria">
+            <ion-item>
+              {{ sl.descricaoSegmento }}
+            </ion-item>
+          </ion-list>
+        </ion-card-content>
+      
+        <ion-row>
+          <ion-col>
+            <button ion-button icon-start clear small color="primary" (click)="curtir(planoLeitura)">
+              <ion-icon name="thumbs-up"></ion-icon>
+              <div>{{planoLeitura.likes}}</div>
+            </button>
+          </ion-col>
+          <ion-col>
+            <button ion-button icon-start clear small color="primary" (click)="comentar(planoLeitura)">
+              <ion-icon name="text"></ion-icon>
+              <div>{{planoLeitura.comentarios.length}} Comentários</div>
+            </button>
+          </ion-col>
+          <ion-col>
+            <button ion-button icon-start clear small color="primary" (click)="compartilhar(planoLeitura)">
+              <ion-icon name="share"></ion-icon>
+              <div>{{planoLeitura.compartilhamentos}}</div>
+            </button>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col center text-center>
+            <ion-note>
+              Autor: <b>Garret Kell</b>
+            </ion-note>
+          </ion-col>
+        </ion-row>
+      </ion-card>
+    </ion-list>
+  </div>
 
 
 </ion-content>

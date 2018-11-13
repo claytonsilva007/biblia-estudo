@@ -3,12 +3,6 @@ import { IonicPage, NavParams, ViewController } from 'ionic-angular';
 import { ConfiguracaoBibliaProvider } from '../../providers/configuracao-biblia/configuracao-biblia';
 import { PlanoLeitura, UnidadesLeituraDiaria } from '../../models/PlanosLeitura';
 
-/**
- * Generated class for the DetalhePlanoLeituraPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
 
 @IonicPage()
 @Component({
@@ -23,7 +17,11 @@ export class DetalhePlanoLeituraPage {
   unidadeLeituraDiaAtual: UnidadesLeituraDiaria;
   unidadesLeituraAtrasadas: UnidadesLeituraDiaria[];
 
+  segmentoSelecionado: string;
+
   constructor(public navParams: NavParams, private bibliaProvider: ConfiguracaoBibliaProvider, private viewCtrl: ViewController) {
+    this.segmentoSelecionado = "hoje";
+    this.unidadesLeituraAtrasadas = [];
     this.planoLeitura = new PlanoLeitura();
     this.planoLeitura = JSON.parse(JSON.stringify(this.navParams.get("planoParam")));
     this.unidadesLeitura = this.planoLeitura.unidadesLeituraDiaria;
@@ -55,7 +53,6 @@ export class DetalhePlanoLeituraPage {
   }
 
   filtrarUnidadesLeituraAtrasadas() {
-    this.unidadesLeituraAtrasadas = [];
     this.planoLeitura.unidadesLeituraDiaria.forEach(uld => this.verificaSeDataEhAnterior(uld.dataParaLeitura));
   }
 
