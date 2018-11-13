@@ -39,7 +39,10 @@
         <ion-card-content>
           <ion-list *ngFor="let sl of unidadeLeituraDiaAtual.segmentosLeituraDiaria">
             <ion-item>
-              {{ sl.descricaoSegmento }}
+              <ion-icon item-start name="checkmark-circle" color="secondary" *ngIf="sl.statusLeitura"></ion-icon>
+              <ion-icon item-start name="alert" color="danger" *ngIf="!sl.statusLeitura"></ion-icon>
+              <ion-label item-content> {{ sl.descricaoSegmento }} </ion-label>
+              <ion-icon item-end name="play" color="secondary" (click)="navegarParaLeituraDiaAtual(sl)"></ion-icon>
             </ion-item>
           </ion-list>
         </ion-card-content>

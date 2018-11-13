@@ -50,12 +50,7 @@ export class PlanosLeituraPage {
   }
 
   navegarParaDetalhePlanoLeitura(planoLeitura: PlanoLeitura){
-    this.navCtrl.setRoot(DetalhePlanoLeituraPage, { planoParam: planoLeitura });
-    //this.navCtrl.push(DetalhePlanoLeituraPage, {planoParam: planoLeitura});
-  }
-
-  abrirPlanoLeituraSelecionado(){
-    this.navCtrl.push(DetalhePlanoLeituraPage);
+    this.navCtrl.push(DetalhePlanoLeituraPage, { planoParam: planoLeitura });
   }
 
   comentar(planoLeitura: PlanoLeitura){

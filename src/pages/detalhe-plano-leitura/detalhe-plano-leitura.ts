@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavParams } from 'ionic-angular';
-import { ConfiguracaoBibliaProvider } from '../../providers/configuracao-biblia/configuracao-biblia';
+import { IonicPage, NavParams, NavController } from 'ionic-angular';
 import { PlanoLeitura, UnidadesLeituraDiaria, SegmentoLeituraDiaria } from '../../models/PlanosLeitura';
+import { PainelPlanoLeituraPage } from '../painel-plano-leitura/painel-plano-leitura';
 
 
 @IonicPage()
@@ -22,7 +22,7 @@ export class DetalhePlanoLeituraPage {
 
   segmentoSelecionado: string;
 
-  constructor(public navParams: NavParams, private bibliaProvider: ConfiguracaoBibliaProvider) {
+  constructor(public navParams: NavParams, private navCtrl: NavController) {
     this.segmentoSelecionado = "hoje";
     this.unidadesLeituraAtrasadas = [];
     this.planoLeitura = new PlanoLeitura();
@@ -83,6 +83,11 @@ export class DetalhePlanoLeituraPage {
     }
 
     return ehAnterior;
+  }
+
+
+  navegarParaLeituraDiaAtual(segmentoLeitura: SegmentoLeituraDiaria){
+    this.navCtrl.push(PainelPlanoLeituraPage, {"unidadeLeitura": this.unidadeLeituraDiaAtual, "segmentoLeitura": segmentoLeitura});
   }
 
   ionViewDidLoad() {

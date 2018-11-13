@@ -32,6 +32,7 @@ import { PlanosLeituraPage } from '../pages/planos-leitura/planos-leitura';
 import { ModalComentariosPostPage } from '../pages/modal-comentarios-post/modal-comentarios-post';
 import { PlanosLeituraAtivosPage } from '../pages/planos-leitura-ativos/planos-leitura-ativos';
 import { DetalhePlanoLeituraPage } from '../pages/detalhe-plano-leitura/detalhe-plano-leitura';
+import { PainelPlanoLeituraPage } from '../pages/painel-plano-leitura/painel-plano-leitura';
 
 export const firebaseConfig = {
   apiKey: "AIzaSyBoOBgbbcVK1v7-k_4wj-wCJESmKr2TFeI",
@@ -53,7 +54,8 @@ export const firebaseConfig = {
     PlanosLeituraPage,
     ModalComentariosPostPage, 
     PlanosLeituraAtivosPage,
-    DetalhePlanoLeituraPage
+    DetalhePlanoLeituraPage,
+    PainelPlanoLeituraPage
   ],
   imports: [
     BrowserModule,
@@ -77,7 +79,8 @@ export const firebaseConfig = {
     PlanosLeituraPage,
     ModalComentariosPostPage, 
     PlanosLeituraAtivosPage,
-    DetalhePlanoLeituraPage
+    DetalhePlanoLeituraPage,
+    PainelPlanoLeituraPage
   ],
   providers: [
     StatusBar,
