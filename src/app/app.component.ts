@@ -92,8 +92,8 @@ export class MyApp {
         this.storage.set(this.constantes.BIBLIA_CHAVE, this.configBiblia.getBiblia()); 
       } else if(activeView.name === 'ModalCmp'){        
         activeView.dismiss();      
-      } else {
-         nav.push(HomePage);
+      } else if(activeView.name !== 'HomePage' && activeView.name !== 'ModalCmp' && nav.canGoBack()){
+         nav.pop();
       }
     });
   }
