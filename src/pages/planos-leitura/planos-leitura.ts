@@ -29,7 +29,7 @@ export class PlanosLeituraPage {
     this.calcularPercentualCompletude();
 
     events.subscribe('planoLeitura:incrementar', () => {
-      console.log('incrementar');
+      this.qtdeSegmentosLidos++;
     });
 
   }
