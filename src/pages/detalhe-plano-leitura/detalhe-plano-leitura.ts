@@ -18,18 +18,34 @@ export class DetalhePlanoLeituraPage {
   unidadesLeituraAtrasadas: UnidadesLeituraDiaria[];
   dataSegmentoLeitura: Date;
   dataHoje: Date;
-
-
   segmentoSelecionado: string;
+
+  totalDePaginas: number;
+  unidadesLeituraPorPagina: number;
+  paginaAtual: number;
 
   constructor(public navParams: NavParams, private navCtrl: NavController) {
     this.segmentoSelecionado = "hoje";
     this.unidadesLeituraAtrasadas = [];
     this.planoLeitura = new PlanoLeitura();
     this.planoLeitura = JSON.parse(JSON.stringify(this.navParams.get("planoParam")));
-    this.unidadesLeitura = this.planoLeitura.unidadesLeituraDiaria;
     this.filtrarUnidadeLeituraDiaAtual();
     this.filtrarUnidadesLeituraAtrasadas();
+    this.unidadesLeitura = [];
+    this.totalDePaginas = Math.round(this.planoLeitura.unidadesLeituraDiaria.length / this.unidadesLeituraPorPagina) + 1;
+    this.paginaAtual = 0;
+    this.unidadesLeituraPorPagina = 10;
+
+    this.carregarPrimeirasUnidadesLeitura();
+  }
+
+  carregarPrimeirasUnidadesLeitura(){
+    for(let i=0; i< this.unidadesLeituraPorPagina; i++){
+      this.unidadesLeitura.push(this.planoLeitura.unidadesLeituraDiaria[i]);
+    }
+
+    this.paginaAtual += 1;
+
   }
 
   filtrarUnidadeLeituraDiaAtual() {
@@ -94,9 +110,21 @@ export class DetalhePlanoLeituraPage {
     this.navCtrl.push(PainelPlanoLeituraPage, { "unidadeLeitura": unidadeLeitura, "segmentoLeitura": segmentoLeitura, "planoLeitura": this.planoLeitura });
   }
 
-  ionViewDidLoad() {
+  doInfinite(infiniteScroll) {
     
-  }
+    setTimeout(() => {
+      let result = this.planoLeitura.unidadesLeituraDiaria.slice(this.paginaAtual * this.unidadesLeituraPorPagina);
 
+      for (let i = 0; i < this.unidadesLeituraPorPagina; i++) {
+        if (result[i] != undefined) {
+          this.unidadesLeitura.push(result[i]);
+        }
+      }
+
+      this.paginaAtual += 1;
+
+      infiniteScroll.complete();
+    }, 400);
+  }
 }
 
