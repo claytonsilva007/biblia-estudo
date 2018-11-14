@@ -27,6 +27,11 @@ export class PlanosLeituraPage {
     this.percentualCompletude = 0;
 
     this.calcularPercentualCompletude();
+
+    events.subscribe('planoLeitura:incrementar', () => {
+      console.log('incrementar');
+    });
+
   }
 
   iniciarPlanoLeitura(planoLeitura: PlanoLeitura){
@@ -82,7 +87,7 @@ export class PlanosLeituraPage {
 
           console.log(this.qtdeSegmentos + "-" + this.qtdeSegmentosLidos);
      if(this.qtdeSegmentosLidos !== 0 ){
-      this.percentualCompletude = (this.qtdeSegmentosLidos / this.qtdeSegmentos) * 100;     
+      this.percentualCompletude = Math.round((this.qtdeSegmentosLidos / this.qtdeSegmentos) * 100);     
      } 
      
   }

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Events } from 'ionic-angular';
 import { UnidadesLeituraDiaria, SegmentoLeituraDiaria, PlanoLeitura } from '../../models/PlanosLeitura';
 import { ConfiguracaoBibliaProvider } from '../../providers/configuracao-biblia/configuracao-biblia';
 import { Capitulo } from '../../models/Biblia';
@@ -20,7 +20,7 @@ export class PainelPlanoLeituraPage {
   leituraRealizada: boolean;
   numVersicBase: number;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private bibliaProvider: ConfiguracaoBibliaProvider) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private bibliaProvider: ConfiguracaoBibliaProvider, public events: Events) {
     this.planoLeituraSelecionado = navParams.get("planoLeitura")
     this.unidadeLeituraDiaria = navParams.get("unidadeLeitura");
     this.segmentoLeituraDiaria = navParams.get("segmentoLeitura");
@@ -78,6 +78,8 @@ export class PainelPlanoLeituraPage {
                 })[0].segmentosLeituraDiaria.filter(sld => sld.segmentoLeitura === this.segmentoLeituraDiaria.segmentoLeitura)[0].statusLeitura = this.leituraRealizada;
     
     this.segmentoLeituraDiaria.statusLeitura = this.leituraRealizada;
+
+    this.events.publish('planoLeitura:incrementar');
   }  
 
 }
