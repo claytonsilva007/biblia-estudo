@@ -5,22 +5,28 @@ import { PlanoLeitura } from '../../models/PlanosLeitura';
 import { ModalComentariosPostPage } from '../modal-comentarios-post/modal-comentarios-post';
 import { DetalhePlanoLeituraPage } from '../detalhe-plano-leitura/detalhe-plano-leitura';
 
-
-
 @IonicPage()
 @Component({
   selector: 'page-planos-leitura',
   templateUrl: 'planos-leitura.html',
 })
 export class PlanosLeituraPage {
-  planosLeitura: PlanoLeitura[];
   
+  planosLeitura: PlanoLeitura[];
+  percentualCompletude: number;
+  qtdeSegmentos: number;
+  qtdeSegmentosLidos: number;
+
   constructor(public navCtrl: NavController, public navParams: NavParams, private bibliaProvider: ConfiguracaoBibliaProvider, 
     public modalCtrl: ModalController, private toastCtrl: ToastController, public events: Events) {
 
     this.planosLeitura = [];
     this.planosLeitura = this.bibliaProvider.biblia.planosDeLeitura;
+    this.qtdeSegmentos = 0;
+    this.qtdeSegmentosLidos = 0;
+    this.percentualCompletude = 0;
 
+    this.calcularPercentualCompletude();
   }
 
   iniciarPlanoLeitura(planoLeitura: PlanoLeitura){
@@ -38,7 +44,7 @@ export class PlanosLeituraPage {
       });
 
     }); 
-    
+    this.calcularPercentualCompletude();
     this.navegarParaDetalhePlanoLeitura(planoLeitura);
     
   }
@@ -60,6 +66,35 @@ export class PlanosLeituraPage {
     return nomeLivro;
   }
 
+  calcularPercentualCompletude(){
+    
+    this.qtdeSegmentos = 0;
+    this.qtdeSegmentosLidos = 0;
+    
+    this.bibliaProvider.biblia.planosDeLeitura
+          .filter(p => p.ativo)
+          .forEach(p => {
+            p.unidadesLeituraDiaria.forEach(u => { 
+               this.incrementarTotalSegmentos(u.segmentosLeituraDiaria.length);
+               this.incrementarSegmentosLidos(u.segmentosLeituraDiaria.filter(s => s.statusLeitura === true).length);
+            });
+          });
+
+          console.log(this.qtdeSegmentos + "-" + this.qtdeSegmentosLidos);
+     if(this.qtdeSegmentosLidos !== 0 ){
+      this.percentualCompletude = (this.qtdeSegmentosLidos / this.qtdeSegmentos) * 100;     
+     } 
+     
+  }
+
+  incrementarTotalSegmentos(i: number){
+    this.qtdeSegmentos = this.qtdeSegmentos + i;
+  }
+
+  incrementarSegmentosLidos(i: number){
+    this.qtdeSegmentosLidos = this.qtdeSegmentosLidos + i;
+  }
+
   navegarParaDetalhePlanoLeitura(planoLeitura: PlanoLeitura){
     this.navCtrl.push(DetalhePlanoLeituraPage, { planoParam: planoLeitura });
   }
@@ -74,6 +109,10 @@ export class PlanosLeituraPage {
 
   compartilhar(planoLeitura: PlanoLeitura){
     planoLeitura.compartilhamentos++;
+  }
+
+  ionViewDidLoad(){
+    this.calcularPercentualCompletude();
   }
 
   exibirMensagem(mensagem: string){

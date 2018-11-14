@@ -34,6 +34,8 @@ import { PlanosLeituraAtivosPage } from '../pages/planos-leitura-ativos/planos-l
 import { DetalhePlanoLeituraPage } from '../pages/detalhe-plano-leitura/detalhe-plano-leitura';
 import { PainelPlanoLeituraPage } from '../pages/painel-plano-leitura/painel-plano-leitura';
 
+import {ProgressBarModule} from "angular-progress-bar";
+
 export const firebaseConfig = {
   apiKey: "AIzaSyBoOBgbbcVK1v7-k_4wj-wCJESmKr2TFeI",
   authDomain: "biblia-estudo.firebaseapp.com",
@@ -56,6 +58,7 @@ export const firebaseConfig = {
     PlanosLeituraAtivosPage,
     DetalhePlanoLeituraPage,
     PainelPlanoLeituraPage
+    
   ],
   imports: [
     BrowserModule,
@@ -66,6 +69,7 @@ export const firebaseConfig = {
     FroalaEditorModule.forRoot(), FroalaViewModule.forRoot(),
     AngularFireModule.initializeApp(firebaseConfig),
     AngularFirestoreModule,
+    ProgressBarModule,
     IonicStorageModule.forRoot()
   ],
   bootstrap: [IonicApp],
