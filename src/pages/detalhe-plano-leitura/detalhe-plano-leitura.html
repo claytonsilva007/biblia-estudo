@@ -1,25 +1,19 @@
 <ion-header>
-  <ion-toolbar>
-    
-    <button ion-button menuToggle color="primary">
-      <ion-icon name="menu"></ion-icon>
-    </button>
-
+  <ion-navbar>
     <ion-title><b style="color: #488aff">Plano de Leitura</b></ion-title>
+  </ion-navbar>
 
-    </ion-toolbar>
-
-    <ion-segment [(ngModel)]="segmentoSelecionado" color="danger" style="background-color: #f4f4f4">
-      <ion-segment-button value="hoje">
-        <b style="color: #32db64">Hoje</b>
-      </ion-segment-button>
-      <ion-segment-button value="atrasado">
-          <b style="color: #32db64">Atrasado</b>
-      </ion-segment-button>
-      <ion-segment-button value="detalhamento">
-          <b style="color: #32db64">Detalhamento</b>
-      </ion-segment-button>
-    </ion-segment>
+  <ion-segment [(ngModel)]="segmentoSelecionado" color="danger" style="background-color: #f4f4f4">
+    <ion-segment-button value="hoje">
+      <b style="color: #32db64">Hoje</b>
+    </ion-segment-button>
+    <ion-segment-button value="atrasado">
+        <b style="color: #32db64">Atrasado</b>
+    </ion-segment-button>
+    <ion-segment-button value="detalhamento">
+        <b style="color: #32db64">Detalhamento</b>
+    </ion-segment-button>
+  </ion-segment>
 
 </ion-header>
 
