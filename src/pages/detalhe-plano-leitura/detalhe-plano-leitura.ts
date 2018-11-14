@@ -90,6 +90,10 @@ export class DetalhePlanoLeituraPage {
     this.navCtrl.push(PainelPlanoLeituraPage, {"unidadeLeitura": this.unidadeLeituraDiaAtual, "segmentoLeitura": segmentoLeitura, "planoLeitura": this.planoLeitura});
   }
 
+  navegarParaLeitura(unidadeLeitura: UnidadesLeituraDiaria, segmentoLeitura: SegmentoLeituraDiaria){
+    this.navCtrl.push(PainelPlanoLeituraPage, { "unidadeLeitura": unidadeLeitura, "segmentoLeitura": segmentoLeitura, "planoLeitura": this.planoLeitura });
+  }
+
   ionViewDidLoad() {
     
   }

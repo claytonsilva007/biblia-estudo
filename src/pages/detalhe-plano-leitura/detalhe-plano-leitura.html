@@ -80,10 +80,11 @@
 
       <ion-label text-wrap *ngIf="unidadesLeituraAtrasadas.length === 0" style="color: green"> PARABÉNS!!!! Não existem atrasos em seu plano de leitura.</ion-label>
       
-      <ion-card *ngFor="let uld of unidadesLeituraAtrasadas" class="ion-card">
+      <ion-card *ngFor="let uld of unidadesLeituraAtrasadas; let index = index" class="ion-card">
         <ion-item style="text-align: left">
           <h2 text-wrap style="align-items: left"><b>{{ uld.tituloLeituraDiaria }}</b></h2>
           <h3 style="text-align: left">{{ uld.dataParaLeitura | date: 'dd/MM/yyyy' }}</h3>
+          <h3 item-end>{{ (index+1) + "/" + unidadesLeituraAtrasadas.length}}</h3>
         </ion-item>
         <p></p>
         <!--<img src="img/advance-card-bttf.png">-->
@@ -94,7 +95,7 @@
               <ion-icon item-start name="checkmark-circle" color="secondary" *ngIf="sl.statusLeitura"></ion-icon>
               <ion-icon item-start name="alert" color="danger" *ngIf="!sl.statusLeitura"></ion-icon>
               <ion-label item-content> {{ sl.descricaoSegmento }} </ion-label>
-              <ion-icon item-end name="play" color="secondary" (click)="navegarParaLeituraDiaAtual(sl)"></ion-icon>
+              <ion-icon item-end name="play" color="secondary" (click)="navegarParaLeitura(uld, sl)"></ion-icon>
             </ion-item>
           </ion-list>
         </ion-card-content>
@@ -130,10 +131,11 @@
     </ion-list>
   
     <ion-list *ngSwitchCase="'detalhamento'">
-      <ion-card *ngFor="let uld of unidadesLeitura" class="ion-card">
+      <ion-card *ngFor="let uld of unidadesLeitura; let index = index" class="ion-card">
         <ion-item style="text-align: left">
           <h2 text-wrap style="align-items: left"><b>{{ uld.tituloLeituraDiaria }}</b></h2>
           <h3 style="text-align: left">{{ uld.dataParaLeitura | date: 'dd/MM/yyyy' }}</h3>
+          <h3 item-end>{{ (index+1) + "/" + unidadesLeitura.length}}</h3>
         </ion-item>
         <p></p>
         <!--<img src="img/advance-card-bttf.png">-->
@@ -144,7 +146,7 @@
               <ion-icon item-start name="checkmark-circle" color="secondary" *ngIf="sl.statusLeitura"></ion-icon>
               <ion-icon item-start name="alert" color="danger" *ngIf="!sl.statusLeitura"></ion-icon>
               <ion-label item-content> {{ sl.descricaoSegmento }} </ion-label>
-              <ion-icon item-end name="play" color="secondary" (click)="navegarParaLeituraDiaAtual(sl)"></ion-icon>
+              <ion-icon item-end name="play" color="secondary" (click)="navegarParaLeitura(uld, sl)"></ion-icon>
             </ion-item>
           </ion-list>
         </ion-card-content>

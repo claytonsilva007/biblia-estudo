@@ -3,7 +3,6 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { UnidadesLeituraDiaria, SegmentoLeituraDiaria, PlanoLeitura } from '../../models/PlanosLeitura';
 import { ConfiguracaoBibliaProvider } from '../../providers/configuracao-biblia/configuracao-biblia';
 import { Capitulo } from '../../models/Biblia';
-import { ThrowStmt } from '@angular/compiler';
 
 @IonicPage()
 @Component({
@@ -18,7 +17,6 @@ export class PainelPlanoLeituraPage {
   capitulo: Capitulo;
   capituloSelecionado: Capitulo;
   capitulosLeituraDiaria: Capitulo[];
-  indexCapSegmentoSelecionado: number;
   leituraRealizada: boolean;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private bibliaProvider: ConfiguracaoBibliaProvider) {
@@ -28,24 +26,12 @@ export class PainelPlanoLeituraPage {
     this.capitulo = new Capitulo();
     this.capituloSelecionado = new Capitulo();
     this.capitulosLeituraDiaria = [];
-    this.carergarUnidadeLeituraDiaria();
-    this.indexCapSegmentoSelecionado = 0;
+    
+    this.carregarTextoSegmentoLeitura(this.segmentoLeituraDiaria);
     this.leituraRealizada = this.segmentoLeituraDiaria.statusLeitura;
   }
 
-  carergarUnidadeLeituraDiaria(){
-    this.unidadeLeituraDiaria.segmentosLeituraDiaria.forEach((uld, index) => this.carregarTextoSegmentoLeitura(uld, index));
-  }
-
-
-  carregarTextoSegmentoLeitura(segmentoLeituraDiariaParam: SegmentoLeituraDiaria, index: number){
-    
-    let achouSegmentoSelecionado = false;
-    
-    if(segmentoLeituraDiariaParam.segmentoLeitura === this.segmentoLeituraDiaria.segmentoLeitura){
-      this.indexCapSegmentoSelecionado = index;
-      achouSegmentoSelecionado = true;
-    }
+  carregarTextoSegmentoLeitura(segmentoLeituraDiariaParam: SegmentoLeituraDiaria){
 
     let v: string[] = segmentoLeituraDiariaParam.segmentoLeitura.split(";");
     let indexLivro: number = (Number(v[0]) -1);
@@ -64,10 +50,8 @@ export class PainelPlanoLeituraPage {
     }
     
     this.capitulo.versiculos = this.capitulo.versiculos.slice(indexVersicIni, indexVersicFim+1);
+    this.capituloSelecionado = this.capitulo;
     this.capitulosLeituraDiaria.push(this.capitulo);
-    if(achouSegmentoSelecionado){
-      this.capituloSelecionado = this.capitulo;
-    }
 
     this.capitulo = new Capitulo();
   }
