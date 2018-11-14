@@ -26,10 +26,8 @@ export class PlanosLeituraPage {
     this.qtdeSegmentosLidos = 0;
     this.percentualCompletude = 0;
 
-    this.calcularPercentualCompletude();
-
     events.subscribe('planoLeitura:incrementar', () => {
-      this.qtdeSegmentosLidos++;
+      this.calcularPercentualCompletude();
     });
 
   }
@@ -49,7 +47,7 @@ export class PlanosLeituraPage {
       });
 
     }); 
-    this.calcularPercentualCompletude();
+    
     this.navegarParaDetalhePlanoLeitura(planoLeitura);
     
   }
@@ -85,7 +83,7 @@ export class PlanosLeituraPage {
             });
           });
 
-          console.log(this.qtdeSegmentos + "-" + this.qtdeSegmentosLidos);
+          
      if(this.qtdeSegmentosLidos !== 0 ){
       this.percentualCompletude = Math.round((this.qtdeSegmentosLidos / this.qtdeSegmentos) * 100);     
      } 
