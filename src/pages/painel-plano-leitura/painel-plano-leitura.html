@@ -17,16 +17,26 @@
       </ion-item>
     </ion-item-group>
 
-    <ion-item no-lines></ion-item>
-
     <ion-item>
       <ion-label [style.font-size]=" this.bibliaProvider.biblia.tamanhoFonte + 'rem' "> <b style="color: blue">Marcar como lido</b></ion-label>
       <ion-toggle [(ngModel)]="leituraRealizada" (ionChange)="atualizarStatusLeituraSegmento()" color="primary"></ion-toggle>
     </ion-item>
 
+    <ion-item no-lines></ion-item>
+    <ion-item no-lines></ion-item>
+
   </ion-list>
-  <ion-item></ion-item>
   
+  <ion-fab bottom left *ngIf="unidadeLeituraDiaria.segmentosLeituraDiaria.lenght > 1">
+    <button ion-fab mini color="danger" (click)="navegarParaTras()">
+      <ion-icon name="arrow-dropleft"></ion-icon>
+    </button>
+  </ion-fab>
   
+  <ion-fab bottom right *ngIf="unidadeLeituraDiaria.segmentosLeituraDiaria.lenght > 1">
+    <button ion-fab mini color="danger" (click)="navegarParaFrente()">
+      <ion-icon name="arrow-dropright"></ion-icon>
+    </button>
+  </ion-fab>
 
 </ion-content>

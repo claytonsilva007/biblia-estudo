@@ -37,7 +37,9 @@ export class PainelPlanoLeituraPage {
     this.unidadeLeituraDiaria.segmentosLeituraDiaria.forEach((uld, index) => this.carregarTextoSegmentoLeitura(uld, index));
   }
 
+
   carregarTextoSegmentoLeitura(segmentoLeituraDiariaParam: SegmentoLeituraDiaria, index: number){
+    
     let achouSegmentoSelecionado = false;
     
     if(segmentoLeituraDiariaParam.segmentoLeitura === this.segmentoLeituraDiaria.segmentoLeitura){
@@ -91,8 +93,6 @@ export class PainelPlanoLeituraPage {
     this.segmentoLeituraDiaria.statusLeitura = this.leituraRealizada;
   }
 
-  ionViewDidLoad() {
-    
-  }
+  
 
 }
