@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ModalController, ToastController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ModalController, ToastController, Events } from 'ionic-angular';
 import { ConfiguracaoBibliaProvider } from '../../providers/configuracao-biblia/configuracao-biblia';
 import { PlanoLeitura } from '../../models/PlanosLeitura';
 import { ModalComentariosPostPage } from '../modal-comentarios-post/modal-comentarios-post';
@@ -16,7 +16,7 @@ export class PlanosLeituraPage {
   planosLeitura: PlanoLeitura[];
   
   constructor(public navCtrl: NavController, public navParams: NavParams, private bibliaProvider: ConfiguracaoBibliaProvider, 
-                public modalCtrl: ModalController, private toastCtrl: ToastController) {
+    public modalCtrl: ModalController, private toastCtrl: ToastController, public events: Events) {
 
     this.planosLeitura = [];
     this.planosLeitura = this.bibliaProvider.biblia.planosDeLeitura;
@@ -39,7 +39,7 @@ export class PlanosLeituraPage {
     }); 
     
     this.navegarParaDetalhePlanoLeitura(planoLeitura);
-    this.exibirMensagem("Seu Plano de Leitura foi iniciado com sucesso!");
+    
   }
 
   formatarDescricaoSegmento(descricaoCompacta: string): string {

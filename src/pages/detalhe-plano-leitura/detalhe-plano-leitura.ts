@@ -87,7 +87,7 @@ export class DetalhePlanoLeituraPage {
 
 
   navegarParaLeituraDiaAtual(segmentoLeitura: SegmentoLeituraDiaria){
-    this.navCtrl.push(PainelPlanoLeituraPage, {"unidadeLeitura": this.unidadeLeituraDiaAtual, "segmentoLeitura": segmentoLeitura});
+    this.navCtrl.push(PainelPlanoLeituraPage, {"unidadeLeitura": this.unidadeLeituraDiaAtual, "segmentoLeitura": segmentoLeitura, "planoLeitura": this.planoLeitura});
   }
 
   ionViewDidLoad() {
