@@ -46,7 +46,17 @@ export class PlanosLeituraPage {
   formatarDescricaoSegmento(descricaoCompacta: string): string {
     let auxDesc: string[] = descricaoCompacta.split(";");
     let indexLivro: number = Number(auxDesc[0]) - 1;
-    let nomeLivro: string = this.bibliaProvider.biblia.livros[indexLivro].nome.concat(" ", auxDesc[1], ".", auxDesc[2]);
+    let indexCapitulo: number = Number(auxDesc[1]) - 1;
+    let descricaoVersic: string = "";
+
+    if(auxDesc[2]==="0"){
+      let num = this.bibliaProvider.biblia.livros[indexLivro].capitulos[indexCapitulo].versiculos.length;
+      descricaoVersic = descricaoVersic.concat("1-", num.toString());
+    } else {
+      descricaoVersic = auxDesc[2];
+    }
+
+    let nomeLivro: string = this.bibliaProvider.biblia.livros[indexLivro].nome.concat(" ", auxDesc[1], ".", descricaoVersic);
     return nomeLivro;
   }
 
