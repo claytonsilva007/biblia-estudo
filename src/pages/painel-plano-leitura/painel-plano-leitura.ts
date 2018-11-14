@@ -18,6 +18,7 @@ export class PainelPlanoLeituraPage {
   capituloSelecionado: Capitulo;
   capitulosLeituraDiaria: Capitulo[];
   leituraRealizada: boolean;
+  numVersicBase: number;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private bibliaProvider: ConfiguracaoBibliaProvider) {
     this.planoLeituraSelecionado = navParams.get("planoLeitura")
@@ -42,6 +43,7 @@ export class PainelPlanoLeituraPage {
     this.capitulo = this.bibliaProvider.biblia.livros[indexLivro].capitulos[indexCap];
 
     if(v[2] === "0"){
+      this.numVersicBase = 1;
       indexVersicFim = this.capitulo.versiculos.length;
     } else if(v[2].indexOf("-") >= 0){
       let aux: string[] = v[2].split("-");
@@ -54,6 +56,7 @@ export class PainelPlanoLeituraPage {
     this.capitulosLeituraDiaria.push(this.capitulo);
 
     this.capitulo = new Capitulo();
+    this.numVersicBase = indexVersicIni;
   }
 
 
@@ -75,8 +78,6 @@ export class PainelPlanoLeituraPage {
                 })[0].segmentosLeituraDiaria.filter(sld => sld.segmentoLeitura === this.segmentoLeituraDiaria.segmentoLeitura)[0].statusLeitura = this.leituraRealizada;
     
     this.segmentoLeituraDiaria.statusLeitura = this.leituraRealizada;
-  }
-
-  
+  }  
 
 }
