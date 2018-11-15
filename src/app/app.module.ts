@@ -30,11 +30,10 @@ import { AppMinimize } from '@ionic-native/app-minimize';
 import { ModalFontePage } from '../pages/modal-fonte/modal-fonte';
 import { PlanosLeituraPage } from '../pages/planos-leitura/planos-leitura';
 import { ModalComentariosPostPage } from '../pages/modal-comentarios-post/modal-comentarios-post';
-import { PlanosLeituraAtivosPage } from '../pages/planos-leitura-ativos/planos-leitura-ativos';
 import { DetalhePlanoLeituraPage } from '../pages/detalhe-plano-leitura/detalhe-plano-leitura';
 import { PainelPlanoLeituraPage } from '../pages/painel-plano-leitura/painel-plano-leitura';
 
-import {ProgressBarModule} from "angular-progress-bar";
+import { ProgressBarModule } from "angular-progress-bar";
 
 export const firebaseConfig = {
   apiKey: "AIzaSyBoOBgbbcVK1v7-k_4wj-wCJESmKr2TFeI",
@@ -55,7 +54,6 @@ export const firebaseConfig = {
     ModalFontePage,
     PlanosLeituraPage,
     ModalComentariosPostPage, 
-    PlanosLeituraAtivosPage,
     DetalhePlanoLeituraPage,
     PainelPlanoLeituraPage
     
@@ -82,7 +80,6 @@ export const firebaseConfig = {
     ModalFontePage,
     PlanosLeituraPage,
     ModalComentariosPostPage, 
-    PlanosLeituraAtivosPage,
     DetalhePlanoLeituraPage,
     PainelPlanoLeituraPage
   ],

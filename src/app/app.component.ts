@@ -15,7 +15,6 @@ import { UtilProvider } from '../providers/util/util';
 import { AppMinimize } from '@ionic-native/app-minimize';
 import { App } from 'ionic-angular';
 import { PlanosLeituraPage } from '../pages/planos-leitura/planos-leitura';
-import { PlanosLeituraAtivosPage } from '../pages/planos-leitura-ativos/planos-leitura-ativos';
 
 @Component({
   templateUrl: 'app.html'
@@ -39,8 +38,7 @@ export class MyApp {
     this.pages = [
       { title: 'Biblia de Estudo', component: HomePage, icon: 'book'},
       { title: 'Consultar Versísulos', component: ConsultarVersiculoPage, icon: 'search'},
-      { title: 'Planos de Leitura', component: PlanosLeituraPage, icon: 'map' },
-      { title: 'Seus Planos de Leitura', component: PlanosLeituraAtivosPage, icon: 'bookmarks' }
+      { title: 'Planos de Leitura', component: PlanosLeituraPage, icon: 'map' }
     ];
   }
 
@@ -94,6 +92,8 @@ export class MyApp {
         activeView.dismiss();      
       } else if(activeView.name !== 'HomePage' && activeView.name !== 'ModalCmp' && nav.canGoBack()){
          nav.pop();
+      } else {
+        nav.setRoot(HomePage);
       }
     });
   }
