@@ -52,6 +52,16 @@ export class PlanosLeituraPage {
     
   }
 
+  visualisarDetalhesPlanoLeitura(planoLeitura: PlanoLeitura){
+    planoLeitura.unidadesLeituraDiaria.forEach((uld) => {
+      uld.segmentosLeituraDiaria.forEach(sld => {
+        sld.descricaoSegmento = this.formatarDescricaoSegmento(sld.segmentoLeitura);
+      });
+    }); 
+
+    this.navCtrl.push(DetalhePlanoLeituraPage, { planoParam: planoLeitura });
+  }
+
   formatarDescricaoSegmento(descricaoCompacta: string): string {
     let auxDesc: string[] = descricaoCompacta.split(";");
     let indexLivro: number = Number(auxDesc[0]) - 1;
