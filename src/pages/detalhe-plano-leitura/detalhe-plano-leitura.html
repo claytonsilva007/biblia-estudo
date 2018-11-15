@@ -37,7 +37,7 @@
         <ion-card-content>
           <ion-list *ngFor="let sl of unidadeLeituraDiaAtual.segmentosLeituraDiaria">
             <ion-item>
-              <ion-icon item-start name="checkmark-circle" color="primary" *ngIf="sl.statusLeitura"></ion-icon>
+              <ion-icon item-start name="checkmark-circle" style="color: green" *ngIf="sl.statusLeitura"></ion-icon>
               <ion-icon item-start name="alert" color="danger" *ngIf="!sl.statusLeitura"></ion-icon>
               <ion-label item-content> {{ sl.descricaoSegmento }} </ion-label>
               <ion-icon item-end name="play" color="primary" (click)="navegarParaLeituraDiaAtual(sl)"></ion-icon>
@@ -91,7 +91,7 @@
         <ion-card-content>
           <ion-list *ngFor="let sl of uld.segmentosLeituraDiaria">
             <ion-item>
-              <ion-icon item-start name="checkmark-circle" color="primary" *ngIf="sl.statusLeitura"></ion-icon>
+              <ion-icon item-start name="checkmark-circle" style="color: green" *ngIf="sl.statusLeitura"></ion-icon>
               <ion-icon item-start name="alert" color="danger" *ngIf="!sl.statusLeitura"></ion-icon>
               <ion-label item-content> {{ sl.descricaoSegmento }} </ion-label>
               <ion-icon item-end name="play" color="secondary" (click)="navegarParaLeitura(uld, sl)"></ion-icon>
@@ -142,7 +142,7 @@
         <ion-card-content>
           <ion-list *ngFor="let sl of uld.segmentosLeituraDiaria">
             <ion-item>
-              <ion-icon item-start name="checkmark-circle" color="primary" *ngIf="sl.statusLeitura"></ion-icon>
+              <ion-icon item-start name="checkmark-circle" style="color: green" *ngIf="sl.statusLeitura"></ion-icon>
               <ion-icon item-start name="alert" color="danger" *ngIf="!sl.statusLeitura"></ion-icon>
               <ion-label item-content> {{ sl.descricaoSegmento }} </ion-label>
               <ion-icon item-end name="play" color="primary" (click)="navegarParaLeitura(uld, sl)" *ngIf="planoLeitura.ativo"></ion-icon>
