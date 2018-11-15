@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavParams, NavController } from 'ionic-angular';
+import { IonicPage, NavParams, NavController, ActionSheetController } from 'ionic-angular';
 import { PlanoLeitura, UnidadesLeituraDiaria, SegmentoLeituraDiaria } from '../../models/PlanosLeitura';
 import { PainelPlanoLeituraPage } from '../painel-plano-leitura/painel-plano-leitura';
 
@@ -24,7 +24,7 @@ export class DetalhePlanoLeituraPage {
   unidadesLeituraPorPagina: number;
   paginaAtual: number;
 
-  constructor(public navParams: NavParams, private navCtrl: NavController) {
+  constructor(public navParams: NavParams, private navCtrl: NavController, public actionSheetCtrl: ActionSheetController) {
     this.segmentoSelecionado = "hoje";
     this.unidadesLeituraAtrasadas = [];
     this.planoLeitura = new PlanoLeitura();
@@ -126,5 +126,48 @@ export class DetalhePlanoLeituraPage {
       infiniteScroll.complete();
     }, 400);
   }
+
+  presentActionSheet() {
+    let actionSheet = this.actionSheetCtrl.create({
+      title: 'Opçoes do Plano de Leitura',
+      buttons: [
+        {
+          text: 'Reiniciar Plano de Leitura',
+          role: 'destructive',
+          handler: () => {
+            console.log('Destructive clicked');
+          }
+        },
+        {
+          text: 'Reprogramar leituras atrasadas',
+          handler: () => {
+            console.log('Archive clicked');
+          }
+        },
+        {
+          text: 'Cancelar notificações',
+          handler: () => {
+            console.log('Archive clicked');
+          }
+        },
+        {
+          text: 'Emitir notificações',
+          handler: () => {
+            console.log('Archive clicked');
+          }
+        },
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          handler: () => {
+            console.log('Cancel clicked');
+          }
+        }
+      ]
+    });
+
+    actionSheet.present();
+  }
+
 }
 
