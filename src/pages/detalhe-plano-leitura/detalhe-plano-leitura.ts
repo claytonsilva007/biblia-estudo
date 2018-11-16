@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavParams, NavController, ActionSheetController } from 'ionic-angular';
+import { IonicPage, NavParams, NavController, ActionSheetController, Events } from 'ionic-angular';
 import { PlanoLeitura, UnidadesLeituraDiaria, SegmentoLeituraDiaria } from '../../models/PlanosLeitura';
 import { PainelPlanoLeituraPage } from '../painel-plano-leitura/painel-plano-leitura';
 
@@ -24,7 +24,7 @@ export class DetalhePlanoLeituraPage {
   unidadesLeituraPorPagina: number;
   paginaAtual: number;
 
-  constructor(public navParams: NavParams, private navCtrl: NavController, public actionSheetCtrl: ActionSheetController) {
+  constructor(public navParams: NavParams, private navCtrl: NavController, public actionSheetCtrl: ActionSheetController, public events: Events) {
     this.segmentoSelecionado = "hoje";
     this.unidadesLeituraAtrasadas = [];
     this.planoLeitura = new PlanoLeitura();
@@ -135,7 +135,8 @@ export class DetalhePlanoLeituraPage {
           text: 'Reiniciar Plano de Leitura',
           role: 'destructive',
           handler: () => {
-            console.log('Destructive clicked');
+            this.events.publish('planoLeitura:reiniciar', this.planoLeitura);
+            this.unidadeLeituraDiaAtual.segmentosLeituraDiaria.forEach(s => s.statusLeitura = false);
           }
         },
         {

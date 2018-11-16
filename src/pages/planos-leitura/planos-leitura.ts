@@ -30,6 +30,10 @@ export class PlanosLeituraPage {
       this.calcularPercentualCompletude();
     });
 
+    events.subscribe('planoLeitura:reiniciar', (planoLeitura) => {
+      this.reiniciarPlanoLeitura(planoLeitura);
+    });
+
   }
 
   iniciarPlanoLeitura(planoLeitura: PlanoLeitura){
@@ -49,6 +53,27 @@ export class PlanosLeituraPage {
     }); 
     
     this.navegarParaDetalhePlanoLeitura(planoLeitura);
+    
+  }
+
+  reiniciarPlanoLeitura(planoLeitura: PlanoLeitura){
+    
+    var currentDate = new Date(new Date().getTime());
+    currentDate.setDate(currentDate.getDate() - 1);
+
+    this.bibliaProvider.biblia.planosDeLeitura
+          .filter(plano => plano.titulo === planoLeitura.titulo)[0].unidadesLeituraDiaria
+          .forEach(uld => {
+            let data = currentDate.setDate(currentDate.getDate() + 1);
+            uld.dataParaLeitura = new Date(data);
+            
+            uld.segmentosLeituraDiaria.forEach(s => {
+              s.statusLeitura = false;
+            })
+          });
+
+    this.percentualCompletude = 0;
+    this.exibirMensagem("Plano de Leitura reiniciado com sucesso!");
     
   }
 

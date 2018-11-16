@@ -33,7 +33,7 @@ export class ConsultarVersiculoPage {
     
     const val: string = ev.target.value;
 
-    if (val && val.trim() != '' && val.length > 10) {
+    if (val && val.trim() != '' && val.length > 4) {
       this.filtarPorMultiplosNiveis(this.prepararArrayPalavrasDeBusca(val));
     } 
   }

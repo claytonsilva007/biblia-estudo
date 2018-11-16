@@ -23,6 +23,7 @@ export class HomePage {
   segmentoSelecionado: string = "livros";
   abaLivroDescricao: string = "Livros"
   abaCapituloDescricao: string = "Capítulos";  
+  abaVersiculoDescricao: string = "Versículos";  
   versiculosSelecionados: number[];
   foiSelecionado: boolean = false;
   comentario: string;
@@ -44,7 +45,7 @@ export class HomePage {
   constructor(public navCtrl: NavController, public bibliaProvider: ConfiguracaoBibliaProvider, 
                 public modalCtrl: ModalController, public loadingCtrl: LoadingController, 
                 public constantes: ConstantesProvider, private socialSharing: SocialSharing, 
-                public navParams: NavParams, private utilProvider: UtilProvider, 
+                public navParams: NavParams, private utilProvider: UtilProvider,  
                 private toastCtrl: ToastController, public actionSheetCtrl: ActionSheetController) {
 
     this.biblia = bibliaProvider.getBiblia();
@@ -66,6 +67,7 @@ export class HomePage {
     this.versiculoParaComentar.indexLivro = indexLivro;
     this.segmentoSelecionado = "capitulos";
     this.abaCapituloDescricao = "Capítulos";
+    this.abaVersiculoDescricao = "Versículos";
     this.exibirBotaoDeBusca = false;
     this.exibirBtnCompartilhamento = false;
     this.exibirBotoesNavegacao = true;
@@ -73,7 +75,8 @@ export class HomePage {
 
   atualizarSegmentoVersiculos(indexCapitulo: number){
     this.segmentoSelecionado = "versiculos";
-    this.abaCapituloDescricao = "Capítulo: " + (indexCapitulo+1);
+    this.abaCapituloDescricao = "Capítulo ";
+    this.abaVersiculoDescricao = (indexCapitulo + 1).toString();
     this.versiculoParaComentar.indexCapitulo = indexCapitulo;
     this.exibirBotaoDeBusca = false;
     this.exibirBtnCompartilhamento = false;
@@ -540,6 +543,16 @@ export class HomePage {
     );
 
     actionSheet.present();
+  }
+
+  ionViewDidLoad(){
+    if (this.navParams.get("versiculoParam") !== null && this.navParams.get("versiculoParam") !== undefined){
+      let versiculo: Versiculo = this.navParams.get("versiculoParam");
+      this.atualizarSegmentoCapitulos(versiculo.codigoLivro);
+      this.atualizarSegmentoVersiculos(versiculo.codigoCapitulo);
+      this.bibliaProvider.biblia.livros[versiculo.codigoLivro].capitulos[versiculo.codigoCapitulo].versiculos[versiculo.codigoVersiculo].backgroundColor = this.constantes.COR_TEXTO_SELECIONADO;
+      this.segmentoSelecionado = "versiculos";
+    }
   }
 }
 
