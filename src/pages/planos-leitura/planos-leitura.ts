@@ -63,7 +63,7 @@ export class PlanosLeituraPage {
   reiniciarPlanoLeitura(planoLeitura: PlanoLeitura){
     
     var currentDate = new Date(new Date().getTime());
-    currentDate.setDate(currentDate.getDate() - 1);
+    currentDate.setDate(currentDate.getDate());
 
     this.bibliaProvider.biblia.planosDeLeitura
           .filter(plano => plano.titulo === planoLeitura.titulo)[0].unidadesLeituraDiaria
@@ -103,7 +103,8 @@ export class PlanosLeituraPage {
         uld.dataParaLeitura = new Date(data);
 
       });
-console.log(x);
+
+      
   }
 
   visualisarDetalhesPlanoLeitura(planoLeitura: PlanoLeitura){

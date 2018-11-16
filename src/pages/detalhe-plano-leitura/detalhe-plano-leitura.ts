@@ -178,6 +178,7 @@ export class DetalhePlanoLeituraPage {
           handler: () => {
             unidadesLeitura =  unidadesLeituraLidas.concat(this.unidadesLeituraAtrasadas, unidadesLeituraPendentes);
             this.events.publish('planoLeitura:reprogramar', this.planoLeitura, unidadesLeitura);
+            this.filtrarUnidadeLeituraDiaAtual();
           }
         },
         {
