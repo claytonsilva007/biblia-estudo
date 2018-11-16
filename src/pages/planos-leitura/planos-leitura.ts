@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ModalController, ToastController, Events } from 'ionic-angular';
 import { ConfiguracaoBibliaProvider } from '../../providers/configuracao-biblia/configuracao-biblia';
-import { PlanoLeitura } from '../../models/PlanosLeitura';
+import { PlanoLeitura, UnidadesLeituraDiaria } from '../../models/PlanosLeitura';
 import { ModalComentariosPostPage } from '../modal-comentarios-post/modal-comentarios-post';
 import { DetalhePlanoLeituraPage } from '../detalhe-plano-leitura/detalhe-plano-leitura';
 
@@ -32,6 +32,10 @@ export class PlanosLeituraPage {
 
     events.subscribe('planoLeitura:reiniciar', (planoLeitura) => {
       this.reiniciarPlanoLeitura(planoLeitura);
+    });
+
+    events.subscribe('planoLeitura:reprogramar', (planoLeitura, unidadesLeituraAtrasadas) => {
+      this.reprogramarDatasAtrasadas(planoLeitura, unidadesLeituraAtrasadas);
     });
 
   }
@@ -75,6 +79,23 @@ export class PlanosLeituraPage {
     this.percentualCompletude = 0;
     this.exibirMensagem("Plano de Leitura reiniciado com sucesso!");
     
+  }
+
+  reprogramarDatasAtrasadas(planoLeitura: PlanoLeitura, unidadesLeituraAtrasadas: UnidadesLeituraDiaria[]){
+    
+    let unidadesLeitura: UnidadesLeituraDiaria[] = [];
+
+    let unidadesLidas = this.bibliaProvider.biblia.planosDeLeitura
+      .filter(plano => plano.titulo === planoLeitura.titulo)[0]
+      .unidadesLeituraDiaria.filter( uld => {
+        let qtdeSegmentos = uld.segmentosLeituraDiaria.length;
+        let segmentosLidos = uld.segmentosLeituraDiaria.filter(s => s.statusLeitura === true).length;
+
+        if(qtdeSegmentos === segmentosLidos){
+          return uld;
+        }
+
+      });
   }
 
   visualisarDetalhesPlanoLeitura(planoLeitura: PlanoLeitura){

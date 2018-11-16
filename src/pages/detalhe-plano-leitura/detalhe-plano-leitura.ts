@@ -37,6 +37,11 @@ export class DetalhePlanoLeituraPage {
     this.unidadesLeituraPorPagina = 10;
 
     this.carregarPrimeirasUnidadesLeitura();
+
+    events.subscribe('planoLeitura:incrementar', () => {
+      this.filtrarUnidadesLeituraAtrasadas();
+    });
+    
   }
 
   carregarPrimeirasUnidadesLeitura(){
@@ -89,10 +94,10 @@ export class DetalhePlanoLeituraPage {
   }
 
   dataEhAnteriorHoje(data: Date) {
-    
+
     let ehAnterior = false;
     this.dataSegmentoLeitura = new Date(data);
-    this.dataHoje = new Date(new Date().getDate()+1); 
+    this.dataHoje = new Date(new Date().getTime());
 
     if (this.dataSegmentoLeitura.getTime() < this.dataHoje.getTime()) {
       ehAnterior = true;
@@ -142,7 +147,7 @@ export class DetalhePlanoLeituraPage {
         {
           text: 'Reprogramar leituras atrasadas',
           handler: () => {
-            console.log('Archive clicked');
+            this.events.publish('planoLeitura:reprogramar', this.planoLeitura, this.unidadesLeituraAtrasadas);
           }
         },
         {
