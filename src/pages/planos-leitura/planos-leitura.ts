@@ -44,7 +44,7 @@ export class PlanosLeituraPage {
     
     planoLeitura.ativo = true;
     var currentDate = new Date(new Date().getTime());
-    currentDate.setDate(currentDate.getDate() -1);
+    currentDate.setDate(currentDate.getDate() -10);
 
     planoLeitura.unidadesLeituraDiaria.forEach( (uld) => {
       let data = currentDate.setDate(currentDate.getDate() + 1);
@@ -81,21 +81,29 @@ export class PlanosLeituraPage {
     
   }
 
-  reprogramarDatasAtrasadas(planoLeitura: PlanoLeitura, unidadesLeituraAtrasadas: UnidadesLeituraDiaria[]){
+  /**
+   * 
+   * @param planoLeitura 
+   * @param unidadesLeituraAtrasadas 
+   */
+  reprogramarDatasAtrasadas(planoLeitura: PlanoLeitura, unidadesLeitura: UnidadesLeituraDiaria[]){
+    this.bibliaProvider.biblia.planosDeLeitura.filter(p => p.titulo === planoLeitura.titulo)[0].unidadesLeituraDiaria = unidadesLeitura;
     
-    let unidadesLeitura: UnidadesLeituraDiaria[] = [];
+    var currentDate = new Date(new Date().getTime());
+    currentDate.setDate(currentDate.getDate() - 1);
 
-    let unidadesLidas = this.bibliaProvider.biblia.planosDeLeitura
-      .filter(plano => plano.titulo === planoLeitura.titulo)[0]
-      .unidadesLeituraDiaria.filter( uld => {
-        let qtdeSegmentos = uld.segmentosLeituraDiaria.length;
-        let segmentosLidos = uld.segmentosLeituraDiaria.filter(s => s.statusLeitura === true).length;
-
-        if(qtdeSegmentos === segmentosLidos){
+    let x = this.bibliaProvider.biblia.planosDeLeitura
+      .filter(p => p.titulo === planoLeitura.titulo)[0].unidadesLeituraDiaria.filter(uld => {
+        if(uld.segmentosLeituraDiaria.filter(sld => sld.statusLeitura === false)){
           return uld;
         }
+      }).forEach(uld => {
+
+        let data = currentDate.setDate(currentDate.getDate() + 1);
+        uld.dataParaLeitura = new Date(data);
 
       });
+console.log(x);
   }
 
   visualisarDetalhesPlanoLeitura(planoLeitura: PlanoLeitura){

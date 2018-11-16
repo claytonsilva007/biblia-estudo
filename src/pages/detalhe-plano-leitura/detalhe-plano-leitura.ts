@@ -85,12 +85,36 @@ export class DetalhePlanoLeituraPage {
       
   }
 
+  filtrarUnidadesLeituraPendentes(): UnidadesLeituraDiaria[] {
+
+    return this.planoLeitura.unidadesLeituraDiaria
+      .filter(uld => !this.dataEhAnteriorHoje(uld.dataParaLeitura))
+      .filter(uld => this.verificaAtrasosSegmento(uld.segmentosLeituraDiaria));
+
+  }
+
+  filtrarUnidadesLeituraLidas(): UnidadesLeituraDiaria[] {
+
+    return this.planoLeitura.unidadesLeituraDiaria
+      .filter(uld => this.dataEhAnteriorHoje(uld.dataParaLeitura))
+      .filter(uld => this.verificaSegmentoLido(uld.segmentosLeituraDiaria));
+
+  }
+
   verificaAtrasosSegmento(sld: SegmentoLeituraDiaria[]){
      if(sld.filter(s => s.statusLeitura === false).length > 0){
        return true;
      } else {
        return false;
      }
+  }
+
+  verificaSegmentoLido(sld: SegmentoLeituraDiaria[]) {
+    if (sld.filter(s => s.statusLeitura === false).length === 0) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   dataEhAnteriorHoje(data: Date) {
@@ -133,6 +157,10 @@ export class DetalhePlanoLeituraPage {
   }
 
   presentActionSheet() {
+    let unidadesLeitura: UnidadesLeituraDiaria[] = [];
+    let unidadesLeituraLidas = this.filtrarUnidadesLeituraLidas();
+    let unidadesLeituraPendentes = this.filtrarUnidadesLeituraPendentes();
+
     let actionSheet = this.actionSheetCtrl.create({
       title: 'Opçoes do Plano de Leitura',
       buttons: [
@@ -146,8 +174,10 @@ export class DetalhePlanoLeituraPage {
         },
         {
           text: 'Reprogramar leituras atrasadas',
+          
           handler: () => {
-            this.events.publish('planoLeitura:reprogramar', this.planoLeitura, this.unidadesLeituraAtrasadas);
+            unidadesLeitura =  unidadesLeituraLidas.concat(this.unidadesLeituraAtrasadas, unidadesLeituraPendentes);
+            this.events.publish('planoLeitura:reprogramar', this.planoLeitura, unidadesLeitura);
           }
         },
         {
