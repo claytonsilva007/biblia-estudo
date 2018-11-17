@@ -102,6 +102,11 @@ export class MyApp {
 
     this.configBackButtom();
 
+    this.localNotifications.on('click').subscribe(() => {
+      this.nav.push(PlanosLeituraPage);
+      this.events.publish('planoLeitura:redirecionar');
+    })
+
   } // fim método inicializeApp()
 
  
@@ -147,8 +152,9 @@ export class MyApp {
       notificacao.id = index+1;
       notificacao.title = "Plano de Leitura " + planoLeitura.titulo;
       notificacao.text = uld.tituloLeituraDiaria;
-      dataLeitura = new Date((uld.dataParaLeitura));
-      notificacao.trigger.at = new Date(dataLeitura.setHours(16,14,0));
+      //dataLeitura = new Date((uld.dataParaLeitura));
+      dataLeitura = new Date(new Date().getTime());
+      notificacao.trigger.at = new Date(dataLeitura.setHours(17, 51 + index, 0));
       this.notificacaoList.push(notificacao);
 
     });

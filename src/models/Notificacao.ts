@@ -7,9 +7,11 @@ export class Notificacao{
     trigger: objDataLeitura;
     data: { secret: string };
     icon: string;
+    smallIcon: string;
 
     constructor(){
-        this.icon = 'assets/icon/drawable-xhdpi-icon.pn';
+        this.smallIcon = 'res://icon';
+        this.icon = 'file://assets/img/icon.png';
         this.sound = null;
         this.data = null;
         this.trigger = new objDataLeitura();

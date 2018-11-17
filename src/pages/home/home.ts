@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, ModalController, LoadingController, NavParams, ActionSheetController } from 'ionic-angular';
+import { NavController, ModalController, LoadingController, NavParams, ActionSheetController, Events } from 'ionic-angular';
 import { Livro, Capitulo, Versiculo, Biblia } from '../../models/Biblia';
 import { ConfiguracaoBibliaProvider } from '../../providers/configuracao-biblia/configuracao-biblia';
 import { ComentariosPage } from '../comentarios/comentarios';
@@ -13,6 +13,7 @@ import { UtilProvider } from '../../providers/util/util';
 
 import { ToastController } from 'ionic-angular';
 import { ModalFontePage } from '../modal-fonte/modal-fonte';
+import { PlanosLeituraPage } from '../planos-leitura/planos-leitura';
 
 @Component({
   selector: 'page-home',
@@ -38,6 +39,7 @@ export class HomePage {
   ultimoVersiculoSelecionado: Versiculo;
   exibirBtnCompartilhamento: boolean;
   biblia: Biblia;
+  redirecionarParaPlanoLeitura: boolean;
 
   fontSize: number;
   exibirComentariosUsuario: boolean;
@@ -46,7 +48,7 @@ export class HomePage {
                 public modalCtrl: ModalController, public loadingCtrl: LoadingController, 
                 public constantes: ConstantesProvider, private socialSharing: SocialSharing, 
                 public navParams: NavParams, private utilProvider: UtilProvider,  
-                private toastCtrl: ToastController, public actionSheetCtrl: ActionSheetController) {
+                private toastCtrl: ToastController, public actionSheetCtrl: ActionSheetController, public events: Events) {
 
     this.biblia = bibliaProvider.getBiblia();
     this.versiculoParaComentar = new versiculoParaComentar();
@@ -59,6 +61,11 @@ export class HomePage {
     this.exibirBtnCompartilhamento = false;
     this.fontSize = this.bibliaProvider.biblia.tamanhoFonte;
     this.exibirComentariosUsuario = false;
+    this.redirecionarParaPlanoLeitura = false;
+
+    events.subscribe('planoLeitura:redirecionar', () => {
+      this.redirecionarParaPlanoLeitura = true;
+    });
   } 
   
   atualizarSegmentoCapitulos(indexLivro: number){
@@ -556,6 +563,12 @@ export class HomePage {
       this.atualizarSegmentoVersiculos(versiculo.codigoCapitulo);
       this.bibliaProvider.biblia.livros[versiculo.codigoLivro].capitulos[versiculo.codigoCapitulo].versiculos[versiculo.codigoVersiculo].backgroundColor = this.constantes.COR_TEXTO_SELECIONADO;
       this.segmentoSelecionado = "versiculos";
+    }
+  }
+
+  ionViewDidEnter(){
+    if (this.redirecionarParaPlanoLeitura) {
+      this.navCtrl.push(PlanosLeituraPage);
     }
   }
 }

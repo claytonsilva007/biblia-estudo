@@ -38,8 +38,8 @@ export class PlanosLeituraPage {
     events.subscribe('planoLeitura:reprogramar', (planoLeitura, unidadesLeituraAtrasadas) => {
       this.reprogramarDatasAtrasadas(planoLeitura, unidadesLeituraAtrasadas);
     });
-
   }
+
 
   iniciarPlanoLeitura(planoLeitura: PlanoLeitura){
     
@@ -67,6 +67,8 @@ export class PlanosLeituraPage {
     var currentDate = new Date(new Date().getTime());
     currentDate.setDate(currentDate.getDate() - 1);
 
+    this.bibliaProvider.biblia.planosDeLeitura.filter(plano => plano.titulo === planoLeitura.titulo)[0].ativo = true;
+
     this.bibliaProvider.biblia.planosDeLeitura
           .filter(plano => plano.titulo === planoLeitura.titulo)[0].unidadesLeituraDiaria
           .forEach(uld => {
@@ -84,10 +86,11 @@ export class PlanosLeituraPage {
     
   }
 
-  
+
   reprogramarDatasAtrasadas(planoLeitura: PlanoLeitura, unidadesLeitura: UnidadesLeituraDiaria[]){
     
     this.bibliaProvider.biblia.planosDeLeitura.filter(p => p.titulo === planoLeitura.titulo)[0].unidadesLeituraDiaria = unidadesLeitura;
+    this.bibliaProvider.biblia.planosDeLeitura.filter(p => p.titulo === planoLeitura.titulo)[0].ativo = true;
     
     var currentDate = new Date(new Date().getTime()-1);
     currentDate.setDate(currentDate.getDate() );
