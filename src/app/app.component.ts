@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { Nav, Platform, LoadingController, MenuController } from 'ionic-angular';
+import { Nav, Platform, LoadingController, MenuController, Events, AlertController } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
@@ -15,6 +15,10 @@ import { UtilProvider } from '../providers/util/util';
 import { AppMinimize } from '@ionic-native/app-minimize';
 import { App } from 'ionic-angular';
 import { PlanosLeituraPage } from '../pages/planos-leitura/planos-leitura';
+import { LocalNotifications } from '@ionic-native/local-notifications';
+import { PlanoLeitura } from '../models/PlanosLeitura';
+import { Notificacao } from '../models/Notificacao';
+
 
 @Component({
   templateUrl: 'app.html'
@@ -26,11 +30,13 @@ export class MyApp {
   pages: Array<{ title: string, component: any, icon: string }>;
   loading: any;
   modalListPages: string[];
+  notificacaoList: Notificacao[];
   
   constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen,
-    private configBiblia: ConfiguracaoBibliaProvider, private loadingCtrl: LoadingController,
-    private storage: Storage, public constantes: ConstantesProvider, private afDB: AngularFireDatabase,
-    private utilProvider: UtilProvider, private app: App, private appMinimize: AppMinimize, private menuCtrl: MenuController) {
+    private configBiblia: ConfiguracaoBibliaProvider, private loadingCtrl: LoadingController, private storage: Storage, 
+    public constantes: ConstantesProvider, private afDB: AngularFireDatabase, private utilProvider: UtilProvider, 
+    private app: App, private appMinimize: AppMinimize, private menuCtrl: MenuController, 
+    private localNotifications: LocalNotifications, public events: Events, private alertCtrl: AlertController) {
     
     this.initializeApp();
 
@@ -40,22 +46,43 @@ export class MyApp {
       { title: 'Consultar Versísulos', component: ConsultarVersiculoPage, icon: 'search'},
       { title: 'Planos de Leitura', component: PlanosLeituraPage, icon: 'map' }
     ];
+
+    events.subscribe('planoLeitura:criarLocalNotification', (planoLeitura) => {
+      this.configLocalNotification(planoLeitura);
+    });
+
+    events.subscribe('planoLeitura:cancelarLocalNotification', (planoLeitura) => {
+      this.cancelarLocalNotification(planoLeitura);
+    });
+
+    events.subscribe('planoLeitura:reiniciarLocalNotification', (planoLeitura) => {
+      this.cancelarLocalNotification(planoLeitura);
+      this.configLocalNotification(planoLeitura);
+    });
+
+
   }
 
+
   initializeApp() {
+
     this.platform.ready().then(() => {
-      
+
       this.showLoading("<br></br>Por favor, aguarde enquanto configuramos a Bíblia.");
 
       this.storage.get(this.constantes.CKECK_BIBLIA_STORAGE).then(val => {
+      
         if (val !== null) {
           this.storage.get(this.constantes.BIBLIA_CHAVE).then(biblia => {
             this.configBiblia.configurarBiblia(biblia);
             this.nav.push(HomePage);
             this.hideLoading();
           });
+
         } else {
-          this.afDB.list("biblias/biblia").snapshotChanges().subscribe(item => {
+
+            this.afDB.list("biblias/biblia").snapshotChanges().subscribe(item => {
+
             item.map(obj => {
               this.configBiblia.getBibliaFormatada(JSON.stringify(obj.payload.val()));              
               this.configBiblia.setBibliaConfigurada(this.configBiblia.getBibliaFormatada(JSON.stringify(obj.payload.val())));
@@ -68,7 +95,7 @@ export class MyApp {
       }).catch(err => {
         console.log("ERRO: " + err)
       });
-
+      
       this.statusBar.styleDefault();
       this.splashScreen.hide();
     });
@@ -77,6 +104,7 @@ export class MyApp {
 
   } // fim método inicializeApp()
 
+ 
   configBackButtom() {
     this.platform.registerBackButtonAction(() => {      
       let nav = this.app.getActiveNavs()[0];
@@ -97,7 +125,52 @@ export class MyApp {
       }
     });
   }
+
+
+  configLocalNotification(planoLeitura: PlanoLeitura){
+    let notificacaoListParam = this.prepararListLocalNotification(planoLeitura);
+    this.localNotifications.schedule(notificacaoListParam);
+  }
   
+
+  prepararListLocalNotification(planoLeitura: PlanoLeitura): Notificacao[] {
+    
+    let dataLeitura: Date;
+    let notificacao: Notificacao;
+    this.notificacaoList = [];
+
+    planoLeitura.unidadesLeituraDiaria.forEach( (uld, index) => {
+      
+      notificacao = new Notificacao(); 
+      dataLeitura = new Date(new Date().getTime());
+      
+      notificacao.id = index+1;
+      notificacao.title = "Plano de Leitura " + planoLeitura.titulo;
+      notificacao.text = uld.tituloLeituraDiaria;
+      dataLeitura = new Date((uld.dataParaLeitura));
+      notificacao.trigger.at = new Date(dataLeitura.setHours(16,14,0));
+      this.notificacaoList.push(notificacao);
+
+    });
+
+    return this.notificacaoList;
+  }
+
+  cancelarLocalNotification(planoLeitura: PlanoLeitura){
+    planoLeitura.unidadesLeituraDiaria.forEach((uld, index) => {
+      this.localNotifications.cancel((index+1));
+    });
+  }
+
+  presentAlert(date: Date) {
+    let alert = this.alertCtrl.create({
+      title: date.toDateString(),
+      subTitle: '10% of battery remaining',
+      buttons: ['Dismiss']
+    });
+    alert.present();
+  }
+
   private showLoading(mensagem: string) {
     let min = Math.ceil(0);
     let max = Math.floor(this.utilProvider.versiculos.length);    

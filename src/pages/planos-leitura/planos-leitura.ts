@@ -16,6 +16,7 @@ export class PlanosLeituraPage {
   percentualCompletude: number;
   qtdeSegmentos: number;
   qtdeSegmentosLidos: number;
+  localNofitications: {};
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private bibliaProvider: ConfiguracaoBibliaProvider, 
     public modalCtrl: ModalController, private toastCtrl: ToastController, public events: Events) {
@@ -55,8 +56,9 @@ export class PlanosLeituraPage {
       });
 
     }); 
-    
+        
     this.navegarParaDetalhePlanoLeitura(planoLeitura);
+    this.events.publish('planoLeitura:criarLocalNotification', planoLeitura);
     
   }
 
@@ -78,21 +80,18 @@ export class PlanosLeituraPage {
 
     this.percentualCompletude = 0;
     this.exibirMensagem("Plano de Leitura reiniciado com sucesso!");
+    this.events.publish('planoLeitura:reiniciarLocalNotification', planoLeitura);
     
   }
 
-  /**
-   * 
-   * @param planoLeitura 
-   * @param unidadesLeituraAtrasadas 
-   */
+  
   reprogramarDatasAtrasadas(planoLeitura: PlanoLeitura, unidadesLeitura: UnidadesLeituraDiaria[]){
+    
     this.bibliaProvider.biblia.planosDeLeitura.filter(p => p.titulo === planoLeitura.titulo)[0].unidadesLeituraDiaria = unidadesLeitura;
     
     var currentDate = new Date(new Date().getTime()-1);
     currentDate.setDate(currentDate.getDate() );
 
-    let x = 0;
     this.bibliaProvider.biblia.planosDeLeitura
       .filter(plano => plano.titulo === planoLeitura.titulo)[0].unidadesLeituraDiaria
       .filter(uld => {
@@ -101,10 +100,9 @@ export class PlanosLeituraPage {
         }
       }).forEach(u => {
         u.dataParaLeitura = new Date(currentDate.setDate(currentDate.getDate() + 1));
-        console.log(u);
       });
 
-    //console.log(x);
+    this.events.publish('planoLeitura:reiniciarLocalNotification', this.bibliaProvider.biblia.planosDeLeitura.filter(p => p.titulo === planoLeitura.titulo)[0]);
   }
 
   visualisarDetalhesPlanoLeitura(planoLeitura: PlanoLeitura){
@@ -152,7 +150,6 @@ export class PlanosLeituraPage {
      if(this.qtdeSegmentosLidos !== 0 ){
       this.percentualCompletude = Math.round((this.qtdeSegmentosLidos / this.qtdeSegmentos) * 100);     
      } 
-     
   }
 
   incrementarTotalSegmentos(i: number){

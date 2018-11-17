@@ -34,6 +34,7 @@ import { DetalhePlanoLeituraPage } from '../pages/detalhe-plano-leitura/detalhe-
 import { PainelPlanoLeituraPage } from '../pages/painel-plano-leitura/painel-plano-leitura';
 
 import { ProgressBarModule } from "angular-progress-bar";
+import { LocalNotifications } from '@ionic-native/local-notifications';
 
 export const firebaseConfig = {
   apiKey: "AIzaSyBoOBgbbcVK1v7-k_4wj-wCJESmKr2TFeI",
@@ -94,7 +95,8 @@ export const firebaseConfig = {
     ConstantesProvider,
     SocialSharing,
     UtilProvider,
-    AppMinimize    
+    AppMinimize,
+    LocalNotifications    
   ]
 })
 export class AppModule {}

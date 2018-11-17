@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavParams, NavController, ActionSheetController, Events } from 'ionic-angular';
+import { IonicPage, NavParams, NavController, ActionSheetController, Events, ToastController } from 'ionic-angular';
 import { PlanoLeitura, UnidadesLeituraDiaria, SegmentoLeituraDiaria } from '../../models/PlanosLeitura';
 import { PainelPlanoLeituraPage } from '../painel-plano-leitura/painel-plano-leitura';
 
@@ -24,7 +24,8 @@ export class DetalhePlanoLeituraPage {
   unidadesLeituraPorPagina: number;
   paginaAtual: number;
 
-  constructor(public navParams: NavParams, private navCtrl: NavController, public actionSheetCtrl: ActionSheetController, public events: Events) {
+  constructor(public navParams: NavParams, private navCtrl: NavController, public actionSheetCtrl: ActionSheetController, 
+                private toastCtrl: ToastController, public events: Events) {
     this.segmentoSelecionado = "hoje";
     this.unidadesLeituraAtrasadas = [];
     this.planoLeitura = new PlanoLeitura();
@@ -162,7 +163,7 @@ export class DetalhePlanoLeituraPage {
     let unidadesLeituraPendentes = this.filtrarUnidadesLeituraPendentes();
 
     let actionSheet = this.actionSheetCtrl.create({
-      title: 'Opçoes do Plano de Leitura',
+      title: 'Opçoes do Plano de Leitura ' + this.planoLeitura.titulo,
       buttons: [
         {
           text: 'Reiniciar Plano de Leitura',
@@ -180,31 +181,48 @@ export class DetalhePlanoLeituraPage {
             this.events.publish('planoLeitura:reprogramar', this.planoLeitura, unidadesLeitura);
             this.filtrarUnidadeLeituraDiaAtual();
             this.filtrarUnidadesLeituraAtrasadas();
+            this.presentToast("Suas leituras atrasadas foram reprogramadas!");
           }
         },
         {
           text: 'Cancelar notificações',
           handler: () => {
-            console.log('Archive clicked');
+            this.events.publish('planoLeitura:cancelarLocalNotification', this.planoLeitura);
+            this.presentToast("As notificações do Plano de Leitura " + this.planoLeitura.titulo + " foram canceladas!");
           }
         },
         {
-          text: 'Emitir notificações',
+          text: 'Ativar notificações',
           handler: () => {
-            console.log('Archive clicked');
+            this.events.publish('planoLeitura:reiniciarLocalNotification', this.planoLeitura);
+            this.presentToast("As notificações do Plano de Leitura " + this.planoLeitura.titulo + " foram ativadas!");
           }
         },
         {
-          text: 'Cancel',
+          text: 'Cancelar',
           role: 'cancel',
           handler: () => {
-            console.log('Cancel clicked');
+            
           }
         }
       ]
     });
 
     actionSheet.present();
+  }
+
+  presentToast(mensagem: string) {
+    let toast = this.toastCtrl.create({
+      message: mensagem,
+      duration: 3000,
+      position: 'bottom'
+    });
+
+    toast.onDidDismiss(() => {
+      
+    });
+
+    toast.present();
   }
 
 }

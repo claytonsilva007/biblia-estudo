@@ -88,6 +88,7 @@ export class ConsultarVersiculoPage {
   }
 
   getRegex(palavras: string[]): string {
+    
     let regexStr: string = "^";
 
     palavras.forEach(palavra => {
