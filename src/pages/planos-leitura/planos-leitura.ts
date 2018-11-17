@@ -44,7 +44,7 @@ export class PlanosLeituraPage {
     
     planoLeitura.ativo = true;
     var currentDate = new Date(new Date().getTime());
-    currentDate.setDate(currentDate.getDate() -10);
+    currentDate.setDate(currentDate.getDate() -4);
 
     planoLeitura.unidadesLeituraDiaria.forEach( (uld) => {
       let data = currentDate.setDate(currentDate.getDate() + 1);
@@ -63,7 +63,7 @@ export class PlanosLeituraPage {
   reiniciarPlanoLeitura(planoLeitura: PlanoLeitura){
     
     var currentDate = new Date(new Date().getTime());
-    currentDate.setDate(currentDate.getDate());
+    currentDate.setDate(currentDate.getDate() - 1);
 
     this.bibliaProvider.biblia.planosDeLeitura
           .filter(plano => plano.titulo === planoLeitura.titulo)[0].unidadesLeituraDiaria
@@ -89,22 +89,22 @@ export class PlanosLeituraPage {
   reprogramarDatasAtrasadas(planoLeitura: PlanoLeitura, unidadesLeitura: UnidadesLeituraDiaria[]){
     this.bibliaProvider.biblia.planosDeLeitura.filter(p => p.titulo === planoLeitura.titulo)[0].unidadesLeituraDiaria = unidadesLeitura;
     
-    var currentDate = new Date(new Date().getTime());
-    currentDate.setDate(currentDate.getDate() - 1);
+    var currentDate = new Date(new Date().getTime()-1);
+    currentDate.setDate(currentDate.getDate() );
 
-    let x = this.bibliaProvider.biblia.planosDeLeitura
-      .filter(p => p.titulo === planoLeitura.titulo)[0].unidadesLeituraDiaria.filter(uld => {
-        if(uld.segmentosLeituraDiaria.filter(sld => sld.statusLeitura === false)){
+    let x = 0;
+    this.bibliaProvider.biblia.planosDeLeitura
+      .filter(plano => plano.titulo === planoLeitura.titulo)[0].unidadesLeituraDiaria
+      .filter(uld => {
+        if (uld.segmentosLeituraDiaria.filter(sld => sld.statusLeitura === false).length > 0) {
           return uld;
         }
-      }).forEach(uld => {
-
-        let data = currentDate.setDate(currentDate.getDate() + 1);
-        uld.dataParaLeitura = new Date(data);
-
+      }).forEach(u => {
+        u.dataParaLeitura = new Date(currentDate.setDate(currentDate.getDate() + 1));
+        console.log(u);
       });
 
-      
+    //console.log(x);
   }
 
   visualisarDetalhesPlanoLeitura(planoLeitura: PlanoLeitura){
