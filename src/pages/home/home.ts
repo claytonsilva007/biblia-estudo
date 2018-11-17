@@ -83,6 +83,10 @@ export class HomePage {
     this.exibirBotoesNavegacao = true;
   }
 
+  selecionarCapitulo(){
+    this.segmentoSelecionado = "capitulos"
+  }
+
   /**
    * Método acionado quando um ion-item é pressionado.
    * Altera a cor de fundo.
