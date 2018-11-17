@@ -44,7 +44,7 @@ export class PlanosLeituraPage {
     
     planoLeitura.ativo = true;
     var currentDate = new Date(new Date().getTime());
-    currentDate.setDate(currentDate.getDate() -4);
+    currentDate.setDate(currentDate.getDate() -1);
 
     planoLeitura.unidadesLeituraDiaria.forEach( (uld) => {
       let data = currentDate.setDate(currentDate.getDate() + 1);
