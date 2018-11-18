@@ -13,7 +13,6 @@ import { UtilProvider } from '../../providers/util/util';
 
 import { ToastController } from 'ionic-angular';
 import { ModalFontePage } from '../modal-fonte/modal-fonte';
-import { PlanosLeituraPage } from '../planos-leitura/planos-leitura';
 
 @Component({
   selector: 'page-home',
@@ -39,7 +38,6 @@ export class HomePage {
   ultimoVersiculoSelecionado: Versiculo;
   exibirBtnCompartilhamento: boolean;
   biblia: Biblia;
-  redirecionarParaPlanoLeitura: boolean;
 
   fontSize: number;
   exibirComentariosUsuario: boolean;
@@ -48,7 +46,7 @@ export class HomePage {
                 public modalCtrl: ModalController, public loadingCtrl: LoadingController, 
                 public constantes: ConstantesProvider, private socialSharing: SocialSharing, 
                 public navParams: NavParams, private utilProvider: UtilProvider,  
-                private toastCtrl: ToastController, public actionSheetCtrl: ActionSheetController, public events: Events) {
+                private toastCtrl: ToastController, public actionSheetCtrl: ActionSheetController) {
 
     this.biblia = bibliaProvider.getBiblia();
     this.versiculoParaComentar = new versiculoParaComentar();
@@ -61,11 +59,6 @@ export class HomePage {
     this.exibirBtnCompartilhamento = false;
     this.fontSize = this.bibliaProvider.biblia.tamanhoFonte;
     this.exibirComentariosUsuario = false;
-    this.redirecionarParaPlanoLeitura = false;
-
-    events.subscribe('planoLeitura:redirecionar', () => {
-      this.redirecionarParaPlanoLeitura = true;
-    });
   } 
   
   atualizarSegmentoCapitulos(indexLivro: number){
@@ -564,12 +557,7 @@ export class HomePage {
       this.bibliaProvider.biblia.livros[versiculo.codigoLivro].capitulos[versiculo.codigoCapitulo].versiculos[versiculo.codigoVersiculo].backgroundColor = this.constantes.COR_TEXTO_SELECIONADO;
       this.segmentoSelecionado = "versiculos";
     }
-  }
 
-  ionViewDidEnter(){
-    if (this.redirecionarParaPlanoLeitura) {
-      this.navCtrl.push(PlanosLeituraPage);
-    }
   }
 }
 

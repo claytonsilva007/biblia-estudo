@@ -31,6 +31,7 @@ export class MyApp {
   loading: any;
   modalListPages: string[];
   notificacaoList: Notificacao[];
+  redirecionarParaPlanoLeitura: boolean;
   
   constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen,
     private configBiblia: ConfiguracaoBibliaProvider, private loadingCtrl: LoadingController, private storage: Storage, 
@@ -38,6 +39,8 @@ export class MyApp {
     private app: App, private appMinimize: AppMinimize, private menuCtrl: MenuController, 
     private localNotifications: LocalNotifications, public events: Events, private alertCtrl: AlertController) {
     
+    this.redirecionarParaPlanoLeitura = false;
+
     this.initializeApp();
 
     // used for an example of ngFor and navigation
@@ -47,20 +50,21 @@ export class MyApp {
       { title: 'Planos de Leitura', component: PlanosLeituraPage, icon: 'map' }
     ];
 
-    events.subscribe('planoLeitura:criarLocalNotification', (planoLeitura) => {
-      this.configLocalNotification(planoLeitura);
-    });
+    /*Adicionando essa verificação para evitar erros no browser*/
+    if (this.platform.is('android')){
+      events.subscribe('planoLeitura:criarLocalNotification', (planoLeitura) => {
+        this.configLocalNotification(planoLeitura);
+      });
 
-    events.subscribe('planoLeitura:cancelarLocalNotification', (planoLeitura) => {
-      this.cancelarLocalNotification(planoLeitura);
-    });
+      events.subscribe('planoLeitura:cancelarLocalNotification', (planoLeitura) => {
+        this.cancelarLocalNotification(planoLeitura);
+      });
 
-    events.subscribe('planoLeitura:reiniciarLocalNotification', (planoLeitura) => {
-      this.cancelarLocalNotification(planoLeitura);
-      this.configLocalNotification(planoLeitura);
-    });
-
-
+      events.subscribe('planoLeitura:reiniciarLocalNotification', (planoLeitura) => {
+        this.cancelarLocalNotification(planoLeitura);
+        this.configLocalNotification(planoLeitura);
+      });
+    }
   }
 
 
@@ -75,7 +79,14 @@ export class MyApp {
         if (val !== null) {
           this.storage.get(this.constantes.BIBLIA_CHAVE).then(biblia => {
             this.configBiblia.configurarBiblia(biblia);
-            this.nav.push(HomePage);
+            
+            if (this.redirecionarParaPlanoLeitura) {
+              this.redirecionarParaPlanoLeitura = false;
+              this.rootPage = PlanosLeituraPage;
+            } else {
+              this.nav.push(HomePage);
+            }
+
             this.hideLoading();
           });
 
@@ -87,7 +98,7 @@ export class MyApp {
               this.configBiblia.getBibliaFormatada(JSON.stringify(obj.payload.val()));              
               this.configBiblia.setBibliaConfigurada(this.configBiblia.getBibliaFormatada(JSON.stringify(obj.payload.val())));
               this.storage.set(this.constantes.CKECK_BIBLIA_STORAGE, "true");
-              this.nav.push(HomePage);
+               this.nav.push(HomePage);
               this.hideLoading();
             });
           });
@@ -102,10 +113,13 @@ export class MyApp {
 
     this.configBackButtom();
 
-    this.localNotifications.on('click').subscribe(() => {
-      this.nav.push(PlanosLeituraPage);
-      this.events.publish('planoLeitura:redirecionar');
-    })
+    /*Adicionando essa verificação para evitar erros no browser*/
+    if (this.platform.is('android')){
+      this.localNotifications.on('click').subscribe(() => {
+        this.redirecionarParaPlanoLeitura = true;
+        this.nav.push(PlanosLeituraPage);
+      })}
+    
 
   } // fim método inicializeApp()
 
@@ -148,13 +162,11 @@ export class MyApp {
       
       notificacao = new Notificacao(); 
       dataLeitura = new Date(new Date().getTime());
-      
-      notificacao.id = index+1;
+      notificacao.id = planoLeitura.codigo + index+1;
       notificacao.title = "Plano de Leitura " + planoLeitura.titulo;
       notificacao.text = uld.tituloLeituraDiaria;
-      //dataLeitura = new Date((uld.dataParaLeitura));
-      dataLeitura = new Date(new Date().getTime());
-      notificacao.trigger.at = new Date(dataLeitura.setHours(17, 51 + index, 0));
+      dataLeitura = new Date((uld.dataParaLeitura));
+      notificacao.trigger.at = new Date(dataLeitura.setHours(13, 15, 0));
       this.notificacaoList.push(notificacao);
 
     });

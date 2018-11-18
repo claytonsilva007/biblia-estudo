@@ -1,6 +1,7 @@
 import { ComentarioPlanosLeitura } from '../models/ComentarioPlanosLeitura';
  
 export class PlanoLeitura{
+    codigo: number;
     autor: string;
     titulo: string;
     subTitulo: string;

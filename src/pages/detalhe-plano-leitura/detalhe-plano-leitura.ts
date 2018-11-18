@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { IonicPage, NavParams, NavController, ActionSheetController, Events, ToastController } from 'ionic-angular';
 import { PlanoLeitura, UnidadesLeituraDiaria, SegmentoLeituraDiaria } from '../../models/PlanosLeitura';
 import { PainelPlanoLeituraPage } from '../painel-plano-leitura/painel-plano-leitura';
+import { ConfiguracaoBibliaProvider } from '../../providers/configuracao-biblia/configuracao-biblia';
+import { PlanosLeituraPage } from '../planos-leitura/planos-leitura';
 
 
 @IonicPage()
@@ -25,7 +27,7 @@ export class DetalhePlanoLeituraPage {
   paginaAtual: number;
 
   constructor(public navParams: NavParams, private navCtrl: NavController, public actionSheetCtrl: ActionSheetController, 
-                private toastCtrl: ToastController, public events: Events) {
+                private toastCtrl: ToastController, public events: Events, private bibliaProvider: ConfiguracaoBibliaProvider) {
     this.segmentoSelecionado = "hoje";
     this.unidadesLeituraAtrasadas = [];
     this.planoLeitura = new PlanoLeitura();
@@ -80,10 +82,11 @@ export class DetalhePlanoLeituraPage {
 
   filtrarUnidadesLeituraAtrasadas() {
 
-    this.unidadesLeituraAtrasadas = this.planoLeitura.unidadesLeituraDiaria
-      .filter(uld => this.dataEhAnteriorHoje(uld.dataParaLeitura))
-      .filter(uld => this.verificaAtrasosSegmento(uld.segmentosLeituraDiaria));
-      
+    if(this.planoLeitura.ativo){
+      this.unidadesLeituraAtrasadas = this.planoLeitura.unidadesLeituraDiaria
+        .filter(uld => this.dataEhAnteriorHoje(uld.dataParaLeitura))
+        .filter(uld => this.verificaAtrasosSegmento(uld.segmentosLeituraDiaria));
+    }
   }
 
   filtrarUnidadesLeituraPendentes(): UnidadesLeituraDiaria[] {
@@ -163,7 +166,7 @@ export class DetalhePlanoLeituraPage {
     let unidadesLeituraPendentes = this.filtrarUnidadesLeituraPendentes();
 
     let actionSheet = this.actionSheetCtrl.create({
-      title: 'Opçoes do Plano de Leitura ' + this.planoLeitura.titulo,
+      title: 'Opções do Plano de Leitura ' + this.planoLeitura.titulo,
       buttons: [
         {
           text: 'Reiniciar Plano de Leitura',
@@ -199,6 +202,14 @@ export class DetalhePlanoLeituraPage {
           }
         },
         {
+          text: 'Abandonar Plano de Leitura',
+          handler: () => {
+            this.events.publish('planoLeitura:cancelarLocalNotification', this.planoLeitura);
+            this.abandonarPlanoLeitura(this.planoLeitura);
+            this.presentToast("O Plano de Leitura " + this.planoLeitura.titulo + " abandonado com sucesso!");
+          }
+        },
+        {
           text: 'Cancelar',
           role: 'cancel',
           handler: () => {
@@ -209,6 +220,23 @@ export class DetalhePlanoLeituraPage {
     });
 
     actionSheet.present();
+  }
+
+  abandonarPlanoLeitura(planoLeitura: PlanoLeitura){
+    this.bibliaProvider.biblia.planosDeLeitura.filter(p => p.titulo === planoLeitura.titulo)[0].ativo = false;
+    this.planoLeitura.ativo = false;
+    this.unidadesLeituraAtrasadas = [];
+
+    this.bibliaProvider.biblia.planosDeLeitura
+    .filter(p => p.titulo === planoLeitura.titulo)[0].unidadesLeituraDiaria
+      .forEach(uld => {
+        uld.dataParaLeitura = null;
+        uld.segmentosLeituraDiaria.forEach(s => {
+          s.statusLeitura = false;
+        });
+      });
+
+      this.navCtrl.push(PlanosLeituraPage);
   }
 
   presentToast(mensagem: string) {
