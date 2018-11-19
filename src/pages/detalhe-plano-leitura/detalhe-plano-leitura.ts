@@ -127,7 +127,10 @@ export class DetalhePlanoLeituraPage {
     this.dataSegmentoLeitura = new Date(data);
     this.dataHoje = new Date(new Date().getTime());
 
-    if (this.dataSegmentoLeitura.getTime() < this.dataHoje.getTime()) {
+    if (this.dataSegmentoLeitura.getFullYear() <= this.dataHoje.getFullYear() 
+          && this.dataSegmentoLeitura.getMonth() <= this.dataHoje.getMonth() 
+          && this.dataSegmentoLeitura.getDate() < this.dataHoje.getDate()) {
+            
       ehAnterior = true;
     }
 
