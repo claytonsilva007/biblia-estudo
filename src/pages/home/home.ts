@@ -281,9 +281,18 @@ export class HomePage {
    * retorna a quantidade de versículos comentados no capítulo selecionado.
    */
   verificaExistenciaComentariosCapitulo(): number{
-    return this.biblia.livros[this.versiculoParaComentar.indexLivro]
-                .capitulos[this.versiculoParaComentar.indexCapitulo]
-                .versiculos.filter(v => v.comentariosUsuario.length > 0).length;
+    
+    let retorno: number = 0;
+
+    if(this.versiculoParaComentar.indexCapitulo !== undefined 
+        && this.versiculoParaComentar.indexLivro !== undefined 
+        && this.versiculoParaComentar.indexVersiculo !== undefined){
+      retorno = this.biblia.livros[this.versiculoParaComentar.indexLivro]
+        .capitulos[this.versiculoParaComentar.indexCapitulo]
+        .versiculos.filter(v => v.comentariosUsuario.length > 0).length;
+    }
+
+    return retorno;
                 
   }
 
@@ -478,7 +487,7 @@ export class HomePage {
   presentToast(mensagem: string) {
     let toast = this.toastCtrl.create({
       message: mensagem,
-      duration: 1500,
+      duration: 5000,
       position: 'botom'
     });
 
@@ -525,8 +534,12 @@ export class HomePage {
     }); 
 
     buttons.push({
-      text: 'Comparar versões',
-      handler: () => { }
+      text: 'Solicitar Comentário',
+      handler: () => {
+        if (this.getQuantidadeLinhasSelecionadas() === 0){
+          this.presentToast("Voce precisa selecionar um ou mais versículos.");
+        }
+      }
     });      
 
     buttons.push({
