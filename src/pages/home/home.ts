@@ -351,8 +351,9 @@ export class HomePage {
 
   atualizarDadosNavegacao(){
     this.abaLivroDescricao = this.biblia.livros[this.versiculoParaComentar.indexLivro].nome;
-    this.abaCapituloDescricao = "Capítulo: " + (this.versiculoParaComentar.indexCapitulo+1);
+    this.abaCapituloDescricao = "Capítulo " ;
     this.segmentoSelecionado = "versiculos";
+    this.abaVersiculoDescricao = (this.versiculoParaComentar.indexCapitulo+1).toString();
     this.exibirBotaoDeBusca = false; 
   }
 
