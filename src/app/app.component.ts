@@ -149,6 +149,7 @@ export class MyApp {
   configLocalNotification(planoLeitura: PlanoLeitura){
     let notificacaoListParam = this.prepararListLocalNotification(planoLeitura);
     this.localNotifications.schedule(notificacaoListParam);
+    this.storage.set(this.constantes.CHAVE_PREFERENCIAS_NOTIFICACOES, true);
   }
   
 
@@ -178,6 +179,7 @@ export class MyApp {
     planoLeitura.unidadesLeituraDiaria.forEach((uld, index) => {
       this.localNotifications.cancel((index+1));
     });
+    this.storage.set(this.constantes.CHAVE_PREFERENCIAS_NOTIFICACOES, false);
   }
 
   presentAlert(date: Date) {

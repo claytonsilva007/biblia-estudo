@@ -8,6 +8,7 @@ export class ConstantesProvider {
   public BIBLIA_CHAVE: string = "biblia";
   public CKECK_BIBLIA_STORAGE: string = "1";
   public ULTIMO_LIVRO_LIDO: string = "2";
+  public CHAVE_PREFERENCIAS_NOTIFICACOES: string = "3";
   
   //VARIÁVEIS RELACIONADAS AO TEXTO
   public CHAVE_TAMANHO_FONTE: string = "tamanho_fonte";

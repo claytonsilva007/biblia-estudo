@@ -4,6 +4,8 @@ import { PlanoLeitura, UnidadesLeituraDiaria, SegmentoLeituraDiaria } from '../.
 import { PainelPlanoLeituraPage } from '../painel-plano-leitura/painel-plano-leitura';
 import { ConfiguracaoBibliaProvider } from '../../providers/configuracao-biblia/configuracao-biblia';
 import { PlanosLeituraPage } from '../planos-leitura/planos-leitura';
+import { ConstantesProvider } from '../../providers/constantes/constantes';
+import { Storage } from '@ionic/storage';
 
 
 @IonicPage()
@@ -25,9 +27,18 @@ export class DetalhePlanoLeituraPage {
   totalDePaginas: number;
   unidadesLeituraPorPagina: number;
   paginaAtual: number;
+  notificacoeAtivas: boolean; 
 
   constructor(public navParams: NavParams, private navCtrl: NavController, public actionSheetCtrl: ActionSheetController, 
-                private toastCtrl: ToastController, public events: Events, private bibliaProvider: ConfiguracaoBibliaProvider) {
+                private toastCtrl: ToastController, public events: Events, private bibliaProvider: ConfiguracaoBibliaProvider,
+                private storage: Storage, private constantes: ConstantesProvider) {
+
+    this.notificacoeAtivas = false;
+    
+    this.storage.get(this.constantes.CHAVE_PREFERENCIAS_NOTIFICACOES).then( response => {
+      this.notificacoeAtivas = response;
+    });
+
     this.segmentoSelecionado = "hoje";
     this.unidadesLeituraAtrasadas = [];
     this.planoLeitura = new PlanoLeitura();
@@ -163,63 +174,77 @@ export class DetalhePlanoLeituraPage {
     }, 400);
   }
 
+
   presentActionSheet() {
+    
     let unidadesLeitura: UnidadesLeituraDiaria[] = [];
     let unidadesLeituraLidas = this.filtrarUnidadesLeituraLidas();
     let unidadesLeituraPendentes = this.filtrarUnidadesLeituraPendentes();
+    
+    let buttons: any[] = [];
+    
+    buttons.push({
+      text: 'Reiniciar Plano de Leitura',
+      role: 'destructive',
+      handler: () => {
+        this.events.publish('planoLeitura:reiniciar', this.planoLeitura);
+        this.unidadeLeituraDiaAtual.segmentosLeituraDiaria.forEach(s => s.statusLeitura = false);
+      }
+    });
+
+    buttons.push({
+      text: 'Reprogramar leituras atrasadas',
+
+      handler: () => {
+        unidadesLeitura = unidadesLeituraLidas.concat(this.unidadesLeituraAtrasadas, unidadesLeituraPendentes);
+        this.events.publish('planoLeitura:reprogramar', this.planoLeitura, unidadesLeitura);
+        this.filtrarUnidadeLeituraDiaAtual();
+        this.filtrarUnidadesLeituraAtrasadas();
+        this.presentToast("Suas leituras atrasadas foram reprogramadas!");
+      }
+    });
+
+    // ALTERNANDO A EXIBIÇÃO DOS BOTÕES DE ACORDO COM A EXISTÊNCIA DE NOTIFICAÇÕES ATIVAS/INATIVAS    
+    if (this.notificacoeAtivas) {
+      buttons.push({
+        text: 'Cancelar notificações',
+        handler: () => {
+          this.events.publish('planoLeitura:cancelarLocalNotification', this.planoLeitura);
+          this.presentToast("As notificações do Plano de Leitura " + this.planoLeitura.titulo + " foram canceladas!");
+          this.notificacoeAtivas = false;
+        }
+      });
+    } else {
+      buttons.push({
+        text: 'Ativar notificações',
+        handler: () => {
+          this.events.publish('planoLeitura:reiniciarLocalNotification', this.planoLeitura);
+          this.presentToast("As notificações do Plano de Leitura " + this.planoLeitura.titulo + " foram ativadas!");
+          this.notificacoeAtivas = true;
+        }
+      });
+    }       
+
+    buttons.push({
+      text: 'Abandonar Plano de Leitura',
+      handler: () => {
+        this.events.publish('planoLeitura:cancelarLocalNotification', this.planoLeitura);
+        this.abandonarPlanoLeitura(this.planoLeitura);
+        this.presentToast("O Plano de Leitura " + this.planoLeitura.titulo + " abandonado com sucesso!");
+      }
+    });
+
+    buttons.push({
+      text: 'Cancelar',
+      role: 'cancel',
+      handler: () => {
+
+      }
+    });  
 
     let actionSheet = this.actionSheetCtrl.create({
-      title: 'Opções do Plano de Leitura ' + this.planoLeitura.titulo,
-      buttons: [
-        {
-          text: 'Reiniciar Plano de Leitura',
-          role: 'destructive',
-          handler: () => {
-            this.events.publish('planoLeitura:reiniciar', this.planoLeitura);
-            this.unidadeLeituraDiaAtual.segmentosLeituraDiaria.forEach(s => s.statusLeitura = false);
-          }
-        },
-        {
-          text: 'Reprogramar leituras atrasadas',
-          
-          handler: () => {
-            unidadesLeitura =  unidadesLeituraLidas.concat(this.unidadesLeituraAtrasadas, unidadesLeituraPendentes);
-            this.events.publish('planoLeitura:reprogramar', this.planoLeitura, unidadesLeitura);
-            this.filtrarUnidadeLeituraDiaAtual();
-            this.filtrarUnidadesLeituraAtrasadas();
-            this.presentToast("Suas leituras atrasadas foram reprogramadas!");
-          }
-        },
-        {
-          text: 'Cancelar notificações',
-          handler: () => {
-            this.events.publish('planoLeitura:cancelarLocalNotification', this.planoLeitura);
-            this.presentToast("As notificações do Plano de Leitura " + this.planoLeitura.titulo + " foram canceladas!");
-          }
-        },
-        {
-          text: 'Ativar notificações',
-          handler: () => {
-            this.events.publish('planoLeitura:reiniciarLocalNotification', this.planoLeitura);
-            this.presentToast("As notificações do Plano de Leitura " + this.planoLeitura.titulo + " foram ativadas!");
-          }
-        },
-        {
-          text: 'Abandonar Plano de Leitura',
-          handler: () => {
-            this.events.publish('planoLeitura:cancelarLocalNotification', this.planoLeitura);
-            this.abandonarPlanoLeitura(this.planoLeitura);
-            this.presentToast("O Plano de Leitura " + this.planoLeitura.titulo + " abandonado com sucesso!");
-          }
-        },
-        {
-          text: 'Cancelar',
-          role: 'cancel',
-          handler: () => {
-            
-          }
-        }
-      ]
+        title: 'Opções do Plano de Leitura ' + this.planoLeitura.titulo,
+        buttons
     });
 
     actionSheet.present();

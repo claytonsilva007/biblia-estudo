@@ -2,7 +2,7 @@
 
   <ion-navbar>
     <ion-title><b style="color: #488aff">Plano de Leitura</b></ion-title>
-    <ion-buttons end>
+    <ion-buttons end *ngIf="planoLeitura.ativo">
       <button ion-button color="primary" round (click)="presentActionSheet()" style="margin-right: 15px">
         <ion-icon name="more"></ion-icon>
       </button>
