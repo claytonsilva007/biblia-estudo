@@ -573,6 +573,14 @@ export class HomePage {
     }
 
   }
+
+  setarTextoPadrao(){
+    if(this.versiculoParaComentar.indexLivro === undefined){
+      this.atualizarSegmentoCapitulos(0);
+      this.atualizarSegmentoVersiculos(0);
+    }
+  }
+
 }
 
 

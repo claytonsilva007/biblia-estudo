@@ -11,7 +11,7 @@
       <ion-segment-button value="livros" (click)="exibirBtnBusca()">
         <b style="color: #488aff"> {{abaLivroDescricao}} </b>
       </ion-segment-button>
-      <ion-segment-button value="capitulos" (click)="ocultarBotaoBusca()">
+      <ion-segment-button value="capitulos" (click)="ocultarBotaoBusca();setarTextoPadrao();">
         <b style="color: #488aff"> {{abaCapituloDescricao}} </b>
       </ion-segment-button>
       <ion-segment-button value="versiculos" (click)="selecionarCapitulo()">
