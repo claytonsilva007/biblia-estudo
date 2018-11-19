@@ -47,7 +47,7 @@ export class PainelPlanoLeituraPage {
       indexVersicFim = this.capitulo.versiculos.length;
     } else if(v[2].indexOf("-") >= 0){
       let aux: string[] = v[2].split("-");
-      indexVersicIni = Number(aux[0]);
+      indexVersicIni = Number(aux[0]) -1;
       indexVersicFim = Number(aux[1]);
     }
     
