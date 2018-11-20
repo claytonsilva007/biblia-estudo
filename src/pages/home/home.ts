@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, ModalController, LoadingController, NavParams, ActionSheetController, Events } from 'ionic-angular';
+import { NavController, ModalController, LoadingController, NavParams, ActionSheetController, Events, Platform } from 'ionic-angular';
 import { Livro, Capitulo, Versiculo, Biblia } from '../../models/Biblia';
 import { ConfiguracaoBibliaProvider } from '../../providers/configuracao-biblia/configuracao-biblia';
 import { ComentariosPage } from '../comentarios/comentarios';
@@ -42,11 +42,14 @@ export class HomePage {
   fontSize: number;
   exibirComentariosUsuario: boolean;
 
+  actionSheet: any;
+
   constructor(public navCtrl: NavController, public bibliaProvider: ConfiguracaoBibliaProvider, 
                 public modalCtrl: ModalController, public loadingCtrl: LoadingController, 
                 public constantes: ConstantesProvider, private socialSharing: SocialSharing, 
-                public navParams: NavParams, private utilProvider: UtilProvider,  
-                private toastCtrl: ToastController, public actionSheetCtrl: ActionSheetController) {
+                public navParams: NavParams, private utilProvider: UtilProvider,
+                private toastCtrl: ToastController, public actionSheetCtrl: ActionSheetController, 
+                private platform: Platform,public events: Events) {
 
     this.biblia = bibliaProvider.getBiblia();
     this.versiculoParaComentar = new versiculoParaComentar();
@@ -59,8 +62,22 @@ export class HomePage {
     this.exibirBtnCompartilhamento = false;
     this.fontSize = this.bibliaProvider.biblia.tamanhoFonte;
     this.exibirComentariosUsuario = false;
+
+    if (this.platform.is('android')){
+      this.events.subscribe('appComponent:backButtom', () => {
+          this.limparTela();
+      });
+    }
   } 
   
+  limparTela(){
+    this.getVersiculosSelecionados().forEach(v => v.backgroundColor = this.constantes.TEXTO_SEM_COR);
+    this.ocultarBotao();
+    this.ocultarBtnCompartilharEComentar();
+    this.ocultarBtnCompartilharEComentarClick();
+    this.actionSheet.dismiss();
+  }
+
   atualizarSegmentoCapitulos(indexLivro: number){
     this.abaLivroDescricao = this.biblia.livros[indexLivro].nome;
     this.versiculoParaComentar.nomeLivro = this.biblia.livros[indexLivro].nome;
@@ -562,14 +579,14 @@ export class HomePage {
       textoBtnComentarios = "Ocultar seus comentários";
     }
 
-    const actionSheet = this.actionSheetCtrl.create(
+    this.actionSheet = this.actionSheetCtrl.create(
       {
         title: 'Opções de Leitura',
         buttons
       }
     );
 
-    actionSheet.present();
+    this.actionSheet.present();
   }
 
   ionViewDidLoad(){

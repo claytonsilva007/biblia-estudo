@@ -127,8 +127,13 @@ export class MyApp {
 
   } // fim método inicializeApp()
 
+  configBackButtom(){
+    this.platform.registerBackButtonAction(() => {      
+      this.events.publish("appComponent:backButtom");
+    });
+  }
  
-  configBackButtom() {
+  /*configBackButtom() {
     this.platform.registerBackButtonAction(() => {      
       let nav = this.app.getActiveNavs()[0];
       let activeView = nav.getActive();
@@ -147,7 +152,7 @@ export class MyApp {
         nav.setRoot(HomePage);
       }
     });
-  }
+  }*/
 
 
   configLocalNotification(planoLeitura: PlanoLeitura){
