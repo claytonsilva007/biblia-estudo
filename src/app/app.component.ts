@@ -64,6 +64,10 @@ export class MyApp {
         this.cancelarLocalNotification(planoLeitura);
         this.configLocalNotification(planoLeitura);
       });
+
+      events.subscribe('planoLeitura:cancelarNotificacaoIndividual', (idNotificacao) => {
+        this.cancelarNotificacaoIndividual(idNotificacao);
+      });
     }
   }
 
@@ -180,6 +184,10 @@ export class MyApp {
       this.localNotifications.cancel((index+1));
     });
     this.storage.set(this.constantes.CHAVE_PREFERENCIAS_NOTIFICACOES, false);
+  }
+
+  cancelarNotificacaoIndividual(idNotificacao){
+    this.localNotifications.cancel(idNotificacao);
   }
 
   presentAlert(date: Date) {

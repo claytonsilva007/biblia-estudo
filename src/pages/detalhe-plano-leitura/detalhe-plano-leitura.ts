@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavParams, NavController, ActionSheetController, Events, ToastController } from 'ionic-angular';
+import { IonicPage, NavParams, NavController, ActionSheetController, Events, ToastController, Platform } from 'ionic-angular';
 import { PlanoLeitura, UnidadesLeituraDiaria, SegmentoLeituraDiaria } from '../../models/PlanosLeitura';
 import { PainelPlanoLeituraPage } from '../painel-plano-leitura/painel-plano-leitura';
 import { ConfiguracaoBibliaProvider } from '../../providers/configuracao-biblia/configuracao-biblia';
@@ -31,7 +31,7 @@ export class DetalhePlanoLeituraPage {
 
   constructor(public navParams: NavParams, private navCtrl: NavController, public actionSheetCtrl: ActionSheetController, 
                 private toastCtrl: ToastController, public events: Events, private bibliaProvider: ConfiguracaoBibliaProvider,
-                private storage: Storage, private constantes: ConstantesProvider) {
+    private storage: Storage, private constantes: ConstantesProvider, private platform: Platform) {
 
     this.notificacoeAtivas = false;
     
@@ -52,10 +52,11 @@ export class DetalhePlanoLeituraPage {
 
     this.carregarPrimeirasUnidadesLeitura();
 
-    events.subscribe('planoLeitura:incrementar', () => {
-      this.filtrarUnidadesLeituraAtrasadas();
-    });
-    
+    if (this.platform.is('android')) {
+      events.subscribe('planoLeitura:incrementar', () => {
+        this.filtrarUnidadesLeituraAtrasadas();
+      });
+    }
   }
 
   carregarPrimeirasUnidadesLeitura(){

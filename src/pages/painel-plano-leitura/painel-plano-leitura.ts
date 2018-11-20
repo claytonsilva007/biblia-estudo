@@ -67,19 +67,30 @@ export class PainelPlanoLeituraPage {
 
     this.bibliaProvider.biblia.planosDeLeitura
                 .filter(p => p.titulo === this.planoLeituraSelecionado.titulo)[0].unidadesLeituraDiaria  // plano de leitura na bíblia provider                      
-                .filter(uld =>                                                                           // unidade de leitura da mesma data daquela passada por parâmetro
+                .filter( (uld, index) =>                                                                           // unidade de leitura da mesma data daquela passada por parâmetro
                   {
+                    
                     dax1 = new Date(uld.dataParaLeitura);
                     dax2 = new Date(this.unidadeLeituraDiaria.dataParaLeitura)
 
-                  if (dax1.getDate() === dax2.getDate() && dax1.getMonth() === dax2.getMonth() && dax1.getFullYear() === dax2.getFullYear()){
+                  if (dax1.getDate() === dax2.getDate() && dax1.getMonth() === dax2.getMonth() && dax1.getFullYear() === dax2.getFullYear()){               
                       return uld;
                     }
                 })[0].segmentosLeituraDiaria.filter(sld => sld.segmentoLeitura === this.segmentoLeituraDiaria.segmentoLeitura)[0].statusLeitura = this.leituraRealizada;
     
     this.segmentoLeituraDiaria.statusLeitura = this.leituraRealizada;
-
     this.events.publish('planoLeitura:incrementar');
-  }  
-
+    this.cancelarNotificacaoIndividual();    
+  }
+  
+  cancelarNotificacaoIndividual(){
+    this.planoLeituraSelecionado.unidadesLeituraDiaria.forEach( (u, index) => {
+      if(u.tituloLeituraDiaria === this.unidadeLeituraDiaria.tituloLeituraDiaria && this.leituraRealizada === true){
+        this.events.publish("planoLeitura:cancelarNotificacaoIndividual",  (this.planoLeituraSelecionado.codigo + index+1));
+        return false;
+      } 
+    });
+  }
 }
+
+
