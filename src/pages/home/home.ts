@@ -502,6 +502,11 @@ export class HomePage {
 
   presentActionSheet() {
 
+    this.ocultarBotaoBusca();
+    this.ocultarBotao();
+    this.ocultarBtnCompartilharEComentar();
+    this.ocultarBtnCompartilharEComentarClick();
+
     let buttons: any[] = [];
     let textoBtnComentarios = "";
     
@@ -546,7 +551,11 @@ export class HomePage {
     buttons.push({
       text: 'Cancel',
       role: 'cancel',
-      handler: () => { }
+      handler: () => { 
+        this.getVersiculosSelecionados().forEach(v => {
+          v.backgroundColor = this.constantes.TEXTO_SEM_COR;
+        });
+      }
     });
 
     if(this.exibirComentariosUsuario === true){
