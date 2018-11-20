@@ -51,7 +51,7 @@ export class PainelPlanoLeituraPage {
       indexVersicFim = Number(aux[1]);
     }
     
-    this.capitulo.versiculos = this.capitulo.versiculos.slice(indexVersicIni, indexVersicFim+1);
+    this.capitulo.versiculos = this.capitulo.versiculos.slice(indexVersicIni, indexVersicFim);
     this.capituloSelecionado = this.capitulo;
     this.capitulosLeituraDiaria.push(this.capitulo);
 
