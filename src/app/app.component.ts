@@ -12,8 +12,6 @@ import { Storage } from '@ionic/storage';
 
 import { AngularFireDatabase } from '@angular/fire/database';
 import { UtilProvider } from '../providers/util/util';
-import { AppMinimize } from '@ionic-native/app-minimize';
-import { App } from 'ionic-angular';
 import { PlanosLeituraPage } from '../pages/planos-leitura/planos-leitura';
 import { LocalNotifications } from '@ionic-native/local-notifications';
 import { PlanoLeitura } from '../models/PlanosLeitura';
@@ -36,7 +34,6 @@ export class MyApp {
   constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen,
     private configBiblia: ConfiguracaoBibliaProvider, private loadingCtrl: LoadingController, private storage: Storage, 
     public constantes: ConstantesProvider, private afDB: AngularFireDatabase, private utilProvider: UtilProvider, 
-    private app: App, private appMinimize: AppMinimize, private menuCtrl: MenuController, 
     private localNotifications: LocalNotifications, public events: Events, private alertCtrl: AlertController) {
     
     this.redirecionarParaPlanoLeitura = false;

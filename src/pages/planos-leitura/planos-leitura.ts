@@ -4,7 +4,6 @@ import { ConfiguracaoBibliaProvider } from '../../providers/configuracao-biblia/
 import { PlanoLeitura, UnidadesLeituraDiaria } from '../../models/PlanosLeitura';
 import { ModalComentariosPostPage } from '../modal-comentarios-post/modal-comentarios-post';
 import { DetalhePlanoLeituraPage } from '../detalhe-plano-leitura/detalhe-plano-leitura';
-import { ConstantesProvider } from '../../providers/constantes/constantes';
 
 @IonicPage()
 @Component({
