@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { Nav, Platform, LoadingController, MenuController, Events, AlertController } from 'ionic-angular';
+import { Nav, Platform, LoadingController, MenuController, Events, AlertController, App } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
@@ -16,6 +16,15 @@ import { PlanosLeituraPage } from '../pages/planos-leitura/planos-leitura';
 import { LocalNotifications } from '@ionic-native/local-notifications';
 import { PlanoLeitura } from '../models/PlanosLeitura';
 import { Notificacao } from '../models/Notificacao';
+import { TimelinePage } from '../pages/timeline/timeline';
+import { HinariosPage } from '../pages/hinarios/hinarios';
+import { LeituraColetivaPage } from '../pages/leitura-coletiva/leitura-coletiva';
+import { DevocionalDiariaPage } from '../pages/devocional-diaria/devocional-diaria';
+import { ConfiguracoesPage } from '../pages/configuracoes/configuracoes';
+import { AnotacoesPage } from '../pages/anotacoes/anotacoes';
+import { RemoverAnunciosPage } from '../pages/remover-anuncios/remover-anuncios';
+import { FaleConoscoPage } from '../pages/fale-conosco/fale-conosco';
+import { AppMinimize } from '@ionic-native/app-minimize';
 
 
 @Component({
@@ -34,7 +43,8 @@ export class MyApp {
   constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen,
     private configBiblia: ConfiguracaoBibliaProvider, private loadingCtrl: LoadingController, private storage: Storage, 
     public constantes: ConstantesProvider, private afDB: AngularFireDatabase, private utilProvider: UtilProvider, 
-    private localNotifications: LocalNotifications, public events: Events, private alertCtrl: AlertController) {
+    private localNotifications: LocalNotifications, public events: Events, private alertCtrl: AlertController, 
+    private menuCtrl: MenuController, private app: App, private appMinimize: AppMinimize) {
     
     this.redirecionarParaPlanoLeitura = false;
 
@@ -44,7 +54,16 @@ export class MyApp {
     this.pages = [
       { title: 'Biblia de Estudo', component: HomePage, icon: 'book'},
       { title: 'Consultar Versísulos', component: ConsultarVersiculoPage, icon: 'search'},
-      { title: 'Planos de Leitura', component: PlanosLeituraPage, icon: 'map' }
+      { title: 'Planos de Leitura', component: PlanosLeituraPage, icon: 'map' },
+      { title: 'Página Pessoal', component: TimelinePage, icon: 'people' },
+      { title: 'Hinários', component: HinariosPage, icon: 'megaphone' },
+      { title: 'Leitura Coletiva', component: LeituraColetivaPage, icon: 'bookmarks' },
+      { title: 'Anotações', component: AnotacoesPage, icon: 'clipboard' },
+      { title: 'Devocional Diária', component: DevocionalDiariaPage, icon: 'clock' },
+      { title: 'Configurações', component: ConfiguracoesPage, icon: 'settings' },
+      { title: 'Remover Anúncios', component: RemoverAnunciosPage, icon: 'remove-circle' },
+      { title: 'Fale conosco', component: FaleConoscoPage, icon: 'chatbubbles' },
+      
     ];
 
     /*Adicionando essa verificação para evitar erros no browser*/
@@ -124,13 +143,8 @@ export class MyApp {
 
   } // fim método inicializeApp()
 
-  configBackButtom(){
-    this.platform.registerBackButtonAction(() => {      
-      this.events.publish("appComponent:backButtom");
-    });
-  }
- 
-  /*configBackButtom() {
+   
+  configBackButtom() {
     this.platform.registerBackButtonAction(() => {      
       let nav = this.app.getActiveNavs()[0];
       let activeView = nav.getActive();
@@ -149,7 +163,7 @@ export class MyApp {
         nav.setRoot(HomePage);
       }
     });
-  }*/
+  }
 
 
   configLocalNotification(planoLeitura: PlanoLeitura){
