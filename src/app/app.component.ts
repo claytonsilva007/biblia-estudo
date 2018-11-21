@@ -52,18 +52,17 @@ export class MyApp {
 
     // used for an example of ngFor and navigation
     this.pages = [
+      { title: 'Página Pessoal', component: TimelinePage, icon: 'people' },
       { title: 'Biblia de Estudo', component: HomePage, icon: 'book'},
       { title: 'Consultar Versísulos', component: ConsultarVersiculoPage, icon: 'search'},
-      { title: 'Planos de Leitura', component: PlanosLeituraPage, icon: 'map' },
-      { title: 'Página Pessoal', component: TimelinePage, icon: 'people' },
-      { title: 'Hinários', component: HinariosPage, icon: 'megaphone' },
-      { title: 'Leitura Coletiva', component: LeituraColetivaPage, icon: 'bookmarks' },
-      { title: 'Anotações', component: AnotacoesPage, icon: 'clipboard' },
       { title: 'Devocional Diária', component: DevocionalDiariaPage, icon: 'clock' },
-      { title: 'Configurações', component: ConfiguracoesPage, icon: 'settings' },
-      { title: 'Remover Anúncios', component: RemoverAnunciosPage, icon: 'remove-circle' },
+      { title: 'Planos de Leitura', component: PlanosLeituraPage, icon: 'map' },
+      { title: 'Leitura Coletiva', component: LeituraColetivaPage, icon: 'bookmarks' },
+      { title: 'Hinários', component: HinariosPage, icon: 'megaphone' },
+      { title: 'Anotações', component: AnotacoesPage, icon: 'clipboard' },
       { title: 'Fale conosco', component: FaleConoscoPage, icon: 'chatbubbles' },
-      
+      { title: 'Remover Anúncios', component: RemoverAnunciosPage, icon: 'remove-circle' },
+      { title: 'Configurações', component: ConfiguracoesPage, icon: 'settings' }      
     ];
 
     /*Adicionando essa verificação para evitar erros no browser*/
