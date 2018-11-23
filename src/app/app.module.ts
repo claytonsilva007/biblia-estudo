@@ -36,6 +36,15 @@ import { PainelPlanoLeituraPage } from '../pages/painel-plano-leitura/painel-pla
 import { ProgressBarModule } from "angular-progress-bar";
 import { LocalNotifications } from '@ionic-native/local-notifications';
 import { AutenticationProvider } from '../providers/autentication/autentication';
+import { DevocionalDiariaPage } from '../pages/devocional-diaria/devocional-diaria';
+import { LoginPage } from '../pages/login/login';
+import { LeituraColetivaPage } from '../pages/leitura-coletiva/leitura-coletiva';
+import { HinariosPage } from '../pages/hinarios/hinarios';
+import { AnotacoesPage } from '../pages/anotacoes/anotacoes';
+import { FaleConoscoPage } from '../pages/fale-conosco/fale-conosco';
+import { RemoverAnunciosPage } from '../pages/remover-anuncios/remover-anuncios';
+import { ConfiguracoesPage } from '../pages/configuracoes/configuracoes';
+import { TimelinePage } from '../pages/timeline/timeline';
 
 export const firebaseConfig = {
   apiKey: "AIzaSyBoOBgbbcVK1v7-k_4wj-wCJESmKr2TFeI",
@@ -57,7 +66,16 @@ export const firebaseConfig = {
     PlanosLeituraPage,
     ModalComentariosPostPage, 
     DetalhePlanoLeituraPage,
-    PainelPlanoLeituraPage
+    PainelPlanoLeituraPage,
+    DevocionalDiariaPage,
+    LoginPage,
+    LeituraColetivaPage,
+    HinariosPage,
+    AnotacoesPage,
+    FaleConoscoPage,
+    RemoverAnunciosPage,
+    ConfiguracoesPage,
+    TimelinePage
     
   ],
   imports: [
@@ -83,7 +101,16 @@ export const firebaseConfig = {
     PlanosLeituraPage,
     ModalComentariosPostPage, 
     DetalhePlanoLeituraPage,
-    PainelPlanoLeituraPage
+    PainelPlanoLeituraPage,
+    DevocionalDiariaPage,
+    LoginPage,
+    LeituraColetivaPage,
+    HinariosPage,
+    AnotacoesPage,
+    FaleConoscoPage,
+    RemoverAnunciosPage,
+    ConfiguracoesPage,
+    TimelinePage
   ],
   providers: [
     StatusBar,

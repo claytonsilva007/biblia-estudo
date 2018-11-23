@@ -25,6 +25,7 @@ import { AnotacoesPage } from '../pages/anotacoes/anotacoes';
 import { RemoverAnunciosPage } from '../pages/remover-anuncios/remover-anuncios';
 import { FaleConoscoPage } from '../pages/fale-conosco/fale-conosco';
 import { AppMinimize } from '@ionic-native/app-minimize';
+import { LoginPage } from '../pages/login/login';
 
 
 @Component({
@@ -54,6 +55,7 @@ export class MyApp {
     this.pages = [
       { title: 'Página Pessoal', component: TimelinePage, icon: 'people' },
       { title: 'Biblia de Estudo', component: HomePage, icon: 'book'},
+      { title: 'Login', component: LoginPage, icon: 'log-in' },
       { title: 'Consultar Versísulos', component: ConsultarVersiculoPage, icon: 'search'},
       { title: 'Devocional Diária', component: DevocionalDiariaPage, icon: 'clock' },
       { title: 'Planos de Leitura', component: PlanosLeituraPage, icon: 'map' },
@@ -235,7 +237,8 @@ export class MyApp {
   openPage(page) {
     // Reset the content nav to have just this page
     // we wouldn't want the back button to show in this scenario
-    this.nav.setRoot(page.component);
+    this.nav.setRoot(HomePage);
+    this.nav.push(page.component);
   }
     
 }
