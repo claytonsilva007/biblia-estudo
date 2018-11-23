@@ -45,6 +45,7 @@ import { FaleConoscoPage } from '../pages/fale-conosco/fale-conosco';
 import { RemoverAnunciosPage } from '../pages/remover-anuncios/remover-anuncios';
 import { ConfiguracoesPage } from '../pages/configuracoes/configuracoes';
 import { TimelinePage } from '../pages/timeline/timeline';
+import { RegisterPage } from '../pages/register/register';
 
 export const firebaseConfig = {
   apiKey: "AIzaSyBoOBgbbcVK1v7-k_4wj-wCJESmKr2TFeI",
@@ -75,8 +76,8 @@ export const firebaseConfig = {
     FaleConoscoPage,
     RemoverAnunciosPage,
     ConfiguracoesPage,
-    TimelinePage
-    
+    TimelinePage,
+    RegisterPage
   ],
   imports: [
     BrowserModule,
@@ -110,7 +111,8 @@ export const firebaseConfig = {
     FaleConoscoPage,
     RemoverAnunciosPage,
     ConfiguracoesPage,
-    TimelinePage
+    TimelinePage,
+    RegisterPage
   ],
   providers: [
     StatusBar,

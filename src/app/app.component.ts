@@ -53,9 +53,9 @@ export class MyApp {
 
     // used for an example of ngFor and navigation
     this.pages = [
+      { title: 'Login', component: LoginPage, icon: 'log-in' },
       { title: 'Página Pessoal', component: TimelinePage, icon: 'people' },
       { title: 'Biblia de Estudo', component: HomePage, icon: 'book'},
-      { title: 'Login', component: LoginPage, icon: 'log-in' },
       { title: 'Consultar Versísulos', component: ConsultarVersiculoPage, icon: 'search'},
       { title: 'Devocional Diária', component: DevocionalDiariaPage, icon: 'clock' },
       { title: 'Planos de Leitura', component: PlanosLeituraPage, icon: 'map' },
@@ -232,6 +232,10 @@ export class MyApp {
   
   private hideLoading() {
     this.loading.dismiss();
+  }
+
+  logout() {
+    this.nav.setRoot(LoginPage);
   }
 
   openPage(page) {

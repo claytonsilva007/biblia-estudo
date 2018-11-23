@@ -1,12 +1,44 @@
 <ion-menu [content]="content">
+
+  <ion-header>
+    <ion-toolbar class="user-profile">
+  
+      <ion-grid>
+        <ion-row>
+          <ion-col col-4>
+            <div class="user-avatar">
+              <img src="assets/icon/drawable-xhdpi-icon.png">
+            </div>
+          </ion-col>
+          <ion-col padding-top col-8>
+            <h2 ion-text class="no-margin bold text-white">
+              Clayton Rodrigues
+            </h2>
+            <span ion-text color="light">Customer</span>
+          </ion-col>
+        </ion-row>
+  
+        <ion-row no-padding class="other-data">
+          <ion-col no-padding class="column">
+            <button ion-button icon-left small full color="light" menuClose disabled>
+              <ion-icon name="contact"></ion-icon>
+                Edit Profile
+            </button>
+          </ion-col>
+          <ion-col no-padding class="column">
+            <button ion-button icon-left small full color="light" menuClose (click)="logout()">
+              <ion-icon name="log-out"></ion-icon>
+              Log Out
+            </button>
+          </ion-col>
+        </ion-row>
+  
+      </ion-grid>
+  
+    </ion-toolbar>
+  </ion-header>
   
   <ion-content>
-
-      <div class="spacer" style="width:268px;height:0px;" id="menu-spacer3"></div>
-      <img src="assets/imgs/menu.jpg" 
-            style="display:block;width:100%;height:auto;margin-left:auto;margin-right:auto;" 
-            />
-      <div class="spacer" style="width:268px;height:24px;" id="menu-spacer4"></div>
 
     <ion-list *ngFor="let p of pages">
       <ion-item menuClose (click)="openPage(p)">
