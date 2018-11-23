@@ -40,7 +40,7 @@
   <ion-content style="background-color: #f4f4f4">
 
     <ion-list *ngFor="let p of pages">
-      <ion-item menuClose (click)="openPage(p)">
+      <ion-item menuClose (click)="openPage(p)" style="background-color: #f4f4f4">
         <ion-label item-start style="width: 10px" fixed class="fixedLabel"> 
            <ion-icon [name]="p.icon"></ion-icon> 
         </ion-label>
