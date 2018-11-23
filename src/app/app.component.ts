@@ -40,6 +40,7 @@ export class MyApp {
   modalListPages: string[];
   notificacaoList: Notificacao[];
   redirecionarParaPlanoLeitura: boolean;
+  isLogado: boolean;
   
   constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen,
     private configBiblia: ConfiguracaoBibliaProvider, private loadingCtrl: LoadingController, private storage: Storage, 
@@ -50,11 +51,12 @@ export class MyApp {
     this.redirecionarParaPlanoLeitura = false;
 
     this.initializeApp();
+    this.isLogado = false;
 
     // used for an example of ngFor and navigation
     this.pages = [
-      { title: 'Login', component: LoginPage, icon: 'log-in' },
-      { title: 'Página Pessoal', component: TimelinePage, icon: 'people' },
+      //{ title: 'Login', component: LoginPage, icon: 'log-in' },
+      //{ title: 'Página Pessoal', component: TimelinePage, icon: 'people' },
       { title: 'Biblia de Estudo', component: HomePage, icon: 'book'},
       { title: 'Consultar Versísulos', component: ConsultarVersiculoPage, icon: 'search'},
       { title: 'Devocional Diária', component: DevocionalDiariaPage, icon: 'clock' },
@@ -63,8 +65,8 @@ export class MyApp {
       { title: 'Hinários', component: HinariosPage, icon: 'megaphone' },
       { title: 'Anotações', component: AnotacoesPage, icon: 'clipboard' },
       { title: 'Fale conosco', component: FaleConoscoPage, icon: 'chatbubbles' },
-      { title: 'Remover Anúncios', component: RemoverAnunciosPage, icon: 'remove-circle' },
-      { title: 'Configurações', component: ConfiguracoesPage, icon: 'settings' }      
+      { title: 'Configurações', component: ConfiguracoesPage, icon: 'settings' },      
+      { title: 'Remover Anúncios', component: RemoverAnunciosPage, icon: 'remove-circle' }
     ];
 
     /*Adicionando essa verificação para evitar erros no browser*/
@@ -234,8 +236,18 @@ export class MyApp {
     this.loading.dismiss();
   }
 
-  logout() {
+  login() {
+    this.isLogado = true;
     this.nav.setRoot(LoginPage);
+  }
+
+  logout() {
+    this.isLogado = false;
+    this.nav.push(LoginPage);
+  }
+
+  navegarParaPerfil(){
+    this.nav.push(TimelinePage);
   }
 
   openPage(page) {
