@@ -3,21 +3,27 @@ import { IonicPage, NavController, NavParams, ToastController, MenuController, A
 import { HomePage } from '../home/home';
 import { RegisterPage } from '../register/register';
 
-/**
- * Generated class for the LoginPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+import { GooglePlus } from '@ionic-native/google-plus';
+import firebase from 'firebase';
 
 @IonicPage()
 @Component({
   selector: 'page-login',
   templateUrl: 'login.html',
+  providers: [GooglePlus]
 })
 export class LoginPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public forgotCtrl: AlertController, public menu: MenuController, private toastCtrl: ToastController) {
+  displayName: any;
+  email: any;
+  familyName: any;
+  givenName: any;
+  userId: any;
+  imageUrl: any;
+
+  isLoggedIn:boolean = false;
+
+  constructor(private googlePlus: GooglePlus, public navCtrl: NavController, public navParams: NavParams, public forgotCtrl: AlertController, public menu: MenuController, private toastCtrl: ToastController) {
     this.menu.swipeEnable(false);
   }
 
@@ -28,6 +34,57 @@ export class LoginPage {
   // go to register page
   register() {
     this.navCtrl.push(RegisterPage);
+  }
+
+  loginUser(): void {
+    this.googlePlus.login({
+      'webClientId': '513997295997-lvvjsj7lr2epv19uvd517q1r61o05u7p.apps.googleusercontent.com',
+      'offline': true
+    }).then( res => {
+            const googleCredential = firebase.auth.GoogleAuthProvider
+                .credential(res.idToken);
+   
+            firebase.auth().signInWithCredential(googleCredential)
+          .then( response => {
+            console.log("Firebase success: " + JSON.stringify(response));
+          });
+    }, err => {
+        console.error("Error: ", err)
+    });
+  }
+
+  loginGoogle() {
+    this.googlePlus.login({"installed":{"client_id":"513997295997-2rcql9g0m639ge4b0voaco9ccjvomhog.apps.googleusercontent.com","project_id":"biblia-estudo","auth_uri":"https://accounts.google.com/o/oauth2/auth","token_uri":"https://www.googleapis.com/oauth2/v3/token","auth_provider_x509_cert_url":"https://www.googleapis.com/oauth2/v1/certs","redirect_uris":["urn:ietf:wg:oauth:2.0:oob","http://localhost"]}})
+      .then(res => {
+        console.log(res);
+        this.displayName = res.displayName;
+        this.email = res.email;
+        this.familyName = res.familyName;
+        this.givenName = res.givenName;
+        this.userId = res.userId;
+        this.imageUrl = res.imageUrl;
+
+        this.isLoggedIn = true;
+
+        this.navCtrl.setRoot(HomePage);
+      })
+      .catch(err => console.error(err));
+  }
+
+  logout() {
+    this.googlePlus.logout()
+      .then(res => {
+        console.log(res);
+        this.displayName = "";
+        this.email = "";
+        this.familyName = "";
+        this.givenName = "";
+        this.userId = "";
+        this.imageUrl = "";
+
+        this.isLoggedIn = false;
+      })
+      .catch(err => console.error(err));
   }
 
   // login and go to home page
