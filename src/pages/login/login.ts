@@ -8,6 +8,8 @@ import firebase from 'firebase/app';
 import { Facebook } from '@ionic-native/facebook';
 import { GooglePlus } from '@ionic-native/google-plus';
 
+import { FormBuilder, FormGroup } from '@angular/forms';
+
 @IonicPage()
 @Component({
   selector: 'page-login',
@@ -19,10 +21,11 @@ export class LoginPage {
   userEmailSenha: UserEmailSenha;
   email:string = "";
   password:string = "";
+  credentialsForm: FormGroup;
   
   constructor(public navCtrl: NavController, public navParams: NavParams, public forgotCtrl: AlertController, public menu: MenuController, 
               private toastCtrl: ToastController, private afAuth: AngularFireAuth, private fb: Facebook, private platform: Platform, 
-    public events: Events, private googlePlus: GooglePlus) {
+    public events: Events, private googlePlus: GooglePlus, private formBuilder: FormBuilder) {
     
     this.userEmailSenha = new UserEmailSenha();
     this.menu.swipeEnable(false);
@@ -36,6 +39,21 @@ export class LoginPage {
       this.displayName = user.displayName;
       this.events.publish("user:login", user);
     }); 
+
+
+    this.credentialsForm = this.formBuilder.group({
+      email: [''],
+      password: ['']
+    });
+
+  }
+
+  onSignIn() {
+    console.log('SignInPage: onSignIn()');
+  }
+
+  onForgotPassword() {
+    console.log('SignInPage: onForgotPassword()');
   }
 
   signInWithFacebook() {
@@ -83,19 +101,12 @@ export class LoginPage {
     this.navCtrl.push(RegisterPage);
   }
 
-  teste(){
-    console.log("TESTANTO " + this.email);
-  }
-
   async login() {
-   
-    //alert("Email: " + this.email);
-    //alert("Senha: " + this.userEmailSenha.password);
     
    try {
       var r = await this.afAuth.auth.signInWithEmailAndPassword(
-        this.userEmailSenha.email,
-        this.userEmailSenha.password
+        this.credentialsForm.controls['email'].value,
+        this.credentialsForm.controls['password'].value
       );
       if (r) {
         console.log("Successfully logged in!");
@@ -157,9 +168,3 @@ export class UserEmailSenha{
   }
 }
 
-export class FormsPage {
-   user = {}
-  logForm() {
-    console.log(this.user)
-  }
-}
