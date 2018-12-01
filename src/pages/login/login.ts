@@ -18,7 +18,6 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 export class LoginPage {
 
   displayName;
-  userEmailSenha: UserEmailSenha;
   email:string = "";
   password:string = "";
   credentialsForm: FormGroup;
@@ -27,7 +26,6 @@ export class LoginPage {
               private toastCtrl: ToastController, private afAuth: AngularFireAuth, private fb: Facebook, private platform: Platform, 
     public events: Events, private googlePlus: GooglePlus, private formBuilder: FormBuilder) {
     
-    this.userEmailSenha = new UserEmailSenha();
     this.menu.swipeEnable(false);
                 
     afAuth.authState.subscribe( (user: firebase.User) => {
@@ -46,14 +44,6 @@ export class LoginPage {
       password: ['']
     });
 
-  }
-
-  onSignIn() {
-    console.log('SignInPage: onSignIn()');
-  }
-
-  onForgotPassword() {
-    console.log('SignInPage: onForgotPassword()');
   }
 
   signInWithFacebook() {
@@ -158,13 +148,4 @@ export class LoginPage {
   }
 }
 
-export class UserEmailSenha{
-  email: string;
-  password: string;
-
-  constructor(){
-    this.email = "";
-    this.password;
-  }
-}
 
