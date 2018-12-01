@@ -6,6 +6,7 @@ import { RegisterPage } from '../register/register';
 import { AngularFireAuth } from '@angular/fire/auth';
 import firebase from 'firebase/app';
 import { Facebook } from '@ionic-native/facebook';
+import { GooglePlus } from '@ionic-native/google-plus';
 
 @IonicPage()
 @Component({
@@ -18,7 +19,7 @@ export class LoginPage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public forgotCtrl: AlertController, public menu: MenuController, 
               private toastCtrl: ToastController, private afAuth: AngularFireAuth, private fb: Facebook, private platform: Platform, 
-              public events: Events) {
+    public events: Events, private googlePlus: GooglePlus) {
     
     this.menu.swipeEnable(false);
                 
@@ -51,6 +52,28 @@ export class LoginPage {
     }
 
   }
+  
+  googleLogin(): Promise < any > {
+    return new Promise((resolve, reject) => {
+      this.googlePlus.login({
+        'webClientId': '513997295997-lvvjsj7lr2epv19uvd517q1r61o05u7p.apps.googleusercontent.com',
+        'offline': true
+      }).then(res => {
+        const googleCredential = firebase.auth.GoogleAuthProvider
+          .credential(res.idToken);
+
+        firebase.auth().signInWithCredential(googleCredential)
+          .then(response => {            
+            resolve(response);
+            this.navCtrl.push(HomePage);
+          });
+      }, err => {
+        console.error("Error: ", err)
+        reject(err);
+      });
+    });
+  }
+  
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad LoginPage');

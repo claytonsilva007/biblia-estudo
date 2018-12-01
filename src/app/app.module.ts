@@ -48,6 +48,7 @@ import { ConfiguracoesPage } from '../pages/configuracoes/configuracoes';
 import { TimelinePage } from '../pages/timeline/timeline';
 import { RegisterPage } from '../pages/register/register';
 import { Facebook } from '@ionic-native/facebook';
+import { GooglePlus } from '@ionic-native/google-plus';
 
 export const firebaseConfig = {
   apiKey: "AIzaSyBoOBgbbcVK1v7-k_4wj-wCJESmKr2TFeI",
@@ -130,7 +131,8 @@ export const firebaseConfig = {
     AppMinimize,
     LocalNotifications,
     AutenticationProvider,
-    Facebook    
+    Facebook,
+    GooglePlus    
   ]
 })
 export class AppModule {}

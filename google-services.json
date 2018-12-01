@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "513997295997",
+    "firebase_url": "https://biblia-estudo.firebaseio.com",
+    "project_id": "biblia-estudo",
+    "storage_bucket": "biblia-estudo.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:513997295997:android:0b1b920a9960b603",
+        "android_client_info": {
+          "package_name": "br.com.bibliaestudocolaborativo.claytonsilva007"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "513997295997-hi9bsh848pfv5baqnbd5ovp9ohd7nhqe.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "br.com.bibliaestudocolaborativo.claytonsilva007",
+            "certificate_hash": "dbab5fcdaf917b0774c9bb4606a6ff600ca15490"
+          }
+        },
+        {
+          "client_id": "513997295997-lvvjsj7lr2epv19uvd517q1r61o05u7p.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBfCa2tkmX7R_OknO9Db_BFpNTkWBacXp4"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "513997295997-lvvjsj7lr2epv19uvd517q1r61o05u7p.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -39,6 +39,10 @@
         <splash density="port-xhdpi" src="resources/android/splash/drawable-port-xhdpi-screen.png" />
         <splash density="port-xxhdpi" src="resources/android/splash/drawable-port-xxhdpi-screen.png" />
         <splash density="port-xxxhdpi" src="resources/android/splash/drawable-port-xxxhdpi-screen.png" />
+        <config-file parent="/resources" target="./res/values/strings.xml">
+            <string name="fb_app_id">1102764466565060</string>
+            <string name="fb_app_name">br.com.bibliaestudocolaborativo.claytonsilva007</string>
+        </config-file>
     </platform>
     <platform name="ios">
         <allow-intent href="itms:*" />
@@ -87,10 +91,17 @@
     <plugin name="cordova-plugin-x-socialsharing" spec="^5.4.1" />
     <plugin name="cordova-plugin-appminimize" spec="^1.0.0" />
     <plugin name="cordova-plugin-local-notification" spec="~0.9.0-beta.2" />
+    <plugin name="cordova-android-play-services-gradle-release" spec="^2.0.0">
+        <variable name="PLAY_SERVICES_VERSION" value="11.6.2" />
+    </plugin>
     <plugin name="cordova-plugin-facebook4" spec="^3.2.0">
         <variable name="APP_ID" value="1102764466565060" />
         <variable name="APP_NAME" value="biblia-estudo" />
         <variable name="FACEBOOK_ANDROID_SDK_VERSION" value="4.38.1" />
+    </plugin>
+    <plugin name="cordova-plugin-googleplus" spec="^5.3.2">
+        <variable name="REVERSED_CLIENT_ID" value="br.com.bibliaestudocolaborativo.claytonsilva007" />
+        <variable name="PLAY_SERVICES_VERSION" value="11.8.0" />
     </plugin>
     <engine name="android" spec="7.0.0" />
 </widget>
