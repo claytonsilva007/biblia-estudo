@@ -20,6 +20,7 @@ import { AngularFireModule } from '@angular/fire';
 import { AngularFireDatabaseModule, AngularFireDatabase } from '@angular/fire/database';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
+
 import { IonicStorageModule } from '@ionic/storage';
 import { ConstantesProvider } from '../providers/constantes/constantes';
 import { ConsultarVersiculoPage } from '../pages/consultar-versiculo/consultar-versiculo';
@@ -46,6 +47,7 @@ import { RemoverAnunciosPage } from '../pages/remover-anuncios/remover-anuncios'
 import { ConfiguracoesPage } from '../pages/configuracoes/configuracoes';
 import { TimelinePage } from '../pages/timeline/timeline';
 import { RegisterPage } from '../pages/register/register';
+import { Facebook } from '@ionic-native/facebook';
 
 export const firebaseConfig = {
   apiKey: "AIzaSyBoOBgbbcVK1v7-k_4wj-wCJESmKr2TFeI",
@@ -127,7 +129,8 @@ export const firebaseConfig = {
     UtilProvider,
     AppMinimize,
     LocalNotifications,
-    AutenticationProvider    
+    AutenticationProvider,
+    Facebook    
   ]
 })
 export class AppModule {}

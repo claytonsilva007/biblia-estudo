@@ -26,6 +26,7 @@ import { RemoverAnunciosPage } from '../pages/remover-anuncios/remover-anuncios'
 import { FaleConoscoPage } from '../pages/fale-conosco/fale-conosco';
 import { AppMinimize } from '@ionic-native/app-minimize';
 import { LoginPage } from '../pages/login/login';
+import { AngularFireAuth } from '@angular/fire/auth';
 
 
 @Component({
@@ -41,17 +42,20 @@ export class MyApp {
   notificacaoList: Notificacao[];
   redirecionarParaPlanoLeitura: boolean;
   isLogado: boolean;
+  userName: string;
+  photoURL;
   
   constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen,
     private configBiblia: ConfiguracaoBibliaProvider, private loadingCtrl: LoadingController, private storage: Storage, 
     public constantes: ConstantesProvider, private afDB: AngularFireDatabase, private utilProvider: UtilProvider, 
-    private localNotifications: LocalNotifications, public events: Events, private alertCtrl: AlertController, 
+    private localNotifications: LocalNotifications, public events: Events, private afAuth: AngularFireAuth,
     private menuCtrl: MenuController, private app: App, private appMinimize: AppMinimize) {
     
     this.redirecionarParaPlanoLeitura = false;
 
-    this.initializeApp();
     this.isLogado = false;
+
+    this.initializeApp();
 
     // used for an example of ngFor and navigation
     this.pages = [
@@ -87,6 +91,13 @@ export class MyApp {
       events.subscribe('planoLeitura:cancelarNotificacaoIndividual', (idNotificacao) => {
         this.cancelarNotificacaoIndividual(idNotificacao);
       });
+
+      events.subscribe('user:login', (user) => {
+        this.userName = user.displayName;
+        this.photoURL = user.photoURL;
+        this.storage.set(this.constantes.USUARIO_LOGADO, user);
+        this.isLogado = true;
+      });
     }
   }
 
@@ -95,6 +106,16 @@ export class MyApp {
 
     this.platform.ready().then(() => {
 
+      this.storage.get(this.constantes.USUARIO_LOGADO).then( (usr) => {
+         this.userName = usr.displayName;
+         this.photoURL = usr.photoURL;
+         this.isLogado = true; 
+      }).catch(() =>{
+        this.photoURL = undefined;
+        this.userName = undefined;
+        this.isLogado = false;
+      });
+      
       this.showLoading("<br></br>Por favor, aguarde enquanto configuramos a Bíblia.");
 
       this.storage.get(this.constantes.CKECK_BIBLIA_STORAGE).then(val => {
@@ -146,7 +167,8 @@ export class MyApp {
 
   } // fim método inicializeApp()
 
-   
+  
+  
   configBackButtom() {
     this.platform.registerBackButtonAction(() => {      
       let nav = this.app.getActiveNavs()[0];
@@ -208,16 +230,7 @@ export class MyApp {
   cancelarNotificacaoIndividual(idNotificacao){
     this.localNotifications.cancel(idNotificacao);
   }
-
-  presentAlert(date: Date) {
-    let alert = this.alertCtrl.create({
-      title: date.toDateString(),
-      subTitle: '10% of battery remaining',
-      buttons: ['Dismiss']
-    });
-    alert.present();
-  }
-
+  
   private showLoading(mensagem: string) {
     let min = Math.ceil(0);
     let max = Math.floor(this.utilProvider.versiculos.length);    
@@ -242,9 +255,13 @@ export class MyApp {
   }
 
   logout() {
-    this.isLogado = false;
-    this.nav.push(LoginPage);
-  }
+    this.afAuth.auth.signOut();
+    this.storage.remove(this.constantes.USUARIO_LOGADO).then( () => {
+      this.isLogado = false;
+      this.photoURL = undefined;
+      this.userName = undefined;
+    });
+}
 
   navegarParaPerfil(){
     this.nav.push(TimelinePage);

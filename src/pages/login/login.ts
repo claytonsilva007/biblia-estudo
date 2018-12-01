@@ -1,14 +1,11 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ToastController, MenuController, AlertController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ToastController, MenuController, AlertController, Platform, Events } from 'ionic-angular';
 import { HomePage } from '../home/home';
 import { RegisterPage } from '../register/register';
 
-/**
- * Generated class for the LoginPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+import { AngularFireAuth } from '@angular/fire/auth';
+import firebase from 'firebase/app';
+import { Facebook } from '@ionic-native/facebook';
 
 @IonicPage()
 @Component({
@@ -17,8 +14,42 @@ import { RegisterPage } from '../register/register';
 })
 export class LoginPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public forgotCtrl: AlertController, public menu: MenuController, private toastCtrl: ToastController) {
+  displayName;  
+
+  constructor(public navCtrl: NavController, public navParams: NavParams, public forgotCtrl: AlertController, public menu: MenuController, 
+              private toastCtrl: ToastController, private afAuth: AngularFireAuth, private fb: Facebook, private platform: Platform, 
+              public events: Events) {
+    
     this.menu.swipeEnable(false);
+                
+    afAuth.authState.subscribe( (user: firebase.User) => {
+      if (!user) {
+        this.displayName = null;
+        return;
+      }
+
+      this.displayName = user.displayName;
+      this.events.publish("user:login", user);
+    }); 
+  }
+
+  signInWithFacebook() {
+    if (this.platform.is('cordova')) {
+      return this.fb.login(['email', 'public_profile']).then(res => {
+        const facebookCredential = firebase.auth.FacebookAuthProvider.credential(res.authResponse.accessToken);               
+        this.navCtrl.push(HomePage);
+        return firebase.auth().signInWithCredential(facebookCredential);
+      })
+    }
+    else {
+      return this.afAuth.auth
+        .signInWithPopup(new firebase.auth.FacebookAuthProvider())
+        .then(res => {
+          this.events.publish("user:login", res.user);
+          this.navCtrl.push(HomePage);
+        });
+    }
+
   }
 
   ionViewDidLoad() {

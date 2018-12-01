@@ -2,58 +2,63 @@
 
   <ion-header>
     <ion-toolbar class="user-profile">
-  
+
       <ion-grid>
         <ion-row>
           <ion-col col-4>
-            <div class="user-avatar">
-              <img src="assets/icon/drawable-xhdpi-icon.png">
-            </div>
+                      
+              <ion-item style="background-color:rgba(0, 0, 0, 0);" no-lines>
+                <ion-avatar item-start>
+                  <img src="assets/icon/drawable-xhdpi-icon.png" *ngIf="photoURL === undefined">
+                  <img src={{photoURL}} *ngIf="photoURL !== undefined">
+                </ion-avatar>
+              </ion-item>
+           
           </ion-col>
           <ion-col padding-top col-8>
-            <h2 ion-text class="no-margin bold text-white">
-              Clayton Rodrigues
-            </h2>            
+            <h4 ion-text class="no-margin bold text-white" style="padding-top: 5px;">
+              {{userName === undefined ? 'Bíblia de Estudo' : userName }}
+            </h4>
           </ion-col>
         </ion-row>
-  
+
         <ion-row no-padding class="other-data">
           <ion-col no-padding class="column">
             <button ion-button icon-left small full color="light" menuClose (click)="navegarParaPerfil()">
               <ion-icon name="contact"></ion-icon>
-                Profile
+              Profile
             </button>
           </ion-col>
-          
-          <ion-col no-padding class="column" *ngIf="isLogado">
+
+          <ion-col no-padding class="column" *ngIf="!isLogado">
             <button ion-button icon-left small full color="light" menuClose (click)="login()">
               <ion-icon name="log-in"></ion-icon>
-              Log Out
+              Entrar
             </button>
 
           </ion-col>
-          <ion-col no-padding class="column" *ngIf="!isLogado">
+          <ion-col no-padding class="column" *ngIf="isLogado">
             <button ion-button icon-left small full color="light" menuClose (click)="logout()">
               <ion-icon name="log-out"></ion-icon>
-              Log Out
+              Sair
             </button>
           </ion-col>
         </ion-row>
-  
+
       </ion-grid>
-  
+
     </ion-toolbar>
   </ion-header>
-  
+
   <ion-content style="background-color: #f4f4f4">
 
     <ion-list *ngFor="let p of pages">
       <ion-item menuClose (click)="openPage(p)" style="background-color: #f4f4f4">
-        <ion-label item-start style="width: 10px" fixed class="fixedLabel"> 
-           <ion-icon [name]="p.icon"></ion-icon> 
+        <ion-label item-start style="width: 10px" fixed class="fixedLabel">
+          <ion-icon [name]="p.icon"></ion-icon>
         </ion-label>
         <ion-label> {{p.title}} </ion-label>
-    </ion-item>
+      </ion-item>
     </ion-list>
   </ion-content>
 

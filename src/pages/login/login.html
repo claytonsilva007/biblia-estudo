@@ -1,9 +1,9 @@
 
-<ion-content padding class="fadeIn login auth-page">
+<ion-content padding class="">
   <div class="login-content">
 
     <!-- Logo -->
-    <div padding-horizontal text-center class="animated fadeInDown">
+    <div padding-horizontal text-center>
       <h2 ion-text class="text-primary">
         <strong>Bíblia de Estudo Colaborativo</strong> 
       </h2>
@@ -41,7 +41,7 @@
       <ion-grid>
         <ion-row>
           <ion-col col-4>
-            <button ion-button icon-only block class="btn-facebook">
+            <button ion-button icon-only block class="btn-facebook" (click)="signInWithFacebook()">
               <ion-icon name="logo-facebook"></ion-icon>
             </button>
           </ion-col>
