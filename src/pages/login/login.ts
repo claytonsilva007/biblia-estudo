@@ -15,12 +15,16 @@ import { GooglePlus } from '@ionic-native/google-plus';
 })
 export class LoginPage {
 
-  displayName;  
-
+  displayName;
+  userEmailSenha: UserEmailSenha;
+  email:string = "";
+  password:string = "";
+  
   constructor(public navCtrl: NavController, public navParams: NavParams, public forgotCtrl: AlertController, public menu: MenuController, 
               private toastCtrl: ToastController, private afAuth: AngularFireAuth, private fb: Facebook, private platform: Platform, 
     public events: Events, private googlePlus: GooglePlus) {
     
+    this.userEmailSenha = new UserEmailSenha();
     this.menu.swipeEnable(false);
                 
     afAuth.authState.subscribe( (user: firebase.User) => {
@@ -74,20 +78,35 @@ export class LoginPage {
     });
   }
   
-
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad LoginPage');
-  }
-
   // go to register page
   register() {
     this.navCtrl.push(RegisterPage);
   }
 
-  // login and go to home page
-  login() {
-    this.navCtrl.setRoot(HomePage);
+  teste(){
+    console.log("TESTANTO " + this.email);
   }
+
+  async login() {
+   
+    //alert("Email: " + this.email);
+    //alert("Senha: " + this.userEmailSenha.password);
+    
+   try {
+      var r = await this.afAuth.auth.signInWithEmailAndPassword(
+        this.userEmailSenha.email,
+        this.userEmailSenha.password
+      );
+      if (r) {
+        console.log("Successfully logged in!");
+        this.navCtrl.setRoot('HomePage');
+      }
+
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
 
   forgotPass() {
     let forgot = this.forgotCtrl.create({
@@ -126,5 +145,21 @@ export class LoginPage {
     });
     forgot.present();
   }
+}
 
+export class UserEmailSenha{
+  email: string;
+  password: string;
+
+  constructor(){
+    this.email = "";
+    this.password;
+  }
+}
+
+export class FormsPage {
+   user = {}
+  logForm() {
+    console.log(this.user)
+  }
 }
