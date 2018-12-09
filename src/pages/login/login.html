@@ -28,7 +28,14 @@
         </ion-label>
         <ion-input [formControl]="credentialsForm.controls['password']" type="password"></ion-input>
       </ion-item>
+
+      <div *ngIf="erro !== '' " class="validator-error">
+        {{erro}}
+      </div>
+
     </form>
+
+    
 
     <p text-right ion-text color="secondary" tappable (click)="forgotPass()"><strong>Esqueceu a senha?</strong></p>
 

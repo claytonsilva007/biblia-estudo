@@ -132,7 +132,8 @@ export const firebaseConfig = {
     LocalNotifications,
     AutenticationProvider,
     Facebook,
-    GooglePlus    
+    GooglePlus,
+    AutenticationProvider    
   ]
 })
 export class AppModule {}

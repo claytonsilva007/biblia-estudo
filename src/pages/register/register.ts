@@ -1,10 +1,11 @@
 import { Component } from "@angular/core";
-import { NavController, ToastController } from "ionic-angular";
+import { NavController, ToastController, Events } from "ionic-angular";
 import { LoginPage } from "../login/login";
 import { HomePage } from "../home/home";
-import { AngularFireAuth } from '@angular/fire/auth';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators  } from '@angular/forms';
 import firebase from 'firebase/app';
+import { regexValidators } from '../../models/Validators'; 
+import { AutenticationProvider } from "../../providers/autentication/autentication";
 
 @Component({
   selector: 'page-register',
@@ -13,14 +14,30 @@ import firebase from 'firebase/app';
 export class RegisterPage {
 
   credentialsForm: FormGroup;
+  erro: string;
 
-  constructor(public nav: NavController, private formBuilder: FormBuilder, private toastCtrl: ToastController) {
+  constructor(public nav: NavController, private formBuilder: FormBuilder, private toastCtrl: ToastController, 
+              private authProvider: AutenticationProvider, public events: Events) {
+
+    this.erro = "";
 
     this.credentialsForm = this.formBuilder.group({
-      email: [''],
-      password: ['']
-    });
 
+      email: ['', Validators.compose([
+          Validators.pattern(regexValidators.email),
+          Validators.required
+        ])
+      ], password: [
+        '', Validators.compose([
+          Validators.pattern(regexValidators.password),
+          Validators.required
+        ])
+      ], nome: ['', Validators.compose([
+          Validators.pattern(regexValidators.nome),
+          Validators.required
+        ])
+      ]      
+    })
   }
 
   // register and go to home page
@@ -33,19 +50,31 @@ export class RegisterPage {
     this.nav.setRoot(LoginPage);
   }
 
-  
-
   createNewUser() {
-    let email = this.credentialsForm.controls['email'].value;
-    let password = this.credentialsForm.controls['password'].value;
-    
-    firebase.auth().createUserWithEmailAndPassword(email, password).catch(function (error) {
-      // Handle Errors here.
-      var errorCode = error.code;
-      var errorMessage = error.message;
-      // ...
-    });
+    if (this.credentialsForm.valid) {
+      let email = this.credentialsForm.controls['email'].value;
+      let password = this.credentialsForm.controls['password'].value;
+      let nome = this.credentialsForm.controls['nome'].value;
+      
+      firebase.auth().createUserWithEmailAndPassword(email, password)
+      .then( () => {
+        this.events.publish("user:login", new userAux(undefined, nome));
+        this.nav.push(LoginPage);
+      })
+      .catch(function (error) {
+        //var errorCode = error.code;
+        this.erro = error.message;
+      });
+    }
   }
+
+  signInWithFacebook() {
+    this.authProvider.signInWithFacebook();
+  }
+
+  googleLogin() {
+    this.authProvider.googleLogin();
+  }  
 
   presentToast(mensagem: string) {
     let toast = this.toastCtrl.create({
@@ -60,5 +89,14 @@ export class RegisterPage {
 
     toast.present();
   }
+}
 
+export class userAux{
+  photoUrl: string;
+  displayName: string;
+
+  constructor(photo, name){
+    this.photoUrl = photo;
+    this.displayName = name;
+  }
 }
