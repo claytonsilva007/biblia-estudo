@@ -3,15 +3,11 @@ import { IonicPage, NavController, NavParams, ToastController, MenuController, A
 import { HomePage } from '../home/home';
 import { RegisterPage } from '../register/register';
 
-<<<<<<< HEAD
 import { AngularFireAuth } from '@angular/fire/auth';
 import firebase from 'firebase/app';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { AutenticationProvider } from '../../providers/autentication/autentication';
-=======
 import { GooglePlus } from '@ionic-native/google-plus';
-import firebase from 'firebase';
->>>>>>> 676e456773361ab968634da8cafcd0d07d3e44a3
 
 @IonicPage()
 @Component({
@@ -21,7 +17,6 @@ import firebase from 'firebase';
 })
 export class LoginPage {
 
-<<<<<<< HEAD
   displayName;
   email:string = "";
   password:string = "";
@@ -32,18 +27,6 @@ export class LoginPage {
               private toastCtrl: ToastController, private afAuth: AngularFireAuth, 
               public events: Events, private formBuilder: FormBuilder, private authProvider: AutenticationProvider) {
     
-=======
-  displayName: any;
-  email: any;
-  familyName: any;
-  givenName: any;
-  userId: any;
-  imageUrl: any;
-
-  isLoggedIn:boolean = false;
-
-  constructor(private googlePlus: GooglePlus, public navCtrl: NavController, public navParams: NavParams, public forgotCtrl: AlertController, public menu: MenuController, private toastCtrl: ToastController) {
->>>>>>> 676e456773361ab968634da8cafcd0d07d3e44a3
     this.menu.swipeEnable(false);
     this.erro = "";
                 
