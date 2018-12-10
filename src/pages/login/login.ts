@@ -63,8 +63,9 @@ export class LoginPage {
    let logou:boolean  = false; 
    try {
       await this.afAuth.auth.signInWithEmailAndPassword(this.credentialsForm.controls['email'].value, this.credentialsForm.controls['password'].value)
-        .then( () => {
+        .then( (result) => {
           this.navCtrl.setRoot(HomePage);
+          this.events.publish("user:login-email", result.user);
         });
 
     } catch (err) {

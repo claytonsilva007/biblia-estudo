@@ -10,6 +10,7 @@ export class ConstantesProvider {
   public ULTIMO_LIVRO_LIDO: string = "2";
   public CHAVE_PREFERENCIAS_NOTIFICACOES: string = "3";
   public USUARIO_LOGADO: string = "usuarioLogado";
+  public CHAVE_FAVORITOS: string = "favoritos";
   
   //VARIÁVEIS RELACIONADAS AO TEXTO
   public CHAVE_TAMANHO_FONTE: string = "tamanho_fonte";

@@ -1,18 +1,17 @@
-<!--
-  Generated template for the AnotacoesPage page.
-
-  See http://ionicframework.com/docs/components/#navigation for more info on
-  Ionic pages and navigation.
--->
 <ion-header>
 
   <ion-navbar>
-    <ion-title>anotacoes</ion-title>
+    <ion-title><b style="color: #488aff">Anotações</b></ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
-<ion-content padding>
-
+<ion-content no-padding>
+  <ion-list *ngFor="let v of todosFavoritosList">
+    <ion-item-group>
+      <ion-item-divider color="light"> {{ getDescricaoVersiculo(v) }} </ion-item-divider>
+      <ion-item text-wrap> {{v.texto}} </ion-item>
+    </ion-item-group>
+  </ion-list>
 </ion-content>

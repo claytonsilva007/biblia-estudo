@@ -196,12 +196,16 @@ export class HomePage {
   }
 
   setarCor(cor:string){
+    let versiculosListAux: Versiculo[] = [];
+
     this.biblia.livros[this.versiculoParaComentar.indexLivro].capitulos[this.versiculoParaComentar.indexCapitulo].versiculos
       .filter(versiculoLoop => versiculoLoop.backgroundColor === this.constantes.COR_TEXTO_SELECIONADO)
             .forEach(versiculoLoop => {
-              versiculoLoop.backgroundColor = cor; 
+              versiculoLoop.backgroundColor = cor;
+              versiculosListAux.push(versiculoLoop);
             });
 
+    this.bibliaProvider.favoritarVersiculos(versiculosListAux);
     this.exibirPaletaDeCores = false;
     this.exibirBtnComentar = false;
     this.exibirBtnCompartilhamento = false;

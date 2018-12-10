@@ -49,6 +49,7 @@ import { TimelinePage } from '../pages/timeline/timeline';
 import { RegisterPage } from '../pages/register/register';
 import { Facebook } from '@ionic-native/facebook';
 import { GooglePlus } from '@ionic-native/google-plus';
+import { QueryProvider } from '../providers/consulta-versiculo/query';
 
 export const firebaseConfig = {
   apiKey: "AIzaSyBoOBgbbcVK1v7-k_4wj-wCJESmKr2TFeI",
@@ -133,7 +134,8 @@ export const firebaseConfig = {
     AutenticationProvider,
     Facebook,
     GooglePlus,
-    AutenticationProvider    
+    AutenticationProvider,
+    QueryProvider    
   ]
 })
 export class AppModule {}

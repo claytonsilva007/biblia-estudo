@@ -1,12 +1,7 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
-
-/**
- * Generated class for the AnotacoesPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+import { IonicPage } from 'ionic-angular';
+import { ConfiguracaoBibliaProvider } from '../../providers/configuracao-biblia/configuracao-biblia';
+import { Versiculo } from '../../models/Biblia';
 
 @IonicPage()
 @Component({
@@ -15,11 +10,15 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class AnotacoesPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  todosFavoritosList: Versiculo[];
+
+  constructor(public bibliaProvider: ConfiguracaoBibliaProvider) {
+    this.todosFavoritosList = [];
+    this.todosFavoritosList = this.bibliaProvider.consultarTodosFavoritos();
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad AnotacoesPage');
+  getDescricaoVersiculo(versiculo: Versiculo): string{
+    return this.bibliaProvider.getDescricaoCompletaVersiculo(versiculo);
   }
-
+  
 }
