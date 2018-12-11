@@ -5,7 +5,6 @@ import { Storage } from '@ionic/storage';
 import { PlanoLeitura } from '../../models/PlanosLeitura';
 import { AngularFireDatabase } from '@angular/fire/database';
 import { Favoritos } from '../../models/Favoritos';
-import { ConsultarVersiculoPageModule } from '../../pages/consultar-versiculo/consultar-versiculo.module';
 
 @Injectable()
 export class ConfiguracaoBibliaProvider {
@@ -130,7 +129,7 @@ export class ConfiguracaoBibliaProvider {
   favoritarVersiculos(versiculos: Versiculo[]){
     
     let marcadoresList: Favoritos[] = [];
-
+    let data = new Date();
     this.storage.get(this.constantes.CHAVE_FAVORITOS).then(result => {
       
       if (result !== null && result !== undefined && result.length > 0 ){
@@ -141,7 +140,7 @@ export class ConfiguracaoBibliaProvider {
         let chave = v.codigoLivro.toString() + ";" + v.codigoCapitulo.toString() + ";" + v.codigoVersiculo.toString();
         let backgroundColor = v.backgroundColor;
 
-        marcadoresList.push(new Favoritos(chave, backgroundColor));
+        marcadoresList.push(new Favoritos(chave, backgroundColor, data));
       });
       this.storage.set(this.constantes.CHAVE_FAVORITOS, marcadoresList);
     });
@@ -155,14 +154,14 @@ export class ConfiguracaoBibliaProvider {
 
     this.storage.get(this.constantes.CHAVE_FAVORITOS).then(result => {
       favoritos = result;
-
-      favoritos.forEach(f => {
-        let v = f.chave.split(";");
-        versiculo = this.biblia.livros[v[0]].capitulos[v[1]].versiculos[v[2]];
-        versiculo.backgroundColor = f.backgroundColor;
-        versiculos.push(versiculo);
-      });
-      
+      if(favoritos !== null && favoritos !== undefined){
+        favoritos.forEach(f => {
+          let v = f.chave.split(";");
+          versiculo = this.biblia.livros[v[0]].capitulos[v[1]].versiculos[v[2]];
+          versiculo.backgroundColor = f.backgroundColor;
+          versiculos.push(versiculo);
+        });
+      }
     });
     
     return versiculos;

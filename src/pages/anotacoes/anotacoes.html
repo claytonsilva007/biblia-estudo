@@ -6,12 +6,14 @@
 
 </ion-header>
 
-
 <ion-content no-padding>
-  <ion-list *ngFor="let v of todosFavoritosList">
-    <ion-item-group>
-      <ion-item-divider color="light"> {{ getDescricaoVersiculo(v) }} </ion-item-divider>
+  <ion-list *ngIf="todosFavoritosList.length !==0">
+    <ion-item-group *ngFor="let v of todosFavoritosList">
+      <ion-item-divider color="light"> {{ getDescricaoVersiculo(v) }} {{v.data}}</ion-item-divider>
       <ion-item text-wrap> {{v.texto}} </ion-item>
     </ion-item-group>
   </ion-list>
+
+  <ion-label *ngIf="todosFavoritosList.length !==0 || todosFavoritosList === undefined" > Você não adicionou nenhum versículo aos favoritos. </ion-label>
+
 </ion-content>
