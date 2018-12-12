@@ -7,12 +7,53 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>devocional-diaria</ion-title>
+    <ion-title><b style="color: #488aff">Devocional Diária</b></ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
-<ion-content padding>
+<ion-content no-padding>
+  
+  <ion-card>
+    <ion-item>
+      <ion-avatar item-start>
+        <img src="assets/icon/drawable-xhdpi-icon.png">
+      </ion-avatar>
+      <h2><b>título aqui</b></h2>
+      <p>Data atual</p>
+    </ion-item>
 
+    <p></p>
+    <!--<img src="img/advance-card-bttf.png">-->
+
+    <ion-card-content>
+      <p>
+          Versículo aqui
+      </p>
+    </ion-card-content>
+
+    <ion-row>
+      <ion-col>
+        <button ion-button icon-start clear small color="primary" (click)="curtir(planoLeitura)">
+          <ion-icon name="thumbs-up"></ion-icon>
+          <div>likes aqui</div>
+        </button>
+      </ion-col>
+      <ion-col>
+        <button ion-button icon-start clear small color="primary" (click)="comentar(planoLeitura)">
+          <ion-icon name="text"></ion-icon>
+          <div>comentários aqui</div>
+        </button>
+      </ion-col>
+      <ion-col>
+        <button ion-button icon-start clear small color="primary" (click)="compartilhar(planoLeitura)">
+          <ion-icon name="share"></ion-icon>
+          <div>compartilhamentos aqui</div>
+        </button>
+      </ion-col>
+    </ion-row>
+    
+  </ion-card>
+  
 </ion-content>
