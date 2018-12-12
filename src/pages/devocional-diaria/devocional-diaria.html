@@ -1,9 +1,3 @@
-<!--
-  Generated template for the DevocionalDiariaPage page.
-
-  See http://ionicframework.com/docs/components/#navigation for more info on
-  Ionic pages and navigation.
--->
 <ion-header>
 
   <ion-navbar>
@@ -20,36 +14,50 @@
       <ion-avatar item-start>
         <img src="assets/icon/drawable-xhdpi-icon.png">
       </ion-avatar>
-      <h2><b>título aqui</b></h2>
-      <p>Data atual</p>
+      <h2><b> {{devocionalDoDia.titulo}} </b></h2>
+      <p>{{dataAtual}}</p>
     </ion-item>
 
     <p></p>
     <!--<img src="img/advance-card-bttf.png">-->
 
     <ion-card-content>
+
+        <ion-note>
+          <b>Dedique alguns momentos do seu dia para meditar neste texto das Escrituras Sagradas e adorar ao Senhor.</b>
+        </ion-note>
+          <br><br>
       <p>
-          Versículo aqui
+        {{devocionalDoDia.textoVersiculo}}
       </p>
+
+      <ion-row>
+        <ion-col center text-right>
+          <ion-note>
+            {{devocionalDoDia.descricaoVersiculo}}
+          </ion-note>
+        </ion-col>
+      </ion-row>
+
     </ion-card-content>
 
     <ion-row>
       <ion-col>
         <button ion-button icon-start clear small color="primary" (click)="curtir(planoLeitura)">
           <ion-icon name="thumbs-up"></ion-icon>
-          <div>likes aqui</div>
+          <div>12</div>
         </button>
       </ion-col>
       <ion-col>
         <button ion-button icon-start clear small color="primary" (click)="comentar(planoLeitura)">
           <ion-icon name="text"></ion-icon>
-          <div>comentários aqui</div>
+          <div>32</div>
         </button>
       </ion-col>
       <ion-col>
         <button ion-button icon-start clear small color="primary" (click)="compartilhar(planoLeitura)">
           <ion-icon name="share"></ion-icon>
-          <div>compartilhamentos aqui</div>
+          <div>123</div>
         </button>
       </ion-col>
     </ion-row>

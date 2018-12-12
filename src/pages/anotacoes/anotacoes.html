@@ -14,6 +14,8 @@
     </ion-item-group>
   </ion-list>
 
-  <ion-label *ngIf="todosFavoritosList.length !==0 || todosFavoritosList === undefined" > Você não adicionou nenhum versículo aos favoritos. </ion-label>
+  <ion-label *ngIf="todosFavoritosList.length ===0 || todosFavoritosList === undefined" text-wrap style="color: red">
+     Você não adicionou nenhum versículo aos favoritos. 
+  </ion-label>
 
 </ion-content>
