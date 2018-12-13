@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage } from 'ionic-angular';
 import { ConfiguracaoBibliaProvider } from '../../providers/configuracao-biblia/configuracao-biblia';
 import { Versiculo } from '../../models/Biblia';
+import { Favoritos } from '../../models/Favoritos';
 
 @IonicPage()
 @Component({
@@ -10,15 +11,15 @@ import { Versiculo } from '../../models/Biblia';
 })
 export class AnotacoesPage {
 
-  todosFavoritosList: Versiculo[];
+  todosFavoritosList: Favoritos[];
 
   constructor(public bibliaProvider: ConfiguracaoBibliaProvider) {
     this.todosFavoritosList = [];
     this.todosFavoritosList = this.bibliaProvider.consultarTodosFavoritos();
   }
 
-  getDescricaoVersiculo(versiculo: Versiculo): string{
-    return this.bibliaProvider.getDescricaoCompletaVersiculo(versiculo);
+  getTextoVersiculo(chave: string): string{
+    return this.bibliaProvider.getTextoVersiculo(chave);
   }
-  
+
 }

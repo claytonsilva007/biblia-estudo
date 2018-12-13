@@ -1,0 +1,23 @@
+
+<ion-header>
+
+    <ion-navbar>
+      <ion-title><b style="color: #488aff">Anotações</b></ion-title>
+    </ion-navbar>
+  
+  </ion-header>
+  
+  <ion-content no-padding>
+    <ion-list *ngIf="todosFavoritosList.length !==0">
+      <ion-item-group *ngFor="let v of todosFavoritosList">
+        <ion-item-divider color="light"> {{ getDescricaoVersiculo(v) }} {{v.data}}</ion-item-divider>
+        <ion-item text-wrap> {{v.texto}} </ion-item>
+      </ion-item-group>
+    </ion-list>
+  
+    <ion-label *ngIf="todosFavoritosList.length ===0 || todosFavoritosList === undefined" text-wrap style="color: red">
+       Você não adicionou nenhum versículo aos favoritos. 
+    </ion-label>
+  
+  </ion-content>
+  

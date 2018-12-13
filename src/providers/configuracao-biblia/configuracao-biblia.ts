@@ -129,7 +129,7 @@ export class ConfiguracaoBibliaProvider {
   favoritarVersiculos(versiculos: Versiculo[]){
     
     let marcadoresList: Favoritos[] = [];
-    let data = new Date();
+    let data = this.dataAtualFormatada();
     this.storage.get(this.constantes.CHAVE_FAVORITOS).then(result => {
       
       if (result !== null && result !== undefined && result.length > 0 ){
@@ -140,14 +140,14 @@ export class ConfiguracaoBibliaProvider {
         let chave = v.codigoLivro.toString() + ";" + v.codigoCapitulo.toString() + ";" + v.codigoVersiculo.toString();
         let backgroundColor = v.backgroundColor;
 
-        marcadoresList.push(new Favoritos(chave, backgroundColor, data));
+        marcadoresList.push(new Favoritos(chave, backgroundColor, data ));
       });
       this.storage.set(this.constantes.CHAVE_FAVORITOS, marcadoresList);
     });
 
   }
 
-  consultarTodosFavoritos(): Versiculo[] {
+  consultarTodosFavoritos(): Favoritos[] {
     let favoritos: Favoritos[] = [];
     let versiculos: Versiculo[] = [];
     let versiculo: Versiculo;
@@ -155,16 +155,28 @@ export class ConfiguracaoBibliaProvider {
     this.storage.get(this.constantes.CHAVE_FAVORITOS).then(result => {
       favoritos = result;
       if(favoritos !== null && favoritos !== undefined){
-        favoritos.forEach(f => {
-          let v = f.chave.split(";");
-          versiculo = this.biblia.livros[v[0]].capitulos[v[1]].versiculos[v[2]];
-          versiculo.backgroundColor = f.backgroundColor;
-          versiculos.push(versiculo);
-        });
+        return favoritos;
       }
     });
     
-    return versiculos;
+    return favoritos;
+  }
+
+  dataAtualFormatada(): string{
+    var data = new Date(),
+        dia  = data.getDate().toString(),
+        diaF = (dia.length == 1) ? '0'+dia : dia,
+        mes  = (data.getMonth()+1).toString(), //+1 pois no getMonth Janeiro começa com zero.
+        mesF = (mes.length == 1) ? '0'+mes : mes,
+        anoF = data.getFullYear();
+    return diaF+"/"+mesF+"/"+anoF;
+  }
+
+  getTextoVersiculo(chave: string): string{
+    let texto: string = "";
+    let v = chave.split(";");
+    texto =  this.biblia.livros[v[0]].capitulos[v[1]].versiculos[v[2]];
+    return texto;
   }
 
 }

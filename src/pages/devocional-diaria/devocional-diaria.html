@@ -23,19 +23,21 @@
 
     <ion-card-content>
 
-        <ion-note>
-          <b>Dedique alguns momentos do seu dia para meditar neste texto das Escrituras Sagradas e adorar ao Senhor.</b>
-        </ion-note>
+        
+          Dedique alguns momentos do seu dia para meditar neste texto das Escrituras Sagradas e adorar ao Senhor.
+        
           <br><br>
-      <p>
-        {{devocionalDoDia.textoVersiculo}}
+      <p style="font-style: italic">
+        <strong>{{devocionalDoDia.textoVersiculo}}</strong>
       </p>
 
       <ion-row>
         <ion-col center text-right>
           <ion-note>
-            {{devocionalDoDia.descricaoVersiculo}}
-          </ion-note>
+            <strong>
+              {{devocionalDoDia.descricaoVersiculo}}
+            </strong>
+        </ion-note>
         </ion-col>
       </ion-row>
 
