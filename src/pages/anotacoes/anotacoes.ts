@@ -41,6 +41,10 @@ export class AnotacoesPage {
     this.storage.get(this.constantes.CHAVE_FAVORITOS).then(result => {
       if(result !== null && result !== undefined){
         this.todosFavoritosList = result;
+
+        this.todosFavoritosList.forEach(f => {
+          this.versiculosList.push(this.getVersiculo(f.chave));
+        });
       }
     });
   }
@@ -50,13 +54,9 @@ export class AnotacoesPage {
   }
 
   filtrarFavoritos(cor: string){
-    let versiculoAux: Versiculo;
-    this.todosFavoritosList.forEach(f => {
-      versiculoAux =  this.getVersiculo(f.chave);
-      if(versiculoAux.backgroundColor === cor){
-        this.versiculosList.push(versiculoAux);
-      }
-    });
+    let favAux = this.todosFavoritosList.filter(f => f.cor === cor);
+    this.versiculosList = [];
+    favAux.forEach(f => this.versiculosList.push(this.getVersiculo(f.chave)));
   }
 
 }

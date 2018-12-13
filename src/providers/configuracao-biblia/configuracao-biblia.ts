@@ -139,7 +139,7 @@ export class ConfiguracaoBibliaProvider {
       versiculos.forEach(v => {
         let chave = v.codigoLivro.toString() + ";" + v.codigoCapitulo.toString() + ";" + v.codigoVersiculo.toString();
 
-        marcadoresList.push(new Favoritos(chave, this.dataAtualFormatada()));
+        marcadoresList.push(new Favoritos(chave, this.dataAtualFormatada(), v.backgroundColor));
       });
       this.storage.set(this.constantes.CHAVE_FAVORITOS, marcadoresList);
     });

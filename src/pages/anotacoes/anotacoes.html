@@ -8,16 +8,16 @@
 
 <ion-content no-padding style="padding-top: 4px">
   <ion-list *ngIf="todosFavoritosList.length !==0">
-    <ion-item-group *ngFor="let v of todosFavoritosList">
+    <ion-item-group *ngFor="let v of versiculosList">
       
       <ion-item-divider color="light"> 
-        {{ getLivroCapVersic(v.chave) }}
+        {{ getDescricaoCompletaVersiculo(v) }}
 
         <ion-icon item-end name="bookmark" [style.color]="v.backgroundColor"></ion-icon>  
 
       </ion-item-divider>
       <ion-item text-wrap [style.font-size]=" this.bibliaProvider.biblia.tamanhoFonte + 'rem' " > 
-        {{ (getVersiculo(v.chave)).texto }} 
+        {{ v.texto }} 
         <ion-note> {{v.data}} </ion-note>
       </ion-item>
 
@@ -28,6 +28,14 @@
             text-wrap style="color: red" 
             [style.font-size]=" this.bibliaProvider.biblia.tamanhoFonte + 'rem' ">
      Você não adicionou nenhum versículo aos favoritos. 
+  </ion-label>
+
+
+  <ion-label *ngIf="versiculosList.length ===0 || versiculosList === undefined" 
+              text-wrap style="color: red" 
+              [style.font-size]=" this.bibliaProvider.biblia.tamanhoFonte + 'rem' ">
+
+              Nenhum favorito marcado com a cor selecionada. 
   </ion-label>
 
 </ion-content>
