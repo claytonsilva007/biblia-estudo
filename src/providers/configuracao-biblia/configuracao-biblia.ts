@@ -138,9 +138,8 @@ export class ConfiguracaoBibliaProvider {
            
       versiculos.forEach(v => {
         let chave = v.codigoLivro.toString() + ";" + v.codigoCapitulo.toString() + ";" + v.codigoVersiculo.toString();
-        let backgroundColor = v.backgroundColor;
 
-        marcadoresList.push(new Favoritos(chave, backgroundColor, data ));
+        marcadoresList.push(new Favoritos(chave));
       });
       this.storage.set(this.constantes.CHAVE_FAVORITOS, marcadoresList);
     });
@@ -172,11 +171,28 @@ export class ConfiguracaoBibliaProvider {
     return diaF+"/"+mesF+"/"+anoF;
   }
 
-  getTextoVersiculo(chave: string): string{
-    let texto: string = "";
-    let v = chave.split(";");
-    texto =  this.biblia.livros[v[0]].capitulos[v[1]].versiculos[v[2]];
-    return texto;
+  getVersiculo(chave: string): Versiculo {
+    let versiculo: Versiculo;
+    
+    let v: string[] = chave.split(";");
+    let iv: number = parseInt(v[0]);
+    let ic: number = parseInt(v[1]);
+    let il: number = parseInt(v[2]);
+
+    versiculo = this.biblia.livros[il].capitulos[ic].versiculos[iv];
+    return versiculo;
+  }
+
+  getLivroCapVersic(chave: string): string{
+
+    let v: string[] = chave.split(";");
+    let iv: number = parseInt(v[0]);
+    let ic: number = parseInt(v[1]);
+    let il: number = parseInt(v[2]);
+
+    let retorno: string = this.biblia.livros[il].nome + " " + (ic + 1) + "." + (iv + 1);
+
+    return retorno;
   }
 
 }

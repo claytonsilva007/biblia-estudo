@@ -1,15 +1,11 @@
-import { DateTime } from "ionic-angular";
+import { Versiculo } from "./Biblia";
 
 export class Favoritos {
     
     chave: string;
-    backgroundColor: string;
-    data: string;
 
-    constructor(chave: string, backgroundColor: string, data: string){
+    constructor(chave: string){
         this.chave = chave;
-        this.backgroundColor = backgroundColor;
-        this.data = data;
     }
 }
 
