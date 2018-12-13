@@ -14,17 +14,21 @@ import { Versiculo } from '../../models/Biblia';
 export class AnotacoesPage {
 
   todosFavoritosList: Favoritos[];
+  versiculosList: Versiculo[];
 
   constructor(public bibliaProvider: ConfiguracaoBibliaProvider, private storage: Storage, public constantes: ConstantesProvider) {
+    
     this.todosFavoritosList = [];
+    this.versiculosList = [];
+
     this.consultarTodosFavoritos();
   }
 
-  getTextoVersiculo(chave: string): string {
+  getVersiculo(chave: string): Versiculo {
     let versiculo: Versiculo = this.bibliaProvider.getVersiculo(chave);
     
     if(versiculo !== undefined){
-      return versiculo.texto;
+      return versiculo;
     }   
     
   }
@@ -37,6 +41,20 @@ export class AnotacoesPage {
     this.storage.get(this.constantes.CHAVE_FAVORITOS).then(result => {
       if(result !== null && result !== undefined){
         this.todosFavoritosList = result;
+      }
+    });
+  }
+
+  getDescricaoCompletaVersiculo(versiculo: Versiculo): string{
+    return this.bibliaProvider.getDescricaoCompletaVersiculo(versiculo);
+  }
+
+  filtrarFavoritos(cor: string){
+    let versiculoAux: Versiculo;
+    this.todosFavoritosList.forEach(f => {
+      versiculoAux =  this.getVersiculo(f.chave);
+      if(versiculoAux.backgroundColor === cor){
+        this.versiculosList.push(versiculoAux);
       }
     });
   }

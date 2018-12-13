@@ -6,25 +6,62 @@
 
 </ion-header>
 
-<ion-content no-padding>
+<ion-content no-padding style="padding-top: 4px">
   <ion-list *ngIf="todosFavoritosList.length !==0">
     <ion-item-group *ngFor="let v of todosFavoritosList">
-        
-
-      <ion-item-divider color="light"> {{ getLivroCapVersic(v.chave) }}  </ion-item-divider>
-      <ion-item text-wrap> 
-        
-        {{ getTextoVersiculo(v.chave) }} 
-
-        <ion-note> {{v.data}} </ion-note> 
-        
-      </ion-item>
       
+      <ion-item-divider color="light"> 
+        {{ getLivroCapVersic(v.chave) }}
+
+        <ion-icon item-end name="bookmark" [style.color]="v.backgroundColor"></ion-icon>  
+
+      </ion-item-divider>
+      <ion-item text-wrap [style.font-size]=" this.bibliaProvider.biblia.tamanhoFonte + 'rem' " > 
+        {{ (getVersiculo(v.chave)).texto }} 
+        <ion-note> {{v.data}} </ion-note>
+      </ion-item>
+
     </ion-item-group>
   </ion-list>
 
-  <ion-label *ngIf="todosFavoritosList.length ===0 || todosFavoritosList === undefined" text-wrap style="color: red">
+  <ion-label *ngIf="todosFavoritosList.length ===0 || todosFavoritosList === undefined" 
+            text-wrap style="color: red" 
+            [style.font-size]=" this.bibliaProvider.biblia.tamanhoFonte + 'rem' ">
      Você não adicionou nenhum versículo aos favoritos. 
   </ion-label>
 
 </ion-content>
+
+<ion-footer no-shadow>
+    <ion-toolbar position="bottom">
+      <ion-row styleClass="centralizado">
+        <ion-col>
+          <button ion-button color="primary" (click)="filtrarFavoritos('#488aff')"> </button>
+        </ion-col>
+  
+        <ion-col>
+          <button ion-button color="secondary" (click)="filtrarFavoritos('#32db64')"> </button>
+        </ion-col>
+  
+        <ion-col>
+          <button ion-button color="danger" (click)="filtrarFavoritos('#f53d3d')"> </button>
+        </ion-col>
+  
+        <ion-col>
+          <button ion-button color="yellow" (click)="filtrarFavoritos('#FFFF00')"> </button>
+        </ion-col>
+  
+        <ion-col>
+          <button ion-button color="DarkViolet" (click)="filtrarFavoritos('#9400D3')"> </button>
+        </ion-col>
+  
+        <ion-col>
+          <button ion-button color="Sienna" (click)="filtrarFavoritos('#A0522D')"> </button>
+        </ion-col>
+  
+        <ion-col>
+          <button ion-button color="HotPink" (click)="filtrarFavoritos('HotPink')"> </button>
+        </ion-col>
+      </ion-row>
+    </ion-toolbar>
+</ion-footer>

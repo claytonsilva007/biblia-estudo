@@ -139,7 +139,7 @@ export class ConfiguracaoBibliaProvider {
       versiculos.forEach(v => {
         let chave = v.codigoLivro.toString() + ";" + v.codigoCapitulo.toString() + ";" + v.codigoVersiculo.toString();
 
-        marcadoresList.push(new Favoritos(chave));
+        marcadoresList.push(new Favoritos(chave, this.dataAtualFormatada()));
       });
       this.storage.set(this.constantes.CHAVE_FAVORITOS, marcadoresList);
     });
@@ -193,6 +193,11 @@ export class ConfiguracaoBibliaProvider {
     let retorno: string = this.biblia.livros[il].nome + " " + (ic + 1) + "." + (iv + 1);
 
     return retorno;
+  }
+
+  getChave(versiculo: Versiculo): string{
+    let chave = versiculo.codigoLivro.toString() + ";" + versiculo.codigoCapitulo.toString() + ";" + versiculo.codigoVersiculo.toString();
+    return chave;
   }
 
 }
