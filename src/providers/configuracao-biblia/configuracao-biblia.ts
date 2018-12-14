@@ -5,6 +5,7 @@ import { Storage } from '@ionic/storage';
 import { PlanoLeitura } from '../../models/PlanosLeitura';
 import { AngularFireDatabase } from '@angular/fire/database';
 import { Favoritos } from '../../models/Favoritos';
+import { Anotacao } from '../../models/Anotacao';
 
 @Injectable()
 export class ConfiguracaoBibliaProvider {
@@ -215,6 +216,27 @@ export class ConfiguracaoBibliaProvider {
 
       }
     });
+  }
+
+  salvarAnotacao(anotacao: Anotacao){
+    
+    let anotacoes: Anotacao[] = [];
+
+    this.storage.get(this.constantes.CHAVE_VERSICULOS_COMENTADOS).then(result => {
+      if(result !== null && result !== undefined){
+        anotacoes = result;
+        anotacoes.push(anotacao);
+        this.storage.set(this.constantes.CHAVE_VERSICULOS_COMENTADOS, anotacoes);    
+      } else {
+        anotacoes.push(anotacao);
+        this.storage.set(this.constantes.CHAVE_VERSICULOS_COMENTADOS, anotacoes);
+      }
+
+    });
+  }
+
+  excluirComentarios(versiculo: Versiculo){
+
   }
 
 }

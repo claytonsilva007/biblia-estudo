@@ -1,82 +1,34 @@
 <ion-header>
-
   <ion-navbar>
     <ion-title><b style="color: #488aff">Anotações</b></ion-title>
-
-    <ion-buttons end (click)="limparFiltro()" style="padding-right: 10px" *ngIf="exibirBtnLimparFiltro">  
-        <button ion-button icon-only>
-          <ion-icon name="refresh-circle" style="color: lightgreen"></ion-icon>
-        </button>
-      </ion-buttons>
-
   </ion-navbar>
-
 </ion-header>
 
 <ion-content no-padding style="padding-top: 4px">
-  <ion-list *ngIf="todosFavoritosList.length !==0">
-    <ion-item-group *ngFor="let v of todosFavoritosList">
-      
-      <ion-item-divider color="light"> 
-        {{ getLivroCapVersic(v.chave) }}
-        <ion-icon item-start name="bookmark" [style.color]="v.cor"></ion-icon>  
-        <ion-icon item-end name="trash" color="dark" (click)="excluirFavorito(v)"></ion-icon>
-      </ion-item-divider>
+  <ion-list *ngIf="verciculosComentados.length !==0">
 
-      <ion-item text-wrap [style.font-size]=" this.bibliaProvider.biblia.tamanhoFonte + 'rem' "> 
-        {{ (getVersiculo(v.chave)).texto }} 
-        <ion-note>{{v.data}}</ion-note>
-      </ion-item>
+      <ion-card *ngFor="let v of verciculosComentados" style="background: #fffefe">
 
-    </ion-item-group>
+          <ion-card-header>
+              <ion-note> {{ getDescricaoCompletaVersiculo(v) }} </ion-note> 
+            <h3 text-wrap> {{v.texto}} </h3>
+          </ion-card-header>
+        
+          <ion-card-content>
+              <ion-label text-wrap [style.font-size]=" this.bibliaProvider.biblia.tamanhoFonte + 'rem' "> 
+                  {{ v.comentariosUsuario }} 
+                </ion-label>
+          </ion-card-content>
+        
+        </ion-card>
+   
   </ion-list>
 
-  <ion-label *ngIf="!exibirBtnLimparFiltro && favoritosFiltro.length === 0" 
+  <ion-label *ngIf="verciculosComentados.length === 0" 
             text-wrap style="color: red" 
             [style.font-size]=" this.bibliaProvider.biblia.tamanhoFonte + 'rem' ">
-     Você não adicionou nenhum versículo aos favoritos. 
-  </ion-label>
-
-
-  <ion-label *ngIf="exibirBtnLimparFiltro && todosFavoritosList.length ===0"
-              text-wrap style="color: red" 
-              [style.font-size]=" this.bibliaProvider.biblia.tamanhoFonte + 'rem' ">
-
-              Nenhum favorito marcado com a cor selecionada. 
+     Você não tem nenhum comentário. 
   </ion-label>
 
 </ion-content>
 
-<ion-footer no-shadow>
-    <ion-toolbar position="bottom">
-      <ion-row styleClass="centralizado">
-        <ion-col>
-          <button ion-button color="primary" (click)="filtrarFavoritos('#488aff')"> </button>
-        </ion-col>
-  
-        <ion-col>
-          <button ion-button color="secondary" (click)="filtrarFavoritos('#32db64')"> </button>
-        </ion-col>
-  
-        <ion-col>
-          <button ion-button color="danger" (click)="filtrarFavoritos('#f53d3d')"> </button>
-        </ion-col>
-  
-        <ion-col>
-          <button ion-button color="yellow" (click)="filtrarFavoritos('#FFFF00')"> </button>
-        </ion-col>
-  
-        <ion-col>
-          <button ion-button color="DarkViolet" (click)="filtrarFavoritos('#9400D3')"> </button>
-        </ion-col>
-  
-        <ion-col>
-          <button ion-button color="Sienna" (click)="filtrarFavoritos('#A0522D')"> </button>
-        </ion-col>
-  
-        <ion-col>
-          <button ion-button color="HotPink" (click)="filtrarFavoritos('HotPink')"> </button>
-        </ion-col>
-      </ion-row>
-    </ion-toolbar>
-</ion-footer>

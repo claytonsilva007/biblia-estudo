@@ -12,6 +12,7 @@ export class ConstantesProvider {
   public USUARIO_LOGADO: string = "usuarioLogado";
   public CHAVE_FAVORITOS: string = "favoritos";
   public CHAVE_SITUACAO_NOTIFICACOES: string = "situacaoNotificacoesApp";
+  public CHAVE_VERSICULOS_COMENTADOS: string = "chaveVersiculosComentadosUsuario";
   
   //VARIÁVEIS RELACIONADAS AO TEXTO
   public CHAVE_TAMANHO_FONTE: string = "tamanho_fonte";

@@ -68,6 +68,7 @@ export class MyApp {
       { title: 'Planos de Leitura', component: PlanosLeituraPage, icon: 'map' },
       { title: 'Leitura Coletiva', component: LeituraColetivaPage, icon: 'bookmarks' },
       { title: 'Hinários', component: HinariosPage, icon: 'megaphone' },
+      { title: 'Anotações', component: AnotacoesPage, icon: 'text' },
       { title: 'Favoritos', component: FavoritosPage, icon: 'star' },
       { title: 'Fale conosco', component: FaleConoscoPage, icon: 'chatbubbles' },
       { title: 'Configurações', component: ConfiguracoesPage, icon: 'settings' },      
