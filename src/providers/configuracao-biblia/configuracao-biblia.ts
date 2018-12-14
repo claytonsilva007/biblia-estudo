@@ -129,7 +129,7 @@ export class ConfiguracaoBibliaProvider {
   favoritarVersiculos(versiculos: Versiculo[]){
     
     let marcadoresList: Favoritos[] = [];
-    let data = this.dataAtualFormatada();
+    
     this.storage.get(this.constantes.CHAVE_FAVORITOS).then(result => {
       
       if (result !== null && result !== undefined && result.length > 0 ){
@@ -138,9 +138,9 @@ export class ConfiguracaoBibliaProvider {
            
       versiculos.forEach(v => {
         let chave = v.codigoLivro.toString() + ";" + v.codigoCapitulo.toString() + ";" + v.codigoVersiculo.toString();
-
         marcadoresList.push(new Favoritos(chave, this.dataAtualFormatada(), v.backgroundColor));
       });
+      
       this.storage.set(this.constantes.CHAVE_FAVORITOS, marcadoresList);
     });
 

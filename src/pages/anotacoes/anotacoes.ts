@@ -14,15 +14,14 @@ import { Versiculo } from '../../models/Biblia';
 export class AnotacoesPage {
 
   todosFavoritosList: Favoritos[];
-  versiculosList: Versiculo[];
-  versiculosFiltro: Versiculo[];
+  favoritosFiltro: Favoritos[];
+  exibirBtnLimparFiltro: boolean;
 
   constructor(public bibliaProvider: ConfiguracaoBibliaProvider, private storage: Storage, public constantes: ConstantesProvider) {
     
     this.todosFavoritosList = [];
-    this.versiculosList = [];
-    this.versiculosFiltro = [];
-
+    this.favoritosFiltro = [];
+    this.exibirBtnLimparFiltro = false;
     this.consultarTodosFavoritos();
   }
 
@@ -41,20 +40,13 @@ export class AnotacoesPage {
 
   /**Refatorar a recuperação da cor após refactoring da persistência dos livros */
   consultarTodosFavoritos() {
-    let versiculo: Versiculo;
     this.storage.get(this.constantes.CHAVE_FAVORITOS).then(result => {
       if(result !== null && result !== undefined){
         this.todosFavoritosList = result;
-
-        this.todosFavoritosList.forEach(f => {
-          versiculo = this.getVersiculo(f.chave);
-          versiculo.backgroundColor = f.cor;
-          this.versiculosList.push(versiculo);
-        });
+        this.favoritosFiltro = this.todosFavoritosList;
       }
     });
 
-    this.versiculosFiltro = this.versiculosList;
   }
 
   getDescricaoCompletaVersiculo(versiculo: Versiculo): string{
@@ -62,24 +54,31 @@ export class AnotacoesPage {
   }
 
   filtrarFavoritos(cor: string){
-    let favAux = this.todosFavoritosList.filter(f => f.cor === cor);
-    this.versiculosList = [];
-    favAux.forEach(f => this.versiculosList.push(this.getVersiculo(f.chave)));
+    this.todosFavoritosList = this.todosFavoritosList.filter(f => f.cor === cor);
+    this.exibirBtnLimparFiltro = true;
   }
 
   limparFiltro(){
-    this.versiculosList = this.versiculosFiltro;
+    this.todosFavoritosList = this.favoritosFiltro;
+    this.exibirBtnLimparFiltro = false;
   }
 
-  exibirBotaoLimparFiltro(): boolean{
-    let podeExibirBotao = false;
-    
-    if(this.versiculosList.length !== this.versiculosFiltro.length){
-      podeExibirBotao = true;
-    }
+  getDataFavorito(versiculo: Versiculo): string{
+    let dataRetorno = "";
+    this.todosFavoritosList.forEach(f => {
+      let chave = this.bibliaProvider.getChave(versiculo);
+      if(f.chave === chave){
+        dataRetorno = f.data;
+      }
+    });
 
-    return podeExibirBotao;
+    return dataRetorno;
+  }
 
+  excluirFavorito(favorito: Favoritos){
+    let index = this.todosFavoritosList.findIndex(x => x.chave === favorito.chave);
+    this.todosFavoritosList.splice(index);
+    this.todosFavoritosList.forEach(f => console.log(f));
   }
 
 }
