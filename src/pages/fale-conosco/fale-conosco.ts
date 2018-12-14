@@ -25,20 +25,27 @@ export class FaleConoscoPage {
 
   enviarEmail(){
 
-    this.socialSharing.canShareViaEmail().then(() => {
+    let nome: string = this.credentialsForm.controls['nome'].value;
+
+    if(nome.length > 5){
+      this.socialSharing.canShareViaEmail().then(() => {
       
-      this.socialSharing.shareViaEmail('Agradecemos o contato - ' + this.credentialsForm.controls['nome'].value, 
-          'Feedback - ' + this.credentialsForm.controls['nome'].value, 
-          ['bibliadeestudocolaborativo@gmail.com']).then(() => {
-
-        this.presentToast("Obrigado por manter contato conosco. Seu email foi enviado com sucesso");
-
+        this.socialSharing.shareViaEmail('Agradecemos o contato - ' + this.credentialsForm.controls['nome'].value, 
+            'Feedback - ' + this.credentialsForm.controls['nome'].value, 
+            ['bibliadeestudocolaborativo@gmail.com']).then(() => {
+  
+          this.presentToast("Obrigado por manter contato conosco. Seu email foi enviado com sucesso");
+  
+        }).catch((e) => {
+          this.presentToast("Erro ao tentar enviar email. " +  e);
+        });
       }).catch((e) => {
         this.presentToast("Erro ao tentar enviar email. " +  e);
       });
-    }).catch((e) => {
-      this.presentToast("Erro ao tentar enviar email. " +  e);
-    });
+    } else {
+      this.erro = "O nome deve conter pelo menos 5 caracteres.";
+    }
+    
   }
 
   presentToast(msg: string) {
