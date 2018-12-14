@@ -2,6 +2,13 @@
 
   <ion-navbar>
     <ion-title><b style="color: #488aff">Anotações</b></ion-title>
+
+    <ion-buttons end (click)="limparFiltro()" style="padding-right: 10px" *ngIf="exibirBotaoLimparFiltro()">  
+        <button ion-button icon-only>
+          <ion-icon name="refresh-circle" style="color: lightgreen"></ion-icon>
+        </button>
+      </ion-buttons>
+
   </ion-navbar>
 
 </ion-header>
@@ -31,7 +38,7 @@
   </ion-label>
 
 
-  <ion-label *ngIf="versiculosList.length ===0 || versiculosList === undefined" 
+  <ion-label *ngIf="versiculosList.length === 0 && (todosFavoritosList.length > 0 && todosFavoritosList !== undefined)" 
               text-wrap style="color: red" 
               [style.font-size]=" this.bibliaProvider.biblia.tamanhoFonte + 'rem' ">
 
