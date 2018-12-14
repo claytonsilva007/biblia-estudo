@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { IonicPage, Events } from 'ionic-angular';
 import { ConfiguracaoBibliaProvider } from '../../providers/configuracao-biblia/configuracao-biblia';
+import { Storage } from '@ionic/storage';
+import { ConstantesProvider } from '../../providers/constantes/constantes';
 
 @IonicPage()
 @Component({
@@ -14,11 +16,17 @@ export class ConfiguracoesPage {
   fonteCabecaho: string;
   valorBaseFonteReal: number = 2;
   step: number = 0.25;
+  situacaoNotificacoes: boolean;
+  situacaoSelecionada:boolean;
 
-  constructor(private bibliaProvider: ConfiguracaoBibliaProvider, public events: Events) {
+  constructor(private bibliaProvider: ConfiguracaoBibliaProvider, public events: Events, private storage: Storage, private constantes: ConstantesProvider) {
     this.frase = "Jesus!";
     this.tamanhoFonte = this.bibliaProvider.getBiblia().tamanhoFonte;
     this.fonteCabecaho = this.getTramanhoTransformado(this.tamanhoFonte);
+    
+    this.storage.get(this.constantes.CHAVE_SITUACAO_NOTIFICACOES).then(result => {
+      this.situacaoNotificacoes = result;
+    });
   }
 
   aumentar() {
@@ -63,6 +71,16 @@ export class ConfiguracoesPage {
     this.bibliaProvider.biblia.planosDeLeitura.forEach(p => {
       this.events.publish('planoLeitura:cancelarLocalNotification', p);
     });
+  }
+
+  atualizarNotificacoes(){
+    if(this.situacaoSelecionada){
+      this.desativarNotificacoes();
+      this.storage.set(this.constantes.CHAVE_PREFERENCIAS_NOTIFICACOES, false);
+    } else {
+      this.ativarNotificacoes();
+      this.storage.set(this.constantes.CHAVE_PREFERENCIAS_NOTIFICACOES, true);
+    }
   }
   
 }

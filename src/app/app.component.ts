@@ -156,6 +156,7 @@ export class MyApp {
               this.configBiblia.setBibliaConfigurada(this.configBiblia.getBibliaFormatada(JSON.stringify(obj.payload.val())));
               this.storage.set(this.constantes.CKECK_BIBLIA_STORAGE, "true");
               this.storage.set(this.constantes.CHAVE_FAVORITOS, null);
+              this.storage.set(this.constantes.CHAVE_SITUACAO_NOTIFICACOES, true);
               this.nav.push(HomePage);
               this.hideLoading();
             });

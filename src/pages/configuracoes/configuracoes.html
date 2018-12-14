@@ -31,29 +31,19 @@
     <p>
     <ion-item-group>
       <ion-item-divider no-lines color="light"><strong> Notificações </strong></ion-item-divider>
+      
       <ion-item no-lines>
-        <ion-row>
-          
-          <ion-col col-4>
-            <button ion-button full color="dark" (click)="desativarNotificacoes()">
-              <ion-icon name="volume-off"></ion-icon>
-            </button>
-          </ion-col>
-
-          <ion-col col-4>
-            <button ion-button full color="secondary" (click)="ativarNotificacoes()">
-              <ion-icon name="volume-up"></ion-icon>
-            </button>
-          </ion-col>
-
-          <ion-col col-4>
-            <button ion-button full color="danger" (click)="ativarNotificacoes()">
-              <ion-icon name="trash"></ion-icon>
-            </button>
-          </ion-col>
-
-        </ion-row>
+        <ion-label>desativar/ativar sons</ion-label>
+        <ion-toggle checked="false" [(ngModel)]="situacaoSelecionada" (ionChange)="atualizarNotificacoes()"></ion-toggle>
       </ion-item>
+      
+      <ion-item no-lines>
+        <ion-label>excluir</ion-label>
+        <button ion-button color="danger" (click)="excluirNotificacoes()" item-end>
+          <ion-icon name="trash"></ion-icon>
+        </button>
+      </ion-item>
+      
     </ion-item-group>
   </ion-list>
 </ion-content>
