@@ -50,6 +50,7 @@ import { RegisterPage } from '../pages/register/register';
 import { Facebook } from '@ionic-native/facebook';
 import { GooglePlus } from '@ionic-native/google-plus';
 import { QueryProvider } from '../providers/consulta-versiculo/query';
+import { FavoritosPage } from '../pages/favoritos/favoritos';
 
 export const firebaseConfig = {
   apiKey: "AIzaSyBoOBgbbcVK1v7-k_4wj-wCJESmKr2TFeI",
@@ -81,7 +82,8 @@ export const firebaseConfig = {
     RemoverAnunciosPage,
     ConfiguracoesPage,
     TimelinePage,
-    RegisterPage
+    RegisterPage,
+    FavoritosPage
   ],
   imports: [
     BrowserModule,
@@ -116,7 +118,8 @@ export const firebaseConfig = {
     RemoverAnunciosPage,
     ConfiguracoesPage,
     TimelinePage,
-    RegisterPage
+    RegisterPage,
+    FavoritosPage
   ],
   providers: [
     StatusBar,

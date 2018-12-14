@@ -27,6 +27,7 @@ import { FaleConoscoPage } from '../pages/fale-conosco/fale-conosco';
 import { AppMinimize } from '@ionic-native/app-minimize';
 import { LoginPage } from '../pages/login/login';
 import { AngularFireAuth } from '@angular/fire/auth';
+import { FavoritosPage } from '../pages/favoritos/favoritos';
 
 
 @Component({
@@ -67,7 +68,7 @@ export class MyApp {
       { title: 'Planos de Leitura', component: PlanosLeituraPage, icon: 'map' },
       { title: 'Leitura Coletiva', component: LeituraColetivaPage, icon: 'bookmarks' },
       { title: 'Hinários', component: HinariosPage, icon: 'megaphone' },
-      { title: 'Favoritos', component: AnotacoesPage, icon: 'star' },
+      { title: 'Favoritos', component: FavoritosPage, icon: 'star' },
       { title: 'Fale conosco', component: FaleConoscoPage, icon: 'chatbubbles' },
       { title: 'Configurações', component: ConfiguracoesPage, icon: 'settings' },      
       { title: 'Remover Anúncios', component: RemoverAnunciosPage, icon: 'remove-circle' }

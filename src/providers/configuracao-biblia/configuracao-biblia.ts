@@ -148,8 +148,6 @@ export class ConfiguracaoBibliaProvider {
 
   consultarTodosFavoritos(): Favoritos[] {
     let favoritos: Favoritos[] = [];
-    let versiculos: Versiculo[] = [];
-    let versiculo: Versiculo;
 
     this.storage.get(this.constantes.CHAVE_FAVORITOS).then(result => {
       favoritos = result;
@@ -198,6 +196,25 @@ export class ConfiguracaoBibliaProvider {
   getChave(versiculo: Versiculo): string{
     let chave = versiculo.codigoLivro.toString() + ";" + versiculo.codigoCapitulo.toString() + ";" + versiculo.codigoVersiculo.toString();
     return chave;
+  }
+
+  removerFavorito(versiculo: Versiculo){
+    let favoritos: Favoritos[] = [];
+    this.storage.get(this.constantes.CHAVE_FAVORITOS).then(result => {
+      
+      if(result !== null && result !== undefined){
+        
+        favoritos = result;
+        let chave = this.getChave(versiculo);
+        let index = favoritos.findIndex(f => f.chave === chave);
+        
+        if(index !== -1){
+          favoritos.splice(index);
+          this.storage.set(this.constantes.CHAVE_FAVORITOS, favoritos);
+        }        
+
+      }
+    });
   }
 
 }

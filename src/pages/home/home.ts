@@ -136,9 +136,13 @@ export class HomePage {
 
         this.exibirPaletaDeCores = true;
         this.exibirBtnCompartilhamento = true;
-        versiculo.backgroundColor = this.constantes.COR_TEXTO_SELECIONADO;          
-                  
+        versiculo.backgroundColor = this.constantes.COR_TEXTO_SELECIONADO;                    
     }
+
+    if(versiculo.backgroundColor === this.constantes.TEXTO_SEM_COR){
+      this.bibliaProvider.removerFavorito(versiculo);
+    }
+
   }
 
   configurarExibicaoBotoes(versiculo: Versiculo){
