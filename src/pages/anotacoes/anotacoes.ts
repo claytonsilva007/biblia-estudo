@@ -79,6 +79,7 @@ export class AnotacoesPage {
     let index = this.todosFavoritosList.findIndex(x => x.chave === favorito.chave);
     this.todosFavoritosList.splice(index);
     this.todosFavoritosList.forEach(f => console.log(f));
+    this.storage.set(this.constantes.CHAVE_FAVORITOS, this.todosFavoritosList);
   }
 
 }
