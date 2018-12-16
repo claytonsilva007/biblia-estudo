@@ -5,19 +5,19 @@
 </ion-header>
 
 <ion-content no-padding style="padding-top: 4px">
-  <ion-list *ngIf="verciculosComentados.length !==0">
+  <ion-list *ngIf="verciculosComentados.length !== 0"> 
 
-      <ion-card *ngFor="let v of verciculosComentados" style="background: #fffefe">
+      <ion-card *ngFor="let v of verciculosComentados" style="background: #fffefe"  (click)="editarComentario(v)">
 
           <ion-card-header>
-              <ion-note> {{ getDescricaoCompletaVersiculo(v) }} </ion-note> 
             <h3 text-wrap> {{v.texto}} </h3>
+            <ion-note> {{ getDescricaoCompletaVersiculo(v) }} </ion-note> 
           </ion-card-header>
         
           <ion-card-content>
-              <ion-label text-wrap [style.font-size]=" this.bibliaProvider.biblia.tamanhoFonte + 'rem' "> 
-                  {{ v.comentariosUsuario }} 
-                </ion-label>
+            <ion-label text-wrap [style.font-size]=" this.bibliaProvider.biblia.tamanhoFonte + 'rem' " > 
+                {{ v.comentariosUsuario }} 
+              </ion-label>
           </ion-card-content>
         
         </ion-card>

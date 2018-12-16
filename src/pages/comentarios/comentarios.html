@@ -2,6 +2,13 @@
   <ion-navbar>
     <ion-title>Comentar {{nomeLivro}} {{numCapitulo}}.{{numVersiculo}}</ion-title>
   </ion-navbar>
+
+  <ion-buttons end>
+    <button ion-buttom (click)="excluirComentario(0)">
+      <ion-icon name="trash"></ion-icon>
+    </button>
+  </ion-buttons>
+
 </ion-header>
 
 

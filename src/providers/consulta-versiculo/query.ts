@@ -41,6 +41,8 @@ export class QueryProvider {
             versiculo.codigoCapitulo = codCap.value;
             versiculo.codigoLivro = codLiv.value;
 
+            console.log(versiculo);
+
             retorno.push(versiculo);
 
             return row;
@@ -78,45 +80,14 @@ export class QueryProvider {
     let versiculo: Versiculo;
     let retorno: Versiculo[] = [];
 
-    this.bibliaProvider.getBiblia().livros.filter(function search(row) {
-      return Object.keys(row).some((key) => {
-        if (typeof row[key] === "string") {
-
-          let x = Object.getOwnPropertyDescriptor(row, "comentariosUsuario");
-
-          let comentarios: string[] = (x !== undefined ? x.value : "");
-
-          if (comentarios.length > 0) {
-
-            let codCap = Object.getOwnPropertyDescriptor(row, "codigoCapitulo");
-            let codVer = Object.getOwnPropertyDescriptor(row, "codigoVersiculo");
-            let codLiv = Object.getOwnPropertyDescriptor(row, "codigoLivro");
-            let textoVersiculo = Object.getOwnPropertyDescriptor(row, "texto");
-            let comentarios = Object.getOwnPropertyDescriptor(row, "comentariosUsuario");
-
-            versiculo = new Versiculo();
-            versiculo.texto = textoVersiculo.value;
-            versiculo.codigoVersiculo = codVer.value;
-            versiculo.codigoCapitulo = codCap.value;
-            versiculo.codigoLivro = codLiv.value;
-            versiculo.comentariosUsuario = comentarios.value;
-
-            retorno.push(versiculo);
-
-            return row;
-          }
-
-        } else if (row[key] && typeof row[key] === "object") {
-          return search(row[key]);
-        }
-
-        return false;
+    this.bibliaProvider.getBiblia().livros.forEach(l => {
+      l.capitulos.forEach(c => {
+        c.versiculos.filter(v => v.comentariosUsuario.length > 0)
+          .forEach(vc => retorno.push(vc));
       });
     });
 
-    this.retorno = retorno;
-    
-    return this.retorno;
+    return retorno;      
   
   }
 

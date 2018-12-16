@@ -35,11 +35,12 @@ export class ComentariosPage {
     this.numCapitulo = this.navParams.get("numCapitulo")
     this.numVersiculo = this.navParams.get("numVersiculo");    
     this.qtdeComentarios = this.navParams.get("qtdeComentarios"); 
+    this.comentario = (this.navParams.get("comentario") !== null && this.navParams.get("comentario") !== undefined)  ? this.navParams.get("comentario") : ""; 
     this.carregarComentarios();   
   }
 
   cancelar(){
-    this.viewCtrl.dismiss({ "comentario": ""});
+    this.viewCtrl.dismiss({ "comentario": this.comentario});
   }
 
   salvar(){
@@ -69,6 +70,17 @@ export class ComentariosPage {
     this.tituloParam = "Comentários: " + this.nomeLivro + " " + this.numCapitulo + "." + this.numVersiculo; 
     let modalTodosComentarios = this.modalCtrl.create(ModalTodosComentariosPage, {"comentariosParam": this.comentariosUsuarios, "titulo": this.tituloParam});
     modalTodosComentarios.present();
+  }
+
+  excluirComentario(index: number){
+     this.bibliaProvider.biblia
+        .livros[this.indexLivro]
+        .capitulos[this.numCapitulo-1]
+        .versiculos[this.numVersiculo - 1]
+        .comentariosUsuario.splice(0);
+
+        this.viewCtrl.dismiss({ comentario: null });
+     
   }
 
 }
