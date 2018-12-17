@@ -14,7 +14,6 @@ import { ConfiguracaoBibliaProvider } from '../providers/configuracao-biblia/con
 import "froala-editor/js/froala_editor.pkgd.min.js";
 import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
 import { ComentariosPage } from '../pages/comentarios/comentarios';
-import { ModalTodosComentariosPage } from '../pages/modal-todos-comentarios/modal-todos-comentarios';
 import { SincronizadorProvider } from '../providers/sincronizador/sincronizador';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireDatabaseModule, AngularFireDatabase } from '@angular/fire/database';
@@ -67,7 +66,6 @@ export const firebaseConfig = {
     HomePage,
     ConsultarVersiculoPage,
     ComentariosPage,
-    ModalTodosComentariosPage,
     ModalFontePage,
     PlanosLeituraPage,
     ModalComentariosPostPage, 
@@ -102,8 +100,7 @@ export const firebaseConfig = {
     MyApp,
     HomePage,
     ConsultarVersiculoPage,
-    ComentariosPage, 
-    ModalTodosComentariosPage,
+    ComentariosPage,
     ModalFontePage,
     PlanosLeituraPage,
     ModalComentariosPostPage, 

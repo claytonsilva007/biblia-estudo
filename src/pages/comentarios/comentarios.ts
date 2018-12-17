@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ViewController, ToastController, ModalController } from 'ionic-angular';
 import { Biblia, Livro, Capitulo, Versiculo } from '../../models/Biblia';
 import { ConfiguracaoBibliaProvider } from '../../providers/configuracao-biblia/configuracao-biblia';
-import { ModalTodosComentariosPage } from '../modal-todos-comentarios/modal-todos-comentarios';
 
 @IonicPage()
 @Component({
@@ -66,13 +65,7 @@ export class ComentariosPage {
     }
   }
 
-  exibirComentarios(){
-    this.tituloParam = "Comentários: " + this.nomeLivro + " " + this.numCapitulo + "." + this.numVersiculo; 
-    let modalTodosComentarios = this.modalCtrl.create(ModalTodosComentariosPage, {"comentariosParam": this.comentariosUsuarios, "titulo": this.tituloParam});
-    modalTodosComentarios.present();
-  }
-
-  excluirComentario(index: number){
+  excluirComentario(){
      this.bibliaProvider.biblia
         .livros[this.indexLivro]
         .capitulos[this.numCapitulo-1]
