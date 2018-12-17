@@ -1,5 +1,3 @@
-import { Versiculo } from "./Biblia";
-
 export class Favoritos {
     
     chave: string;

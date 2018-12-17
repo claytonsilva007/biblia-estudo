@@ -77,7 +77,6 @@ export class QueryProvider {
 
   filtrarVersiculosComentados(): Versiculo[]{
     
-    let versiculo: Versiculo;
     let retorno: Versiculo[] = [];
 
     this.bibliaProvider.getBiblia().livros.forEach(l => {

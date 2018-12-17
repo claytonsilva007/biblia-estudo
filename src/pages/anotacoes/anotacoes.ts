@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, Config, ModalController } from 'ionic-angular';
+import { IonicPage, ModalController } from 'ionic-angular';
 import { ConfiguracaoBibliaProvider } from '../../providers/configuracao-biblia/configuracao-biblia';
 import { Versiculo } from '../../models/Biblia';
 import { QueryProvider } from '../../providers/consulta-versiculo/query';
