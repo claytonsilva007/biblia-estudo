@@ -3,7 +3,6 @@ import { NavController, ModalController, LoadingController, NavParams, ActionShe
 import { Livro, Capitulo, Versiculo, Biblia } from '../../models/Biblia';
 import { ConfiguracaoBibliaProvider } from '../../providers/configuracao-biblia/configuracao-biblia';
 import { ComentariosPage } from '../comentarios/comentarios';
-import { ModalTodosComentariosPage } from '../modal-todos-comentarios/modal-todos-comentarios';
 
 import { ConstantesProvider } from '../../providers/constantes/constantes';
 import { ConsultarVersiculoPage } from '../consultar-versiculo/consultar-versiculo';
@@ -272,20 +271,7 @@ export class HomePage {
       }
       return false;
     }
-
-    exibirTodosComentarios(){
-      let livro: Livro = this.bibliaProvider.getBiblia().livros[this.versiculoParaComentar.indexLivro];
-      let capitulo: Capitulo = livro.capitulos[this.versiculoParaComentar.indexCapitulo];
-      let versiculo: Versiculo = capitulo.versiculos[this.versiculoParaComentar.indexVersiculo];
-      
-      let tituloParam = "Comentários: " + this.biblia.livros[this.versiculoParaComentar.indexLivro].nome + " " + (this.versiculoParaComentar.indexCapitulo+1) + "." + (this.versiculoParaComentar.indexVersiculo+1);
-      let modalTodosComentarios = this.modalCtrl.create(ModalTodosComentariosPage, { "comentariosParam": versiculo.comentariosUsuario, "titulo": tituloParam });
-      
-      modalTodosComentarios.present();
-      modalTodosComentarios.onDidDismiss(data => { this.verificaSeExistemComentariosRetornoModal(data.qtdeComentarios, versiculo )}); 
-
-  }
-
+    
   excluirComentario(){
     if(this.ultimoVersiculoSelecionado.comentariosUsuario.length > 0){
       this.ultimoVersiculoSelecionado.backgroundColor = this.constantes.COR_TEXTO_SELECIONADO;
