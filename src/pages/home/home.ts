@@ -511,9 +511,7 @@ export class HomePage {
   }
 
 
-  presentActionSheet() {
-
-    this.ocultarBotaoBusca();
+  presentActionSheet() {    
     this.ocultarBotao();
     this.ocultarBtnCompartilharEComentar();
     this.ocultarBtnCompartilharEComentarClick();
