@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController, ModalController, LoadingController, NavParams, ActionSheetController, Events, Platform } from 'ionic-angular';
-import { Livro, Capitulo, Versiculo, Biblia } from '../../models/Biblia';
+import { Versiculo, Biblia } from '../../models/Biblia';
 import { ConfiguracaoBibliaProvider } from '../../providers/configuracao-biblia/configuracao-biblia';
 import { ComentariosPage } from '../comentarios/comentarios';
 

@@ -62,8 +62,8 @@ export class LoginPage {
   }
 
   async login() {
-   let logou:boolean  = false; 
-   try {
+   
+    try {
       await this.afAuth.auth.signInWithEmailAndPassword(this.credentialsForm.controls['email'].value, this.credentialsForm.controls['password'].value)
         .then( (result) => {
           this.navCtrl.setRoot(HomePage);
