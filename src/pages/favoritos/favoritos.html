@@ -15,7 +15,7 @@
 
 <ion-content no-padding style="padding-top: 4px">
   <ion-list *ngIf="todosFavoritosList.length !==0">
-    <ion-item-group *ngFor="let v of todosFavoritosList">
+    <ion-item-group *ngFor="let v of favoritosFiltro">
       
       <ion-item-divider color="light"> 
         {{ getLivroCapVersic(v.chave) }}
@@ -38,7 +38,7 @@
   </ion-label>
 
 
-  <ion-label *ngIf="exibirBtnLimparFiltro && todosFavoritosList.length ===0"
+  <ion-label *ngIf="exibirBtnLimparFiltro && favoritosFiltro.length ===0"
               text-wrap style="color: red" 
               [style.font-size]=" this.bibliaProvider.biblia.tamanhoFonte + 'rem' ">
 

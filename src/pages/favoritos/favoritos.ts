@@ -54,12 +54,13 @@ export class FavoritosPage {
   }
 
   filtrarFavoritos(cor: string){
-    this.todosFavoritosList = this.todosFavoritosList.filter(f => f.cor === cor);
+    this.favoritosFiltro = this.todosFavoritosList;
+    this.favoritosFiltro = this.todosFavoritosList.filter(f => f.cor === cor);
     this.exibirBtnLimparFiltro = true;
   }
 
   limparFiltro(){
-    this.todosFavoritosList = this.favoritosFiltro;
+    this.favoritosFiltro = this.todosFavoritosList; 
     this.exibirBtnLimparFiltro = false;
   }
 
