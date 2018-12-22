@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ViewController, ToastController, ModalController } from 'ionic-angular';
-import { Biblia, Livro, Capitulo, Versiculo } from '../../models/Biblia';
+import { Biblia, Versiculo } from '../../models/Biblia';
 import { ConfiguracaoBibliaProvider } from '../../providers/configuracao-biblia/configuracao-biblia';
 
 @IonicPage()
@@ -11,31 +11,23 @@ import { ConfiguracaoBibliaProvider } from '../../providers/configuracao-biblia/
 export class ComentariosPage {
 
   biblia: Biblia = new Biblia();
-  comentario: string;
-  nomeLivro: string;
-  indexLivro: number;
-  numCapitulo: number;
-  numVersiculo: number;
-  qtdeComentarios: number;
-  comentariosUsuarios: string[];
-  exibirTodosOsComentarios: boolean;
-  tituloParam: string;
+  comentario: string; 
+  titulo: string;
+  versiculo: Versiculo;
 
+  constructor(public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController, 
+              public toastCtrl: ToastController, public bibliaProvider: ConfiguracaoBibliaProvider, 
+              public modalCtrl: ModalController) {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController, public toastCtrl: ToastController, public bibliaProvider: ConfiguracaoBibliaProvider, public modalCtrl: ModalController) {
     this.comentario = "";
-    this.exibirTodosOsComentarios = false;
-    this.tituloParam = "";
+    this.titulo = "";
   }
 
   ionViewDidLoad() {
-    this.nomeLivro = this.navParams.get("nomeLivro");
-    this.indexLivro = this.navParams.get("indexLivro");
-    this.numCapitulo = this.navParams.get("numCapitulo")
-    this.numVersiculo = this.navParams.get("numVersiculo");    
-    this.qtdeComentarios = this.navParams.get("qtdeComentarios"); 
-    this.comentario = (this.navParams.get("comentario") !== null && this.navParams.get("comentario") !== undefined)  ? this.navParams.get("comentario") : ""; 
-    this.carregarComentarios();   
+    this.versiculo = new Versiculo();
+    this.versiculo  = this.navParams.get("versiculo");
+    this.comentario = this.versiculo.comentariosUsuario[0]; 
+    this.titulo = this.bibliaProvider.getDescricaoCompletaVersiculo(this.versiculo);
   }
 
   cancelar(){
@@ -55,21 +47,11 @@ export class ComentariosPage {
 
   }
 
-  carregarComentarios(){
-    this.comentariosUsuarios = new Array();
-    if(this.qtdeComentarios > 0){
-      let livro: Livro = this.bibliaProvider.getBiblia().livros[this.indexLivro];
-      let capitulo: Capitulo = livro.capitulos[this.numCapitulo - 1];
-      let versiculo: Versiculo = capitulo.versiculos[this.numVersiculo - 1];      
-      this.comentariosUsuarios = versiculo.comentariosUsuario;
-    }
-  }
-
   excluirComentario(){
      this.bibliaProvider.biblia
-        .livros[this.indexLivro]
-        .capitulos[this.numCapitulo-1]
-        .versiculos[this.numVersiculo - 1]
+        .livros[this.versiculo.codigoLivro]
+        .capitulos[this.versiculo.codigoLivro]
+        .versiculos[this.versiculo.codigoVersiculo]
         .comentariosUsuario.splice(0);
 
         this.viewCtrl.dismiss({ comentario: null });

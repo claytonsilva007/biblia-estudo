@@ -31,13 +31,7 @@ export class AnotacoesPage {
   }
 
   editarComentario(v: Versiculo){
-    let modalComentarios = this.modalCtrl.create(ComentariosPage, { 
-      "qtdeComentarios": v.comentariosUsuario.length,  
-      "indexLivro": v.codigoLivro,
-      "nomeLivro": this.bibliaProvider.biblia.livros[v.codigoLivro].nome, 
-      "numCapitulo": v.codigoCapitulo + 1, 
-      "numVersiculo": v.codigoVersiculo + 1,
-      "comentario": v.comentariosUsuario });
+    let modalComentarios = this.modalCtrl.create(ComentariosPage, { versiculo: v});
 
       modalComentarios.present();
       modalComentarios.onDidDismiss(data => { 

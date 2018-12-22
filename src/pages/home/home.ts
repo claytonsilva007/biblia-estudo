@@ -220,15 +220,7 @@ export class HomePage {
     this.exibirPaletaDeCores = false;
     this.exibirBtnCompartilhamento = false;
     
-    let modalComentarios = this.modalCtrl.create(ComentariosPage, { 
-                            "qtdeComentarios": this.biblia.livros[this.versiculoParaComentar.indexLivro]
-                                                          .capitulos[this.versiculoParaComentar.indexCapitulo]
-                                                          .versiculos[this.versiculoParaComentar.indexVersiculo]
-                                                          .comentariosUsuario.length,  
-                            "indexLivro": this.versiculoParaComentar.indexLivro,
-                            "nomeLivro": this.versiculoParaComentar.nomeLivro, 
-                            "numCapitulo": this.versiculoParaComentar.indexCapitulo+1, 
-                            "numVersiculo": this.versiculoParaComentar.indexVersiculo +1});
+    let modalComentarios = this.modalCtrl.create(ComentariosPage, {versiculo: this.ultimoVersiculoSelecionado});
 
       modalComentarios.present();
       modalComentarios.onDidDismiss(data => { 
@@ -238,7 +230,7 @@ export class HomePage {
             this.biblia.livros[this.versiculoParaComentar.indexLivro]
                   .capitulos[this.versiculoParaComentar.indexCapitulo]
                   .versiculos[this.versiculoParaComentar.indexVersiculo]
-                  .comentariosUsuario.push(data.comentario);
+                  .comentariosUsuario[0] = data.comentario;
 
             this.biblia.livros[this.versiculoParaComentar.indexLivro]
                   .capitulos[this.versiculoParaComentar.indexCapitulo]
